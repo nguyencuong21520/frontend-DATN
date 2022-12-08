@@ -1,0 +1,54 @@
+div.container-manager-courses {
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    div.search {
+        display: flex;
+        align-items: center;
+        padding-left: 100px;
+
+        input {
+            border: none;
+            outline: none;
+        }
+
+        .ant-select.ant-select-single.ant-select-show-arrow {
+            width: fit-content !important;
+        }
+    }
+
+    button {
+        margin: 0 5px;
+
+        &.search {
+            path {
+                fill: white;
+            }
+        }
+    }
+
+    .data-grid {
+        flex: 1;
+
+        .forward-detail {
+            text-align: center;
+            display: none;
+            cursor: pointer;
+            border-left: 1px solid gainsboro;
+            color: blue;
+        }
+
+        .ag-row:hover .forward-detail {
+            display: block;
+        }
+        .ag-paging-button{
+            font-size: 20px;
+        }
+    }
+
+}

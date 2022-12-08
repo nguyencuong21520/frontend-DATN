@@ -1,0 +1,47 @@
+div.container-content-info-course {
+    div.level-course {
+        ul.list-units {
+            list-style: none;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 0;
+
+            li {
+                max-width: 100%;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                span.title-unit {
+                    display: inline-block;
+                    text-align: center;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    border-radius: 50%;
+                    color: #102844;
+                    background-color: #E9EDFF;
+                }
+
+                span.name-unit {
+                    display: inline-block;
+                    max-width: 70%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: #102844;
+                    font-weight: 600;
+                }
+
+                .status {
+                    margin-left: auto;
+
+                    path {
+                        fill: #767278;
+                    }
+                }
+            }
+        }
+    }
+}

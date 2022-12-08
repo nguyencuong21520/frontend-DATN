@@ -1,0 +1,14 @@
+.container-detail-course {
+    width: 100%;
+    height: 100%;
+
+    .ant-tabs {
+        width: 100%;
+    }
+
+    .ant-tabs-content-holder,
+    .ant-tabs-content.ant-tabs-content-top,
+    .ant-tabs-tabpane.ant-tabs-tabpane-active {
+        height: 100%;
+    }
+}

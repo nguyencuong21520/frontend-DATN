@@ -1,0 +1,49 @@
+div.container-auth {
+    max-width: 100vw;
+    min-height: 100vh;
+    height: fit-content;
+    display: flex;
+
+    div.left-slide {
+        width: 50%;
+        min-height: 100vh;
+        background: url('../../assets/svg/Frame.svg');
+        background-position: center;
+        background-size: cover;
+        background-color: #7754F8;
+
+        .ant-carousel {
+            height: 100%;
+            box-sizing: unset;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide {
+            width: 100%;
+
+            img {
+                margin: 0 auto;
+                max-width: 100%;
+            }
+        }
+    }
+
+    div.container {
+        flex: 1;
+
+        div.top-icon {
+            position: relative;
+            max-height: 310px;
+            display: flex;
+            justify-content: flex-end;
+
+            .logo {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
+}

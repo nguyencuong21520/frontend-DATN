@@ -1,0 +1,26 @@
+div.container-dropdown-course{
+    margin-top: 30px;
+    h3{
+        margin: 0;
+    }
+    .ant-collapse-borderless{
+        background-color: transparent !important;
+    }
+    .ant-collapse-header{
+        padding: 0 !important;
+    }
+    .ant-collapse-borderless > .ant-collapse-item{
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+    .site-collapse-custom-collapse{
+        .site-collapse-custom-panel{
+            p.summary-unit{
+                display: flex;
+                padding: 15px 0 ;
+                border-bottom: 1px solid rgba(132, 131, 131, 0.408);
+                gap: 20px;
+            }
+        }
+    }
+}

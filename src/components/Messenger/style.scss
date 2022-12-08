@@ -1,0 +1,129 @@
+div.container-messenger {
+    display: flex;
+    padding: 30px;
+    width: 100%;
+    height: 100%;
+    gap: 15px;
+
+    div.left-messenger {
+        padding: 20px;
+        padding-top: 0;
+        flex: 0.4;
+        max-width: 40%;
+        min-width: 350px;
+        max-height: 100vh;
+        overflow: auto;
+        background-color: #FFFFFF;
+        border-radius: 16px;
+        box-sizing: border-box;
+
+        div.round{
+            padding-top: 20px;
+            position: sticky;
+            background-color: white;
+            height: 100px;
+            margin-bottom: 20px;
+            z-index: 2;
+            top: 0;
+        }
+        &::-webkit-scrollbar {
+            width: 6px;
+            background-color: #F5F5F5;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #0000002b;
+            border-radius: 10px;
+        }
+
+        div.title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+            span {
+                font-weight: 500;
+                color: #102844;
+            }
+
+            .add {
+                cursor: pointer;
+            }
+        }
+
+        div.search {
+            margin-bottom: 20px;
+
+            .input-search {
+                border-radius: 10px;
+                background-color: #F8F8FB;
+            }
+
+            input {
+                background-color: transparent;
+            }
+
+            .icon-search {
+                color: #C9CED6;
+            }
+        }
+
+
+
+        div.summary-chat {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            margin: 0;
+            padding: 20px 15px;
+            border-radius: 10px;
+            border-bottom: 1px solid #00000022;
+            cursor: pointer;
+
+            div.current-chat {
+                max-width: 80%;
+                flex: 1;
+            }
+
+            div.name-time {
+                display: flex;
+                justify-content: space-between;
+
+                span.name-user {
+                    color: #102844;
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+
+                span.time {
+                    color: #102844;
+                    opacity: 0.5;
+                }
+            }
+
+            div.summary-chat-own {
+
+                div.summary-near-chat-time {
+                    max-width: 100%;
+
+                    p {
+
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+
+            &:hover {
+                background: #4c70ff1a;
+            }
+        }
+    }
+
+    div.right-messenger {
+        flex: 1;
+        height: 100%;
+        background-color: #FFFFFF;
+        border-radius: 16px;
+    }
+}

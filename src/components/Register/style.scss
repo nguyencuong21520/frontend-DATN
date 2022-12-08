@@ -1,0 +1,48 @@
+div.container-register {
+    .color-blur {
+        color: #C8C9DA;
+    }
+
+    div.form-register {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+
+        .ant-form {
+            width: 370px;
+
+            input,
+            span.ant-input-affix-wrapper {
+                background-color: #F3F3F3;
+                border-radius: 5px;
+                color: #0E1435;
+            }
+
+        }
+
+        div.footer-fnc {
+            display: flex;
+            justify-content: space-between;
+
+            div.ant-col {
+                margin: 0;
+            }
+
+            input#basic_remember {
+                border: 4px solid #C8C9DA;
+            }
+        }
+        label.ant-checkbox-wrapper + .ant-checkbox-wrapper{
+            margin: 0;
+        }
+        .btn-login {
+            width: 100%;
+            background: #8261F9;
+            border-radius: 10px;
+        }
+
+    }
+    div.login{
+        text-align: center;
+    }
+}

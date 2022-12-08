@@ -1,0 +1,48 @@
+.table {
+    height: 100%;
+
+    .search {
+        width: 100%;
+        display: flex;
+        gap: 25px;
+
+        .input-search {
+            max-height: 30px;
+            max-width: 250px;
+            margin-bottom: 5px;
+        }
+
+        .options {
+            .ant-radio-group {
+                display: flex;
+            }
+        }
+    }
+
+    .roll-back {
+        display: none;
+        color: red;
+        cursor: pointer;
+    }
+
+    .mess-icon {
+        display: none;
+        color: blue;
+        cursor: pointer;
+    }
+
+    .ag-row:hover {
+        .roll-back {
+            display: block;
+            border: 1px solid rgba(79, 132, 222, 0.492);
+        }
+        .mess-icon{
+            display: block;
+        }
+    }
+
+    .align-middle {
+        display: flex;
+        align-items: center;
+    }
+}
