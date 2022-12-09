@@ -64,9 +64,7 @@ export const UnitCourse = () => {
   const handlePopUpEditData = (visible: boolean) => {
     setVisibleModal(visible);
   };
-  useEffect(() => {
-    console.log(lesson);
-  }, [lesson]);
+  useEffect(() => {}, [lesson]);
   return (
     <div className="container-unit-course">
       <div className="left">
@@ -112,11 +110,13 @@ export const UnitCourse = () => {
           <>view nè</>
         )}
       </div>
-      <ModalEditUnit
-        visibleModal={visibleModal}
-        setVisibleModal={setVisibleModal}
-        dataUnit={dataUnit}
-      />
+      {visibleModal && (
+        <ModalEditUnit
+          visibleModal={visibleModal}
+          setVisibleModal={setVisibleModal}
+          dataUnit={dataUnit}
+        />
+      )}
     </div>
   );
 };

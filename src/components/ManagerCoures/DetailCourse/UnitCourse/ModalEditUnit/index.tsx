@@ -14,8 +14,6 @@ export const ModalEditUnit = (props: ModalEditUnitProps) => {
   const [visibleModalEdit, setVisibleModalEdit] = useState<boolean>(false);
 
   const [dataLesson, setDataLesson] = useState<Obj>({});
-
-  console.log(props.dataUnit);
   return (
     <Modal
       open={props.visibleModal}
@@ -39,7 +37,6 @@ export const ModalEditUnit = (props: ModalEditUnitProps) => {
           />
         </div>
         {props.dataUnit.data?.map((item: Obj) => {
-          console.log(item);
           return (
             <div className="row-file">
               File:{" "}
@@ -54,12 +51,13 @@ export const ModalEditUnit = (props: ModalEditUnitProps) => {
             </div>
           );
         })}
-
-        <ModalEditLesson
-          dataLesson={dataLesson}
-          setVisibleModalEdit={setVisibleModalEdit}
-          visibleModalEdit={visibleModalEdit}
-        />
+        {visibleModalEdit && (
+          <ModalEditLesson
+            dataLesson={dataLesson}
+            setVisibleModalEdit={setVisibleModalEdit}
+            visibleModalEdit={visibleModalEdit}
+          />
+        )}
       </div>
     </Modal>
   );

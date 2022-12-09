@@ -4,6 +4,7 @@ import type { RcFile, UploadFile } from "antd/es/upload/interface";
 import { UploadOutlined } from "@ant-design/icons";
 import { Obj } from "../../../../../../global/interface";
 import "./style.scss";
+import { useFormik } from "formik";
 
 interface ModalEditLessonProps {
   children?: React.ReactElement;
@@ -14,6 +15,18 @@ interface ModalEditLessonProps {
 export const ModalEditLesson = (props: ModalEditLessonProps) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
+  const { handleSubmit, handleChange, values } = useFormik({
+    initialValues: {
+      _id: props.dataLesson._id,
+      title: props.dataLesson.title,
+      type: props.dataLesson.type,
+      link: props.dataLesson.link,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+  console.log(values);
   const handleUpload = () => {
     const formData = new FormData();
     fileList.forEach((file) => {
@@ -71,24 +84,31 @@ export const ModalEditLesson = (props: ModalEditLessonProps) => {
         title="Cập nhật"
         className="modal-edit-unit"
       >
-        <label htmlFor="title-lesson">
-          <b>Tiêu đề</b>
-        </label>
-        <Input value={props.dataLesson.title} id="title-lesson" />
-        <label htmlFor="upload-new-file">Cập nhật file</label>
-        <br />
-        <Upload {...propsUpload} id="upload-new-file">
-          <Button icon={<UploadOutlined />}>Select File</Button>
-        </Upload>
-        <Button
-          type="primary"
-          onClick={handleUpload}
-          disabled={fileList.length === 0}
-          loading={uploading}
-          style={{ marginTop: 16 }}
-        >
-          {uploading ? "Uploading" : "Start Upload"}
-        </Button>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="title-lesson">
+            <b>Tiêu đề</b>
+          </label>
+          <Input
+            value={values.title}
+            id="title-lesson"
+            name="title"
+            onChange={handleChange}
+          />
+          <label htmlFor="upload-new-file">Cập nhật file</label>
+          <br />
+          <Upload {...propsUpload} id="upload-new-file">
+            <Button icon={<UploadOutlined />}>Select File</Button>
+          </Upload>
+          <Button
+            type="primary"
+            onClick={handleUpload}
+            disabled={fileList.length === 0}
+            loading={uploading}
+            style={{ marginTop: 16 }}
+          >
+            {uploading ? "Uploading" : "Start Upload"}
+          </Button>
+        </form>
       </Modal>
     </div>
   );
