@@ -130,7 +130,9 @@ export const SideBar = () => {
         </div>
         <div className="part-top">
           <div className="top">
-            {currentUser?.role === USER.STUDENT
+            {currentUser?.role === USER.STUDENT ||
+            !currentUser?.role ||
+            currentUser?.role
               ? navigation.slice(0, 5).map((item) => {
                   return (
                     <div

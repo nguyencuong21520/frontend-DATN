@@ -18,6 +18,8 @@ import { PracticeScorm } from "./components/PracticeScorm";
 import { MangerCourses } from "./components/ManagerCoures";
 import { Hello } from "./components/Hello";
 import { MangerDetailCourse } from "./components/ManagerCoures/DetailCourse";
+import { MyProfile } from "./components/MyProfile";
+import { Setting } from "./components/Setting";
 import "./App.scss";
 
 function App() {
@@ -26,7 +28,9 @@ function App() {
     <Routes>
       {/* <Route path='/' element={<AuthProtect><Layout /></AuthProtect>}> */}
       <Route path={"/"} element={<Layout />}>
-        {currentUser?.role === USER.STUDENT ? (
+        {currentUser?.role === USER.STUDENT ||
+        !currentUser?.role ||
+        currentUser?.role ? (
           <>
             <Route path="" element={<Home />} />
             <Route path="cources">
@@ -36,8 +40,7 @@ function App() {
             <Route path="messenger" element={<Messenger />} />
             <Route path="practice-scorm" element={<PracticeScorm />} />
           </>
-        ) : /*currentUser?.role === USER.TEACHER  || */ !currentUser?.role ||
-          currentUser?.role ? (
+        ) : currentUser?.role === USER.TEACHER ? (
           <>
             <Route path="" element={<Hello />} />
             <Route path="messenger">
@@ -51,9 +54,10 @@ function App() {
         ) : (
           "ADMIN"
         )}
+        <Route path="my-profile" element={<MyProfile />} />
+        <Route path="setting" element={<Setting />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
-
       <Route path="account" element={<LayoutAuth />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
