@@ -1,0 +1,56 @@
+.container-collection-course-admin {
+  padding: 25px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .forward-detail {
+    text-align: center;
+    display: none;
+    cursor: pointer;
+    border-left: 1px solid gainsboro;
+    color: blue;
+  }
+
+  .ag-row:hover .forward-detail {
+    display: block;
+  }
+  .ag-paging-button {
+    font-size: 20px;
+  }
+  .pending {
+    font-weight: bold;
+    animation-name: Noti;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+  }
+  @keyframes Noti {
+    0% {
+      color: rgba(128, 0, 128, 0.36);
+    }
+    100% {
+      color: purple;
+    }
+  }
+  .header-fnc {
+    height: fit-content;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    .option-radio {
+      display: flex;
+      flex-direction: column;
+      padding-left: 15px;
+    }
+    .field-filter {
+      height: fit-content;
+      display: flex;
+      gap: 5px;
+      input {
+        height: fit-content;
+      }
+    }
+  }
+}

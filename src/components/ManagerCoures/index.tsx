@@ -294,6 +294,7 @@ export const MangerCourses = () => {
 
         return () => {
             window.removeEventListener('resize', () => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 gridRef.current?.api.sizeColumnsToFit();
             })
         }

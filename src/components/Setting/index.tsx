@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import * as validateYup from "yup";
 import { Input } from "antd";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import "./style.scss";
 
+const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+
+// const schemasValidate =
 export const Setting = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([
     {
@@ -34,7 +38,15 @@ export const Setting = () => {
     const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
-  const { handleSubmit, handleChange, handleReset, values } = useFormik({
+  const {
+    handleSubmit,
+    handleChange,
+    handleReset,
+    handleBlur,
+    errors,
+    touched,
+    values,
+  } = useFormik({
     initialValues: {
       _id: "khoa trần",
       username: "Trần Đăng Khoa",
@@ -44,6 +56,17 @@ export const Setting = () => {
       changePassword: "",
       confirmPassword: "",
     },
+    validationSchema: validateYup.object().shape({
+      username: validateYup.string().required("Tên không được trống"),
+      phone: validateYup
+        .string()
+        .required("Số điện thoại không được trống")
+        .matches(phoneRegExp, "Số điện thoại không đúng định dạng"),
+      email: validateYup
+        .string()
+        .email("Email chưa đúng định dạng")
+        .required("Email không được trống"),
+    }),
     onSubmit: (values) => {
       console.log(values);
     },
@@ -79,7 +102,11 @@ export const Setting = () => {
               placeholder="Tên của bạn"
               value={values.username}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
+            {errors.username && touched.username && (
+              <p className="error-text">{errors.username}</p>
+            )}
           </div>
           <div className="row">
             <label htmlFor="email" className="label">
@@ -92,7 +119,11 @@ export const Setting = () => {
               className="input"
               value={values.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
+            {errors.email && touched.email && (
+              <p className="error-text">{errors.email}</p>
+            )}
           </div>
           <div className="row">
             <label htmlFor="phone" className="label">
@@ -104,8 +135,12 @@ export const Setting = () => {
               placeholder="Số điện thoại"
               className="input"
               value={values.phone}
+              onBlur={handleBlur}
               onChange={handleChange}
             />
+            {errors.phone && touched.phone && (
+              <p className="error-text">{errors.phone}</p>
+            )}
           </div>
           <div className="row flex-row">
             <strong>Thay đổi mật khẩu</strong>
@@ -126,7 +161,7 @@ export const Setting = () => {
               />
             </div>
           </div>
-          <div className="row flex-row">
+          <div className="row flex-row-footer">
             <button onClick={handleReset}>Đặt lại</button>
             <button type="submit">Cập nhật</button>
           </div>

@@ -17,6 +17,7 @@ import { ReactComponent as Headset } from "../../assets/svg/Headset.svg";
 import { ReactComponent as Settings } from "../../assets/svg/Settings.svg";
 import { ReactComponent as User } from "../../assets/svg/User.svg";
 import { ReactComponent as Leave } from "../../assets/svg/Leave.svg";
+import { Users } from "../../assets/img";
 import "./style.scss";
 
 interface NavigationBar {
@@ -33,6 +34,8 @@ enum Page {
   SETTING = "SETTING",
   ACCOUNT = "ACCOUNT",
   LOGOUT = "LOGOUT",
+  DASHBOARD = "DASHBOARD",
+  STUDENTS = "STUDENTS",
 }
 const navigation: Array<NavigationBar> = [
   {
@@ -86,6 +89,50 @@ const navigationForTeacher: Array<NavigationBar> = [
     key: Page.HOME_PAGE,
     route: "manager/courses",
   },
+  {
+    icon: <Mess className="icon-cpn" />,
+    title: "Tin nhắn",
+    key: Page.MESS,
+    route: "messenger",
+  },
+  {
+    icon: <Settings className="icon-cpn" />,
+    title: "Cài đặt",
+    key: Page.SETTING,
+    route: "setting",
+  },
+  {
+    icon: <Leave className="icon-cpn" />,
+    title: "Đăng xuất",
+    key: Page.LOGOUT,
+    route: "/account/login",
+  },
+];
+const navigationForAdmin: Array<NavigationBar> = [
+  {
+    icon: <Homepage className="icon-cpn" />,
+    title: "Dashboard",
+    key: Page.DASHBOARD,
+    route: "admin/dashboard",
+  },
+  {
+    icon: <ListCources className="icon-cpn" />,
+    title: "Danh sách khoá học",
+    key: Page.COURSES,
+    route: "admin/collection/courses",
+  },
+  {
+    icon: <img src={Users} alt="user" className="icon-user" />,
+    title: "Danh sách tài khoản",
+    key: Page.STUDENTS,
+    route: "admin/collection/users",
+  },
+  {
+    icon: <Mess className="icon-cpn" />,
+    title: "Tin nhắn",
+    key: Page.MESS,
+    route: "admin/messenger",
+  },
 ];
 
 export const SideBar = () => {
@@ -130,33 +177,29 @@ export const SideBar = () => {
         </div>
         <div className="part-top">
           <div className="top">
-            {currentUser?.role === USER.STUDENT ||
-            !currentUser?.role ||
-            currentUser?.role
+            {currentUser?.role === USER.STUDENT
               ? navigation.slice(0, 5).map((item) => {
-                  return (
-                    <div
-                      className={`nav-item ${
-                        currentPage === item.route ? "actived" : null
+                return (
+                  <div
+                    className={`nav-item ${currentPage === item.route ? "actived" : null
                       }`}
-                      key={item.title}
-                      onClick={() => {
-                        handleSwitchPage(item.key);
-                        navigate(item.route, { replace: true });
-                      }}
-                    >
-                      {item.icon}
-                      <span>{item.title}</span>
-                    </div>
-                  );
-                })
+                    key={item.title}
+                    onClick={() => {
+                      handleSwitchPage(item.key);
+                      navigate(item.route, { replace: true });
+                    }}
+                  >
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </div>
+                );
+              })
               : currentUser?.role === USER.TEACHER
-              ? navigationForTeacher.map((item) => {
+                ? navigationForTeacher.map((item) => {
                   return (
                     <div
-                      className={`nav-item ${
-                        currentPage === item.route ? "actived" : null
-                      }`}
+                      className={`nav-item ${currentPage === item.route ? "actived" : null
+                        }`}
                       key={item.title}
                       onClick={() => {
                         handleSwitchPage(item.key);
@@ -168,7 +211,22 @@ export const SideBar = () => {
                     </div>
                   );
                 })
-              : "ADMIN"}
+                : navigationForAdmin.map((item) => {
+                  return (
+                    <div
+                      className={`nav-item ${currentPage === item.route ? "actived" : null
+                        }`}
+                      key={item.title}
+                      onClick={() => {
+                        handleSwitchPage(item.key);
+                        navigate(item.route, { replace: true });
+                      }}
+                    >
+                      {item.icon}
+                      <span>{item.title}</span>
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
@@ -178,9 +236,8 @@ export const SideBar = () => {
             {navigation.slice(5, navigation.length).map((item) => {
               return (
                 <div
-                  className={`nav-item ${
-                    currentPage === item.route ? "actived" : null
-                  }`}
+                  className={`nav-item ${currentPage === item.route ? "actived" : null
+                    }`}
                   key={item.title}
                   onClick={() => {
                     handleSwitchPage(item.key);

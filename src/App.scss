@@ -1,3 +1,8 @@
+* {
+  --excel: #24bb55;
+  --word: #248bbb;
+  --powerpoint: #bd393c;
+}
 .ag-root-wrapper {
   .ag-header-viewport {
     background-color: #d0ddea79;
@@ -14,7 +19,10 @@
       background-color: rgb(133, 170, 226);
     }
   }
-
+  .ag-paging-button.ag-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
   .ag-row-even {
     background-color: #d0e2f33a;
 
@@ -95,4 +103,7 @@
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+}
+.highcharts-credits {
+  display: none;
 }

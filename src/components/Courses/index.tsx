@@ -51,7 +51,7 @@ export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
   const cources = useSelector((state: State) => state.Cources);
   const dataCources =
-    ((cources?.response as Obj)?.response.data as Record<string, unknown>[]) ||
+    ((cources?.response as Obj)?.response?.data as Record<string, unknown>[]) ||
     [];
   const dispatchAction = useDispatch();
   const navigate = useNavigate();

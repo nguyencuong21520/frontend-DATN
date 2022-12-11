@@ -11,7 +11,6 @@ interface DropdownCourseDataProps {
         units: Array<string>;
     }>
 }
-const text = `U1: Presentation`;
 export const DropdownCourse = (props: DropdownCourseDataProps) => {
     return (
         <div className="container-dropdown-course">

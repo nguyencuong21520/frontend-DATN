@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Badge, Dropdown, Menu, Space } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import { Obj } from "../../global/interface";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { DownOutlined } from "@ant-design/icons";
+import { useGetUser } from "../../utils/Hook";
 import { State } from "../../redux-saga/reducer/reducer";
 import { ReactComponent as ToolList } from "../../assets/svg/ToolList.svg";
 import { ReactComponent as Search } from "../../assets/svg/search.svg";
 import { ReactComponent as Bell } from "../../assets/svg/Bell.svg";
 import { ReactComponent as AvatarHard } from "../../assets/svg/AvatarHard.svg";
 import "./style.scss";
-import { Link } from "react-router-dom";
 
 const menu = (
   <Menu
     items={[
       {
-        label: <Link to={"/account/my-profile"}>My Profile</Link>,
+        label: <Link to={"/my-profile"}>My Profile</Link>,
         key: "0",
       },
       {
-        label: <a href="#">Edit Profile</a>,
+        label: <Link to={"#"}>Edit Profile</Link>,
         key: "1",
       },
     ]}
@@ -27,8 +27,7 @@ const menu = (
 );
 
 export const Header = () => {
-  const getUser = useSelector((state: State) => state.User);
-  const currentUser = (getUser?.response as Obj)?.response.data;
+  const currentUser = useGetUser();
   return (
     <div className="container-header">
       <div className="re-search">
@@ -48,23 +47,21 @@ export const Header = () => {
           </div>
           <div className="drop-down-account">
             <Dropdown overlay={menu} trigger={["click"]}>
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                  <span className="name-user">
-                    {currentUser?.username as string} <br />
-                    <i
-                      style={{
-                        fontStyle: "normal",
-                        fontWeight: "normal",
-                        color: "#767278",
-                      }}
-                    >
-                      60TH4
-                    </i>
-                  </span>
-                  <DownOutlined />
-                </Space>
-              </a>
+              <Space>
+                <span className="name-user">
+                  {currentUser?.username as string} <br />
+                  <i
+                    style={{
+                      fontStyle: "normal",
+                      fontWeight: "normal",
+                      color: "#767278",
+                    }}
+                  >
+                    60TH4
+                  </i>
+                </span>
+                <DownOutlined />
+              </Space>
             </Dropdown>
           </div>
         </div>
