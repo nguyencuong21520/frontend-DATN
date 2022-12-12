@@ -22,6 +22,7 @@ import { MyProfile } from "./components/MyProfile";
 import { Setting } from "./components/Setting";
 import { Dashboard } from "./components/Dashboard";
 import CollectionCourse from "./components/Dashboard/CollectionCourse";
+import CollectionUser from "./components/Dashboard/CollectionUser";
 import "./App.scss";
 
 function App() {
@@ -56,10 +57,11 @@ function App() {
           <Route path="admin">
             <Route path="" element={<Hello />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="messenger" element={<Messenger />} />
             <Route path="collection">
               <Route path="courses" element={<CollectionCourse navigate={navigate} />} />
               <Route path="course/:id" element={<MangerDetailCourse />} />
-              <Route path="users" />
+              <Route path="users" element={<CollectionUser />} />
             </Route>
           </Route>
         )}
