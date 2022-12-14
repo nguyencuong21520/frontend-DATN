@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as validateYup from "yup";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import { Upload } from "antd";
-import ImgCrop from "antd-img-crop";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
+import ImgCrop from "antd-img-crop";
+import { Obj } from "../../global/interface";
+import { Toaster } from "../../utils/ToastMess";
+import { useGetUser } from "../../utils/Hook";
+import { UserAction } from "../../redux-saga/user/action";
+import { USER_UPDATE_INFO_REQUEST } from "../../redux-saga/user/reducer";
+import { State } from "../../redux-saga/reducer/reducer";
 import "./style.scss";
 
+// eslint-disable-next-line no-useless-escape
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
 
 // const schemasValidate =
 export const Setting = () => {
+  const currentUser = useGetUser();
+  const updateInfoUser = useSelector((state: State) => state.UserUpdateInfoReducer);
+  const query = useRef<boolean>(false);
+  const [spin, setSpin] = useState<boolean>(false);
   const [fileList, setFileList] = useState<UploadFile[]>([
     {
       uid: "-1",
@@ -19,11 +32,26 @@ export const Setting = () => {
       url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
     },
   ]);
-
+  const dispatch = useDispatch();
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
-
+  useEffect(() => {
+    if (query.current) {
+      if (updateInfoUser) {
+        if (!updateInfoUser.pending) {
+          if ((updateInfoUser?.response as Obj)?.success) {
+            Toaster.Success('Cập nhật thành công!');
+            setSpin(false);
+          } else {
+            Toaster.Error('Cập nhật thất bại!');
+            setSpin(false);
+          }
+          query.current = false;
+        }
+      }
+    }
+  }, [updateInfoUser])
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string;
     if (!src) {
@@ -48,11 +76,11 @@ export const Setting = () => {
     values,
   } = useFormik({
     initialValues: {
-      _id: "khoa trần",
-      username: "Trần Đăng Khoa",
-      email: "khoa@gmail.com",
-      phone: "0991232",
-      linkImg: "https:đẹp trai",
+      _id: currentUser?._id || '',
+      username: currentUser?.username as string || '',
+      email: currentUser?.email as string || '',
+      phone: currentUser?.phone as string || '',
+      img: currentUser?.img as string || '',
       changePassword: "",
       confirmPassword: "",
     },
@@ -68,7 +96,17 @@ export const Setting = () => {
         .required("Email không được trống"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(UserAction({
+        type: USER_UPDATE_INFO_REQUEST,
+        payload: {
+          body: values,
+          params: {
+            id: values._id
+          }
+        }
+      }))
+      setSpin(true);
+      query.current = true;
     },
   });
   return (
@@ -163,7 +201,7 @@ export const Setting = () => {
           </div>
           <div className="row flex-row-footer">
             <button onClick={handleReset}>Đặt lại</button>
-            <button type="submit">Cập nhật</button>
+            {!spin ? <button type="submit">Cập nhật</button> : (<div style={{ textAlign: 'center' }}><Spin /></div>)}
           </div>
         </form>
       </div>

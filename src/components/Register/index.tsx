@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Checkbox, Form, Input, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { validatorEmail } from '../../utils/validator/email';
@@ -16,11 +16,14 @@ interface RegisterType {
     email: string;
     password: string;
     confirmpassword: string;
+    accept: boolean;
+    owner: boolean;
 }
 export const Register = () => {
     const [spin, setSpin] = useState<boolean>(false);
     const dataSignUp = useSelector((state: State) => state.UserSignUp);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     useEffect(() => {
         document.title = 'Đăng ký';
         if (dataSignUp) {
@@ -28,18 +31,25 @@ export const Register = () => {
                 if ((dataSignUp?.response as Obj)?.success) {
                     Toaster.Success('Đăng ký thành công!');
                     setSpin(false);
+                    setTimeout(() => {
+                        navigate('/account/login', { replace: true })
+                    }, 1500)
                 } else {
                     setSpin(false);
                     Toaster.Error((dataSignUp?.response as Obj)?.response.message);
                 }
             }
         }
-    }, [dataSignUp])
+    }, [dataSignUp, navigate])
     const onFinish = (user: RegisterType) => {
         try {
-            if (!validatorEmail(user.email)) throw new Error('Bạn cần nhập đúng định dạn email!')
-            if (user.password.length < 6 || user.confirmpassword.length < 6) throw new Error('Mật khẩu cần lớn hơn 6 ký tự!')
-            if (user.password !== user.confirmpassword) throw new Error('Mật khẩu không trùng!')
+            if (!validatorEmail(user.email)) throw new Error('Bạn cần nhập đúng định dạn email!');
+            if (!user.accept) throw new Error('Bạn cần đồng ý nhận email cập nhật!');
+            if (!user.owner) throw new Error('Bạn cần đồng ý điều khoản!');
+            if (!validatorEmail(user.email)) throw new Error('Bạn cần nhập đúng định dạn email!');
+            if (user.password.length < 6 || user.confirmpassword.length < 6) throw new Error('Mật khẩu cần lớn hơn 6 ký tự!');
+            if (user.password !== user.confirmpassword) throw new Error('Mật khẩu không trùng!');
+            setSpin(true);
             dispatch(UserAction({
                 type: USER_SIGN_UP_REQUEST,
                 payload: {
@@ -90,9 +100,11 @@ export const Register = () => {
                         <Input.Password placeholder='Xác nhận mật khẩu' className="color-blur inpt" />
                     </Form.Item>
                     <div className="footer-fnc">
-                        <Form.Item name="private" valuePropName="checked" wrapperCol={{ offset: 8, span: 0 }}>
-                            <Checkbox style={{ color: '#C8C9DA' }}>Đồng ý, nhận email cập nhật</Checkbox>
-                            <Checkbox style={{ color: '#C8C9DA' }}>Tôi đồng ý với <a href="#" style={{ color: '#616496' }}>Điều khoản, quyền riêng tư</a></Checkbox>
+                        <Form.Item name="accept" valuePropName="checked" wrapperCol={{ offset: 8, span: 0 }}>
+                            <Checkbox style={{ color: '#C8C9DA' }} >Đồng ý, nhận email cập nhật</Checkbox>
+                        </Form.Item>
+                        <Form.Item name="owner" valuePropName="checked" wrapperCol={{ offset: 8, span: 0 }}>
+                            <Checkbox style={{ color: '#C8C9DA' }}>Tôi đồng ý với <span style={{ color: '#616496' }}>Điều khoản, quyền riêng tư</span></Checkbox>
                         </Form.Item>
                     </div>
                     {spin === false ? (<Button type="primary" htmlType="submit" className="btn-login" >

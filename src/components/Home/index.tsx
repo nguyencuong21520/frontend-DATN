@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Progress } from 'antd';
-import { useSelector } from 'react-redux';
-import { Obj } from '../../global/interface';
-import { State } from '../../redux-saga/reducer/reducer';
 import { Excel } from '../../assets/img';
 import { Lock } from '../../assets/img';
 import { UnLock } from '../../assets/img';
@@ -140,21 +137,8 @@ const analysisDashboard: Array<DashBoard> = [
     },
 ]
 export const Home = () => {
-    const user = useSelector((state: State) => state.User);
-    useEffect(() => {
-
-    }, [])
     useEffect(() => {
         document.title = 'Trang chủ';
-        if (user) {
-            if ((user.response as Obj).success) {
-                if ((user.payload as Obj).body.remember) {
-                    localStorage.setItem('access_token', `Bearer ${(user.response as Obj).response.token}`)
-                } else {
-                    localStorage.removeItem('access_token');
-                }
-            }
-        }
     }, [])
     return (
         <div className="container-home">

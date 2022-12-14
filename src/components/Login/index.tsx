@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Form, Input, Spin } from 'antd';
@@ -16,6 +16,7 @@ interface LoginType {
 export const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const query = useRef<boolean>(false);
     const userSignIn = useSelector((state: State) => state.User);
     const [spin, setSpin] = useState<boolean>(false);
     useEffect(() => {
@@ -25,6 +26,7 @@ export const Login = () => {
                 if ((userSignIn?.response as Obj)?.success) {
                     Toaster.Success('Đăng nhập thành công!');
                     setSpin(false);
+                    localStorage.setItem('access_token', `Bearer ${(userSignIn.response as Obj)?.response?.token}`)
                     setTimeout(() => {
                         navigate('/', { replace: true });
                     }, 2000)
@@ -32,9 +34,10 @@ export const Login = () => {
                     setSpin(false);
                     Toaster.Error('Đăng nhập thất bại!');
                 }
+                query.current = false
             }
         }
-    }, [userSignIn])
+    }, [userSignIn, navigate])
     const onFinish = (e: LoginType) => {
         setSpin(true);
         dispatch(UserAction({
@@ -43,6 +46,7 @@ export const Login = () => {
                 body: e
             }
         }))
+        query.current = true;
     }
     return (
         <div className="container-login">

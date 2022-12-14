@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Badge, Dropdown, Menu, Space } from "antd";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { DownOutlined } from "@ant-design/icons";
 import { useGetUser } from "../../utils/Hook";
-import { State } from "../../redux-saga/reducer/reducer";
 import { ReactComponent as ToolList } from "../../assets/svg/ToolList.svg";
 import { ReactComponent as Search } from "../../assets/svg/search.svg";
 import { ReactComponent as Bell } from "../../assets/svg/Bell.svg";
@@ -57,7 +55,7 @@ export const Header = () => {
                       color: "#767278",
                     }}
                   >
-                    60TH4
+                    {currentUser?.role || ''}
                   </i>
                 </span>
                 <DownOutlined />
