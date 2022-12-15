@@ -1,5 +1,5 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { Carousel } from 'antd';
 import Slide from '../../assets/img/Slide.png';
 import { ReactComponent as Sun } from '../../assets/svg/Sun.svg';
@@ -7,6 +7,12 @@ import { ReactComponent as Tluc } from '../../assets/svg/Tluc.svg';
 import './style.scss';
 
 export const LayoutAuth = () => {
+    const nav = useNavigate()
+    useEffect(() => {
+        if (localStorage.getItem('access_token')) {
+            nav('/', { replace: true });
+        }
+    }, []);
     return (
         <div className="container-auth">
             <div className="left-slide">

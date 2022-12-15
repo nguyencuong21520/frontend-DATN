@@ -43,7 +43,7 @@ function* userSignUp(payload: Obj) {
 }
 function* userUpdateInfo(payload: Obj) {
   yield watchRequest(
-    `/api/user/update/${payload.payload.payload.params.id}`,
+    `/api/user/update/${payload.payload.payload.params._id}`,
     METHOD.PUT,
     USER_UPDATE_INFO_SUCCESS,
     USER_UPDATE_INFO_FAILED,

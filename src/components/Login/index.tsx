@@ -21,23 +21,25 @@ export const Login = () => {
     const [spin, setSpin] = useState<boolean>(false);
     useEffect(() => {
         document.title = 'Đăng nhập';
-        if (userSignIn) {
-            if (!userSignIn.pending) {
-                if ((userSignIn?.response as Obj)?.success) {
-                    Toaster.Success('Đăng nhập thành công!');
-                    setSpin(false);
-                    localStorage.setItem('access_token', `Bearer ${(userSignIn.response as Obj)?.response?.token}`)
-                    setTimeout(() => {
-                        navigate('/', { replace: true });
-                    }, 2000)
-                } else {
-                    setSpin(false);
-                    Toaster.Error('Đăng nhập thất bại!');
+        if (spin) {
+            if (userSignIn) {
+                if (!userSignIn.pending) {
+                    if ((userSignIn?.response as Obj)?.success) {
+                        Toaster.Success('Đăng nhập thành công!');
+                        setSpin(false);
+                        localStorage.setItem('access_token', `Bearer ${(userSignIn.response as Obj)?.response?.token}`)
+                        setTimeout(() => {
+                            navigate('/', { replace: true });
+                        }, 2000)
+                    } else {
+                        setSpin(false);
+                        Toaster.Error('Đăng nhập thất bại!');
+                    }
+                    query.current = false
                 }
-                query.current = false
             }
         }
-    }, [userSignIn, navigate])
+    }, [userSignIn, navigate, spin])
     const onFinish = (e: LoginType) => {
         setSpin(true);
         dispatch(UserAction({

@@ -101,7 +101,7 @@ export const Setting = () => {
         payload: {
           body: values,
           params: {
-            id: values._id
+            _id: values._id
           }
         }
       }))
