@@ -2,6 +2,7 @@ import { AnyAction, combineReducers, Reducer } from "redux";
 import CourcesReducer from "../../components/Courses/reducer";
 import { RoleViewAppReducer } from "../RoleViewApp/reducer";
 import {
+  GetAllUserReducer,
   UserFetchInfoReducer,
   UserReducer,
   UserSignUpReducer,
@@ -15,6 +16,7 @@ const state = combineReducers({
   Cources: CourcesReducer,
   RoleViewAppReducer: RoleViewAppReducer,
   UserUpdateInfoReducer: UserUpdateInfoReducer,
+  GetAllUserReducer: GetAllUserReducer,
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

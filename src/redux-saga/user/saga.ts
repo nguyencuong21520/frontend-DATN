@@ -11,6 +11,7 @@ import {
   USER_UPDATE_INFO_SUCCESS,
   USER_UPDATE_INFO_FAILED,
   USER_FETCH_INFO_REQUEST,
+  GET_ALL_USER_REQUEST,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -51,6 +52,16 @@ function* userUpdateInfo(payload: Obj) {
   );
 }
 
+function* getAllUser(payload: Obj) {
+  yield watchRequest(
+    `/api/user`,
+    METHOD.GET,
+    USER_UPDATE_INFO_SUCCESS,
+    USER_UPDATE_INFO_FAILED,
+    payload.payload.payload.body
+  );
+}
+
 export function* queryDataUser() {
   yield all([takeLatest(USER_REQUEST_LOGIN_API, userLogin)]);
 }
@@ -63,4 +74,7 @@ export function* signUpUser() {
 }
 export function* updateInfoUser() {
   yield all([takeLatest(USER_UPDATE_INFO_REQUEST, userUpdateInfo)]);
+}
+export function* queryGetAllUser() {
+  yield all([takeLatest(GET_ALL_USER_REQUEST, getAllUser)]);
 }

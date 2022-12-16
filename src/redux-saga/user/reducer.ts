@@ -12,6 +12,10 @@ export const USER_UPDATE_INFO_REQUEST = "USER_UPDATE_INFO_REQUEST";
 export const USER_UPDATE_INFO_SUCCESS = "USER_UPDATE_INFO_SUCCESS";
 export const USER_UPDATE_INFO_FAILED = "USER_UPDATE_INFO_FAILED";
 
+export const GET_ALL_USER_REQUEST = "GET_ALL_USER_REQUEST";
+export const GET_ALL_USER_SUCCESS = "GET_ALL_USER_SUCCESS";
+export const GET_ALL_USER_FAILED = "GET_ALL_USER_FAILED";
+
 export const USER_FETCH_INFO_REQUEST = "USER_FETCH_INFO_REQUEST";
 // example APIs Redux-Saga
 const UserReducer = createReducer(
@@ -39,10 +43,16 @@ const UserUpdateInfoReducer = createReducer(
   USER_UPDATE_INFO_SUCCESS,
   USER_UPDATE_INFO_FAILED
 );
+const GetAllUserReducer = createReducer(
+  GET_ALL_USER_REQUEST,
+  GET_ALL_USER_SUCCESS,
+  GET_ALL_USER_FAILED
+);
 
 export {
   UserReducer,
   UserSignUpReducer,
   UserUpdateInfoReducer,
   UserFetchInfoReducer,
+  GetAllUserReducer,
 };

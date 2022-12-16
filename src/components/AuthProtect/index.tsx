@@ -11,32 +11,31 @@ import { USER_FETCH_INFO_REQUEST } from '../../redux-saga/user/reducer';
 export const AuthProtect = (props: any) => {
     const dispatch = useDispatch();
     const [spin, setSpin] = useState<boolean>(true);
-    const query = useRef<boolean>(false);
+    const query = useRef<boolean>(true);
     const currentUser = useSelector((state: State) => state.User);
     const navigate = useNavigate();
     useEffect(() => {
-        if (!currentUser && localStorage.getItem('access_token')) {
-            dispatch(UserAction({
-                type: USER_FETCH_INFO_REQUEST
-            }))
-        } else {
-            setSpin(false);
-            navigate('/account/login', { replace: true });
+        if (query.current) {
+            if (!currentUser && localStorage.getItem('access_token')) {
+                dispatch(UserAction({
+                    type: USER_FETCH_INFO_REQUEST
+                }))
+                query.current = false
+            }
         }
     }, [])
     useEffect(() => {
         if (currentUser) {
             if (!currentUser.pending) {
                 if ((currentUser?.response as Obj)?.success) {
-                    console.log(currentUser)
                     setSpin(false);
-                }
-                else {
+                    query.current = false;
+                    console.log((currentUser?.response as Obj));
+                } else {
                     localStorage.removeItem('access_token');
                     setSpin(false);
                     navigate('/account/login', { replace: true });
                 }
-                query.current = false
             }
         }
     }, [dispatch, currentUser]);

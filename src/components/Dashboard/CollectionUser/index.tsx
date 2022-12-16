@@ -5,9 +5,12 @@ import { AgGridReact } from 'ag-grid-react';
 import { Obj } from '../../../global/interface';
 import { State } from '../../../redux-saga/reducer/reducer';
 import { NoDataGrid } from '../../NoDataGrid';
+import { getData } from '../../../utils/Hook';
 import './style.scss';
 
-interface CollectionUserProps { }
+interface CollectionUserProps {
+    allUser: null | Obj | Record<string, unknown>;
+}
 interface CollectionUserStates { }
 export class CollectionUser extends Component<CollectionUserProps, CollectionUserStates> {
     private gridRef: RefObject<AgGridReact>;
@@ -59,6 +62,7 @@ export class CollectionUser extends Component<CollectionUserProps, CollectionUse
             },
         ]
         this.filterData = [];
+        console.log(getData(this.props.allUser));
     }
     shouldComponentUpdate(nextProps: CollectionUserProps, nextState: CollectionUserStates): boolean {
 
@@ -105,7 +109,9 @@ export class CollectionUser extends Component<CollectionUserProps, CollectionUse
     }
 }
 
-const mapStateToProps = (state: State) => ({})
+const mapStateToProps = (state: State) => ({
+    allUser: state.GetAllUserReducer
+})
 
 const mapDispatchToProps = {}
 

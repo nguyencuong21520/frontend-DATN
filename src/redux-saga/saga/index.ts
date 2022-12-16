@@ -2,6 +2,7 @@ import { all } from "redux-saga/effects";
 import queryDataCources from "../course/saga";
 import {
   queryDataUser,
+  queryGetAllUser,
   queryUserFetchInfo,
   signUpUser,
   updateInfoUser,
@@ -14,5 +15,6 @@ export function* rootSaga() {
     signUpUser(),
     updateInfoUser(),
     queryUserFetchInfo(),
+    queryGetAllUser(),
   ]);
 }

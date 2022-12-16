@@ -14,4 +14,8 @@ const useGetUser = () => {
   const currentUser = (getUser?.response as Obj)?.response?.data;
   return currentUser;
 };
-export { useQuery, useGetUser };
+const getData = (dataState: null | Obj | Record<string, unknown>) => {
+  const data = (dataState?.response as Obj)?.response?.data;
+  return data;
+};
+export { useQuery, useGetUser, getData };
