@@ -12,6 +12,8 @@ import {
   USER_UPDATE_INFO_FAILED,
   USER_FETCH_INFO_REQUEST,
   GET_ALL_USER_REQUEST,
+  GET_ALL_USER_SUCCESS,
+  GET_ALL_USER_FAILED,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -52,13 +54,12 @@ function* userUpdateInfo(payload: Obj) {
   );
 }
 
-function* getAllUser(payload: Obj) {
+function* getAllUser() {
   yield watchRequest(
     `/api/user`,
     METHOD.GET,
-    USER_UPDATE_INFO_SUCCESS,
-    USER_UPDATE_INFO_FAILED,
-    payload.payload.payload.body
+    GET_ALL_USER_SUCCESS,
+    GET_ALL_USER_FAILED
   );
 }
 

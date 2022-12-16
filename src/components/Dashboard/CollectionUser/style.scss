@@ -4,7 +4,24 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  .header-fnc {
+    display: flex;
+    justify-content: space-between;
+    .search {
+      display: flex;
+      height: fit-content;
+      gap: 5px;
+    }
+  }
   .table {
+    margin-top: 10px;
     flex: 1;
+    position: relative;
+    .ant-empty {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }

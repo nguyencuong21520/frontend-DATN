@@ -32,7 +32,6 @@ export const AuthProtect = (props: any) => {
                 if ((currentUser?.response as Obj)?.success) {
                     setSpin(false);
                     query.current = false;
-                    console.log((currentUser?.response as Obj));
                 } else {
                     localStorage.removeItem('access_token');
                     setSpin(false);
