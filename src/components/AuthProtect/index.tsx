@@ -19,6 +19,9 @@ export const AuthProtect = (props: any) => {
             dispatch(UserAction({
                 type: USER_FETCH_INFO_REQUEST
             }))
+        } else {
+            setSpin(false);
+            navigate('/account/login', { replace: true });
         }
     }, [])
     useEffect(() => {
