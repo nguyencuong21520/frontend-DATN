@@ -15,20 +15,21 @@ export const AuthProtect = (props: any) => {
     const currentUser = useSelector((state: State) => state.User);
     const navigate = useNavigate();
     useEffect(() => {
-        if (localStorage.getItem('access_token')) {
+        if (!currentUser && localStorage.getItem('access_token')) {
             dispatch(UserAction({
                 type: USER_FETCH_INFO_REQUEST
             }))
-        } else {
-            navigate('/account/login', { replace: true })
         }
     }, [])
     useEffect(() => {
         if (currentUser) {
             if (!currentUser.pending) {
                 if ((currentUser?.response as Obj)?.success) {
+                    console.log(currentUser)
                     setSpin(false);
-                } else {
+                }
+                else {
+                    localStorage.removeItem('access_token');
                     setSpin(false);
                     navigate('/account/login', { replace: true });
                 }

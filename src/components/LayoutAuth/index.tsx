@@ -1,18 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Carousel } from 'antd';
+import { Carousel, Spin } from 'antd';
 import Slide from '../../assets/img/Slide.png';
 import { ReactComponent as Sun } from '../../assets/svg/Sun.svg';
 import { ReactComponent as Tluc } from '../../assets/svg/Tluc.svg';
 import './style.scss';
 
 export const LayoutAuth = () => {
-    const nav = useNavigate()
+    const nav = useNavigate();
+    const [spin, setSpin] = useState<boolean>(true);
     useEffect(() => {
         if (localStorage.getItem('access_token')) {
+            setSpin(false);
             nav('/', { replace: true });
+        } else {
+            setSpin(false);
         }
     }, []);
+    if (spin) {
+        return (
+            <div className="fetch-data-user">
+                <Spin />
+            </div>
+        )
+    }
     return (
         <div className="container-auth">
             <div className="left-slide">
