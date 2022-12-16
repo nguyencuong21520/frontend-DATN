@@ -21,6 +21,8 @@ export const AuthProtect = (props: any) => {
                     type: USER_FETCH_INFO_REQUEST
                 }))
                 query.current = false
+            } else if (!localStorage.getItem('access_token')) {
+                navigate('/account/login', { replace: true });
             }
         }
     }, [])
