@@ -1,8 +1,8 @@
-import { Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
+import { Spin } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Obj } from '../../global/interface';
 import { State } from '../../redux-saga/reducer/reducer';
 import { UserAction } from '../../redux-saga/user/action';
@@ -12,24 +12,29 @@ export const AuthProtect = (props: any) => {
     const dispatch = useDispatch();
     const [spin, setSpin] = useState<boolean>(true);
     const query = useRef<boolean>(false);
-    const currentUser = useSelector((state: State) => state.User)
+    const currentUser = useSelector((state: State) => state.User);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem('access_token')) {
+            dispatch(UserAction({
+                type: USER_FETCH_INFO_REQUEST
+            }))
+        } else {
+            navigate('/account/login', { replace: true })
+        }
+    }, [])
     useEffect(() => {
         if (currentUser) {
             if (!currentUser.pending) {
                 if ((currentUser?.response as Obj)?.success) {
                     setSpin(false);
-
                 } else {
                     setSpin(false);
+                    navigate('/account/login', { replace: true });
                 }
                 query.current = false
             }
-        } else {
-            dispatch(UserAction({
-                type: USER_FETCH_INFO_REQUEST
-            }))
         }
-
     }, [dispatch, currentUser]);
     if (spin) {
         return (
@@ -37,9 +42,6 @@ export const AuthProtect = (props: any) => {
                 <Spin />
             </div>
         )
-    }
-    if (!(currentUser?.response as Obj)?.success) {
-        return <Navigate to={'/account/login'} />
     }
     return (
         <>{props.children}</>
