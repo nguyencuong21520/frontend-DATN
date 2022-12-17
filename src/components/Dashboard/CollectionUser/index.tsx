@@ -192,6 +192,7 @@ export class CollectionUser extends Component<CollectionUserProps, CollectionUse
         (btnPagina[2] as HTMLElement).innerHTML = ' &#187; ';
         (btnPagina[3] as HTMLElement).innerHTML = '';
         this.gridRef.current?.api.sizeColumnsToFit();
+        this.gridRef.current?.api.showLoadingOverlay();
     }
     render() {
         return (
