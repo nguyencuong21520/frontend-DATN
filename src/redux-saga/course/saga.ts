@@ -9,7 +9,7 @@ import { METHOD } from "../../global/enum";
 
 function* courcesRequest() {
   yield watchRequest(
-    "/api/course",
+    "/api/course/auth",
     METHOD.GET,
     COURCES_GET_SUCCESS,
     COURCES_GET_FAILED

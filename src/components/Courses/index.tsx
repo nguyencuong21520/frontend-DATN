@@ -11,8 +11,11 @@ import { ReactComponent as Filters } from "../../assets/svg/Filters.svg";
 import { ReactComponent as ShapeCube } from "../../assets/svg/ShapeCube.svg";
 import { ReactComponent as TimeRange } from "../../assets/svg/TimeRange.svg";
 import { Excel } from "../../assets/img";
+import { Word } from "../../assets/img";
+import { PP } from "../../assets/img";
 import { Lock } from "../../assets/img";
 import { UnLock } from "../../assets/img";
+import { WatingIcon } from "../../assets/img";
 import "./style.scss";
 
 const initFieldsFilter = {
@@ -46,6 +49,8 @@ const reducerFilter = (
 };
 export const MAJOR_THUMBNAIL: Record<string, string> = {
   Excel: Excel,
+  Word: Word,
+  PP: PP
 };
 export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
@@ -254,6 +259,7 @@ export const Cources = () => {
             <div>Không có dữ liệu!</div>
           ) : (
             dataCources.map((item, index) => {
+              console.log(item.enroll)
               return (
                 <div
                   className={`item-course cell${index + 1}`}
@@ -265,7 +271,7 @@ export const Cources = () => {
                   <div className="img-title">
                     <span className="span title">{item.major as string}</span>
                     <img
-                      src={String((item as Obj)?.nameCourse).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.nameCourse).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : MAJOR_THUMBNAIL['PP']}
+                      src={String((item as Obj)?.nameCourse).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.nameCourse).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : String((item as Obj)?.nameCourse).toLowerCase().includes('powerpoint') ? MAJOR_THUMBNAIL['PP'] : ''}
                       alt="subj"
                       className="img-subj"
                     />
@@ -281,10 +287,10 @@ export const Cources = () => {
                           {(item.time as string) || ""}
                         </span>
                       </div>
-                      {item.status ? (
+                      {item.enroll === true ? (
                         <img src={UnLock} alt="UnLock" />
-                      ) : (
-                        <img src={Lock} alt="Lock" />
+                      ) : (item.enroll === 'waiting' ? (<img src={WatingIcon} alt="wating" />) : (
+                        <img src={Lock} alt="Lock" />)
                       )}
                     </div>
                   </div>

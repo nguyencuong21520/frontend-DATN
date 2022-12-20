@@ -20,6 +20,7 @@ export const GET_ALL_USER_FAILED = "GET_ALL_USER_FAILED";
 export const USER_ENROLL_REQUEST = "USER_ENROLL_REQUEST";
 export const USER_ENROLL_SUCCESS = "USER_ENROLL_SUCCESS";
 export const USER_ENROLL_FAILED = "USER_ENROLL_FAILED";
+export const USER_ENROLL_CLEAR = "USER_ENROLL_CLEAR";
 
 export const USER_FETCH_INFO_REQUEST = "USER_FETCH_INFO_REQUEST";
 // example APIs Redux-Saga
@@ -58,7 +59,8 @@ const GetAllUserReducer = createReducer(
 const UserEnrollReducer = createReducer(
   USER_ENROLL_REQUEST,
   USER_ENROLL_SUCCESS,
-  USER_ENROLL_FAILED
+  USER_ENROLL_FAILED,
+  USER_ENROLL_CLEAR
 );
 
 export {

@@ -115,7 +115,7 @@ const DetailCourse = () => {
                         </div>
                     </div>
                     <div className="right-info-course">
-                        {contentTab === ContentDetailCourse.INFO && <Info idCourse={id as string} />}
+                        {contentTab === ContentDetailCourse.INFO && <Info idCourse={id as string} statusEnroll={detailCource.enroll} />}
                         {contentTab === ContentDetailCourse.CONTENT && (
                             <ContentInfoSource crrCourse={detailCource} />
                         )}

@@ -68,7 +68,7 @@ function* getAllUser() {
 
 function* userEnrollCourse(payload: Obj) {
   yield watchRequest(
-    `/api/course/enroll/${payload.payload.payload.params._idCourse}`,
+    `/api/course/enrol/${payload.payload.payload.params._idCourse}`,
     METHOD.PUT,
     USER_ENROLL_SUCCESS,
     USER_ENROLL_FAILED

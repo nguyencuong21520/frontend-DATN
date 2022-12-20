@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
-import { Tag } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Spin, Tag } from 'antd';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../../redux-saga/reducer/reducer';
 import { useDispatch } from 'react-redux';
 import { UserAction } from '../../../../../redux-saga/user/action';
-import { Action } from '../../../../../global/interface';
-import { USER_ENROLL_REQUEST } from '../../../../../redux-saga/user/reducer';
+import { Action, Obj } from '../../../../../global/interface';
+import { USER_ENROLL_CLEAR, USER_ENROLL_REQUEST } from '../../../../../redux-saga/user/reducer';
+import { Toaster } from '../../../../../utils/ToastMess';
 import Lock from '../../../../../assets/img/Lock.png';
+import Unlock from '../../../../../assets/img/UnLock.png';
+import { WatingIcon } from '../../../../../assets/img';
 import { ReactComponent as IconStudent } from '../../../../../assets/svg/IconStudent.svg';
 import { ReactComponent as IconPractice } from '../../../../../assets/svg/IconPractice.svg';
 import { ReactComponent as TimeRange } from '../../../../../assets/svg/TimeRange.svg';
@@ -34,6 +37,7 @@ const InfoList: Array<Record<string, React.ReactElement | string>> = [
 interface Props {
   child?: React.ReactElement;
   idCourse?: string;
+  statusEnroll?: string | boolean
 }
 export const Info = (props: Props) => {
   const log = (e: React.MouseEvent<HTMLElement>) => {
@@ -41,8 +45,26 @@ export const Info = (props: Props) => {
   };
   const dispatch = useDispatch();
   const userEnroll = useSelector((state: State) => state.UserEnrollReducer);
+  const [spin, setSpin] = useState(false);
   useEffect(() => {
-    console.log(userEnroll)
+    if (userEnroll) {
+      if (!userEnroll.pending) {
+        if ((userEnroll?.response as Obj)?.success) {
+          Toaster.Success('Yêu cầu tham gia khoá học thành công!');
+          setSpin(false);
+        } else {
+          Toaster.Error('Yêu cầu thất bại, hãy thử lại nhé!');
+          setSpin(false);
+        }
+      }
+    }
+    return () => {
+      setSpin(false);
+      const payload: Action = {
+        type: USER_ENROLL_CLEAR,
+      }
+      dispatch(UserAction(payload));
+    }
   }, [userEnroll])
   const handleRequestEnroll = () => {
     const payload: Action = {
@@ -53,15 +75,26 @@ export const Info = (props: Props) => {
         }
       }
     }
-    dispatch(UserAction(payload))
+    dispatch(UserAction(payload));
+    setSpin(true);
   }
   return (
     <div className="container-tab-info-course">
       <div className="fnc-join-class block">
         <div className="icon-lock">
-          <img src={Lock} alt="Lock" />
+          {props.statusEnroll === true ? (
+            <img src={Unlock} alt="UnLock" />
+          ) : (props.statusEnroll === 'waiting' ? (<img src={WatingIcon} alt="wating" />) : (
+            <img src={Lock} alt="Lock" />)
+          )}
         </div>
-        <button onClick={handleRequestEnroll}>Tham gia</button>
+        {props.statusEnroll === true ? (
+          <h2>Đã tham gia</h2>
+        ) : (props.statusEnroll === 'waiting' ? (<h2>Đang đợi duyệt</h2>) : (
+          spin ?
+            <Spin /> :
+            <button onClick={handleRequestEnroll}>Tham gia</button>)
+        )}
       </div>
       <div className="take block">
         <span className="title">Bạn sẽ học được gì?</span>
