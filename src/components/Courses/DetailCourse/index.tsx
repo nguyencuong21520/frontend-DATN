@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Obj } from "../../../global/interface";
 import { State } from "../../../redux-saga/reducer/reducer";
+import { getData } from "../../../utils/Hook";
 import { CourcesAction } from "../action";
 import { COURCES_REQUEST_GET_DATA } from "../reducer";
 import { Content } from "./InfoCourse/Content";
@@ -38,14 +39,11 @@ const DetailCourse = () => {
         ContentDetailCourse.INFO
     );
     const cources = useSelector((state: State) => state.Cources);
-    const dataCources =
-        ((cources?.response as Obj)?.response?.data as Record<string, unknown>[]) ||
-        [];
-    const detailCource = dataCources.find((item) => {
+    const dataCources = getData(cources) || [];
+    const detailCource = dataCources.find((item: Obj) => {
         return (item._id as string) === id;
     });
     const dispatch = useDispatch();
-
     useEffect(() => {
         if (!cources) {
             dispatch(
@@ -59,11 +57,11 @@ const DetailCourse = () => {
         [ContentDetailCourse.INFO]: (
             <InfoCourse
                 idCourse={id}
-                content={(detailCource?.summaryCource as string) || ""}
-                comment={detailCource?.comment as Obj[]}
+                content={(detailCource?.summaryCourse as string) || ""}
+                comment={dataCources?.comment as Obj[] || []}
             />
         ),
-        [ContentDetailCourse.CONTENT]: <Content />,
+        [ContentDetailCourse.CONTENT]: <Content unit={detailCource} />,
         [ContentDetailCourse.STUDIENT]: <>Học sinh</>,
     };
     return (
@@ -91,8 +89,8 @@ const DetailCourse = () => {
                                     ></video>
                                 </div>
                                 <div className="overview">
-                                    <h3>{(detailCource.nameCource as string) || ""}</h3>
-                                    <h4>Tác giả: {(detailCource.author as string) || ""}</h4>
+                                    <h3>{(detailCource.nameCourse as string) || ""}</h3>
+                                    <h4>Tác giả: {((detailCource.author as Obj)?.username as string) || ""}</h4>
                                     <div className="intro">
                                         <ul className="list-tabs">
                                             {ListContent.map((item) => {
@@ -117,9 +115,9 @@ const DetailCourse = () => {
                         </div>
                     </div>
                     <div className="right-info-course">
-                        {contentTab === ContentDetailCourse.INFO && <Info />}
+                        {contentTab === ContentDetailCourse.INFO && <Info idCourse={id as string} />}
                         {contentTab === ContentDetailCourse.CONTENT && (
-                            <ContentInfoSource />
+                            <ContentInfoSource crrCourse={detailCource} />
                         )}
                     </div>
                 </>

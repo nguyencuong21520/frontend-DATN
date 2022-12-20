@@ -8,7 +8,7 @@ import './style.scss';
 interface InfoCourseProps {
     idCourse?: string;
     content?: string;
-    comment?: Obj[];
+    comment: Obj[];
 }
 export const InfoCourse = (props: InfoCourseProps) => {
     const onFinish = (e: any) => {
@@ -20,7 +20,7 @@ export const InfoCourse = (props: InfoCourseProps) => {
                 {props.content || ''}
             </div>
             <h3 className="title-comment">Bình luận</h3>
-            {props.comment ? (<>
+            {props.comment?.length !== 0 ? (<>
                 <div className="comment">
                     <div className="content-comment">
                         <div className="item-comment">

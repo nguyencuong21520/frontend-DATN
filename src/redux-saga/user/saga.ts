@@ -14,6 +14,9 @@ import {
   GET_ALL_USER_REQUEST,
   GET_ALL_USER_SUCCESS,
   GET_ALL_USER_FAILED,
+  USER_ENROLL_FAILED,
+  USER_ENROLL_SUCCESS,
+  USER_ENROLL_REQUEST,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -63,6 +66,15 @@ function* getAllUser() {
   );
 }
 
+function* userEnrollCourse(payload: Obj) {
+  yield watchRequest(
+    `/api/course/enroll/${payload.payload.payload.params._idCourse}`,
+    METHOD.PUT,
+    USER_ENROLL_SUCCESS,
+    USER_ENROLL_FAILED
+  );
+}
+
 export function* queryDataUser() {
   yield all([takeLatest(USER_REQUEST_LOGIN_API, userLogin)]);
 }
@@ -78,4 +90,7 @@ export function* updateInfoUser() {
 }
 export function* queryGetAllUser() {
   yield all([takeLatest(GET_ALL_USER_REQUEST, getAllUser)]);
+}
+export function* queryUserEnrollCourse() {
+  yield all([takeLatest(USER_ENROLL_REQUEST, userEnrollCourse)]);
 }

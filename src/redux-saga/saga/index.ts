@@ -3,6 +3,7 @@ import queryDataCources from "../course/saga";
 import {
   queryDataUser,
   queryGetAllUser,
+  queryUserEnrollCourse,
   queryUserFetchInfo,
   signUpUser,
   updateInfoUser,
@@ -16,5 +17,6 @@ export function* rootSaga() {
     updateInfoUser(),
     queryUserFetchInfo(),
     queryGetAllUser(),
+    queryUserEnrollCourse(),
   ]);
 }

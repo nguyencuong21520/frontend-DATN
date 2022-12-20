@@ -3,6 +3,7 @@ import CourcesReducer from "../../components/Courses/reducer";
 import { RoleViewAppReducer } from "../RoleViewApp/reducer";
 import {
   GetAllUserReducer,
+  UserEnrollReducer,
   UserFetchInfoReducer,
   UserReducer,
   UserSignUpReducer,
@@ -17,6 +18,7 @@ const state = combineReducers({
   RoleViewAppReducer: RoleViewAppReducer,
   UserUpdateInfoReducer: UserUpdateInfoReducer,
   GetAllUserReducer: GetAllUserReducer,
+  UserEnrollReducer: UserEnrollReducer,
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

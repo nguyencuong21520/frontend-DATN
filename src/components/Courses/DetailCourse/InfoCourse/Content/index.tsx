@@ -1,6 +1,7 @@
 import React from 'react';
 import { Progress } from 'antd';
 import { DropdownCourse } from './DropDownCourse';
+import { Obj } from '../../../../../global/interface';
 import './style.scss';
 
 const mockupData = [
@@ -24,14 +25,15 @@ const mockupData = [
     },
 
 ]
-export const Content = () => {
+interface Props {
+    child?: React.ReactElement;
+    unit: Obj;
+}
+export const Content = (props: Props) => {
     return (
         <div className="container-range-time-course">
             <div className="current-time-range">
                 <div className="left">
-                    <span className="couting-course">
-                        Course 1 of 6
-                    </span>
                     <h3>Course 1 - Introduction</h3>
                     <Progress percent={30} className="progress-bar-time" showInfo={false} />
                     <label htmlFor="progress-bar-time">
@@ -43,7 +45,7 @@ export const Content = () => {
                 </div>
             </div>
             <div className="unit-course">
-                <DropdownCourse dataCourse={mockupData}/>
+                <DropdownCourse dataUnit={props.unit.previewUnit as Obj[]} />
             </div>
         </div>
     )

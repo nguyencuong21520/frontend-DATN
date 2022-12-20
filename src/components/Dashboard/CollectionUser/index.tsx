@@ -157,28 +157,28 @@ export class CollectionUser extends Component<CollectionUserProps, CollectionUse
         let tempFilter = this.filterData;
         switch (this.state.fieldSearch) {
             case FieldSearch.EMAIL:
-                tempFilter = this.filterData.filter((item) => {
-                    return item.email.toLowerCase().includes(this.state.valueSearch.toLowerCase())
+                tempFilter = this.filterData.filter((item: Obj) => {
+                    return item?.email.toLowerCase().includes(this.state.valueSearch.toLowerCase())
                 })
                 break;
             case FieldSearch.ID:
-                tempFilter = this.filterData.filter((item) => {
-                    return item._id.toString().toLowerCase().includes(this.state.valueSearch.toLowerCase())
+                tempFilter = this.filterData.filter((item: Obj) => {
+                    return item?._id.toString().toLowerCase().includes(this.state.valueSearch.toLowerCase())
                 })
                 break;
             case FieldSearch.USERNAME:
-                tempFilter = this.filterData.filter((item) => {
-                    return item.username.toLowerCase().includes(this.state.valueSearch.toLowerCase())
+                tempFilter = this.filterData.filter((item: Obj) => {
+                    return item?.username.toLowerCase().includes(this.state.valueSearch.toLowerCase())
                 })
                 break;
             case FieldSearch.PHONE:
-                tempFilter = this.filterData.filter((item) => {
-                    return item.phone.toLowerCase().includes(this.state.valueSearch.toLowerCase())
+                tempFilter = this.filterData.filter((item: Obj) => {
+                    return item?.phone.toLowerCase().includes(this.state.valueSearch.toLowerCase())
                 })
                 break;
             default:
-                tempFilter = this.filterData.filter((item) => {
-                    return item._id.toString().toLowerCase().includes(this.state.valueSearch.toLowerCase())
+                tempFilter = this.filterData.filter((item: Obj) => {
+                    return item?._id.toString().toLowerCase().includes(this.state.valueSearch.toLowerCase())
                 })
                 break;
         }

@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer } from "react";
-import { Dropdown, Menu, Space } from "antd";
+import React, { useEffect, useReducer, useState } from "react";
+import { Dropdown, Menu, Space, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Obj } from "../../global/interface";
 import { useSelector, useDispatch } from "react-redux";
@@ -49,6 +49,7 @@ export const MAJOR_THUMBNAIL: Record<string, string> = {
 };
 export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
+  const [spin, setSpin] = useState(true);
   const cources = useSelector((state: State) => state.Cources);
   const dataCources =
     ((cources?.response as Obj)?.response?.data as Record<string, unknown>[]) ||
@@ -63,6 +64,9 @@ export const Cources = () => {
           type: COURCES_REQUEST_GET_DATA,
         })
       );
+    }
+    if (cources && !(cources?.pending)) {
+      setSpin(false);
     }
   }, [cources]);
   const menuSortBy = (
@@ -245,48 +249,51 @@ export const Cources = () => {
         </div>
       </div>
       <div className="main-courses">
-        {dataCources.length === 0 ? (
-          <div>Không có dữ liệu!</div>
-        ) : (
-          dataCources.map((item, index) => {
-            return (
-              <div
-                className={`item-course cell${index + 1}`}
-                key={item._id as string}
-                onClick={() => {
-                  navigate(`detail/${item._id as string}`);
-                }}
-              >
-                <div className="img-title">
-                  <span className="span title">{item.major as string}</span>
-                  <img
-                    src={MAJOR_THUMBNAIL[item.major as string]}
-                    alt="subj"
-                    className="img-subj"
-                  />
-                </div>
-                <div className="summary">
-                  <span className="span name-subj">
-                    {item.nameCource as string}
-                  </span>
-                  <div className="footer">
-                    <div className="time">
-                      <TimeRange className="icon" />
-                      <span className="time">
-                        {(item.time as string) || ""}
-                      </span>
+        {spin ? <Spin /> : (
+          !spin && dataCources.length === 0 ? (
+            <div>Không có dữ liệu!</div>
+          ) : (
+            dataCources.map((item, index) => {
+              return (
+                <div
+                  className={`item-course cell${index + 1}`}
+                  key={item._id as string}
+                  onClick={() => {
+                    navigate(`detail/${item._id as string}`);
+                  }}
+                >
+                  <div className="img-title">
+                    <span className="span title">{item.major as string}</span>
+                    <img
+                      src={String((item as Obj)?.nameCourse).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.nameCourse).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : MAJOR_THUMBNAIL['PP']}
+                      alt="subj"
+                      className="img-subj"
+                    />
+                  </div>
+                  <div className="summary">
+                    <span className="span name-subj">
+                      {item.nameCourse as string}
+                    </span>
+                    <div className="footer">
+                      <div className="time">
+                        <TimeRange className="icon" />
+                        <span className="time">
+                          {(item.time as string) || ""}
+                        </span>
+                      </div>
+                      {item.status ? (
+                        <img src={UnLock} alt="UnLock" />
+                      ) : (
+                        <img src={Lock} alt="Lock" />
+                      )}
                     </div>
-                    {item.status ? (
-                      <img src={UnLock} alt="UnLock" />
-                    ) : (
-                      <img src={Lock} alt="Lock" />
-                    )}
                   </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })
+          )
         )}
+
       </div>
     </div>
   );

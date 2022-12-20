@@ -6,7 +6,7 @@ import { validatorEmail } from '../../utils/validator/email';
 import { Toaster } from '../../utils/ToastMess';
 import { State } from '../../redux-saga/reducer/reducer';
 import { UserAction } from '../../redux-saga/user/action';
-import { USER_SIGN_UP_REQUEST } from '../../redux-saga/user/reducer';
+import { USER_SIGN_UP_CLEAR, USER_SIGN_UP_REQUEST } from '../../redux-saga/user/reducer';
 import { ReactComponent as Sms } from '../../assets/svg/Sms.svg';
 import './style.scss';
 import { Obj } from '../../global/interface';
@@ -38,6 +38,9 @@ export const Register = () => {
                     setSpin(false);
                     Toaster.Error((dataSignUp?.response as Obj)?.response.message);
                 }
+                dispatch(UserAction({
+                    type: USER_SIGN_UP_CLEAR,
+                }))
             }
         }
     }, [dataSignUp, navigate])

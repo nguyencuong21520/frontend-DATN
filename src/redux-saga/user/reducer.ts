@@ -7,6 +7,7 @@ export const USER_LOGOUT_CLEAR = "USER_LOGOUT_CLEAR";
 export const USER_SIGN_UP_REQUEST = "USER_SIGN_UP_REQUEST";
 export const USER_SIGN_UP_SUCCESS = "USER_SIGN_UP_SUCCESS";
 export const USER_SIGN_UP_FAILED = "USER_SIGN_UP_FAILED";
+export const USER_SIGN_UP_CLEAR = "USER_SIGN_UP_CLEAR";
 
 export const USER_UPDATE_INFO_REQUEST = "USER_UPDATE_INFO_REQUEST";
 export const USER_UPDATE_INFO_SUCCESS = "USER_UPDATE_INFO_SUCCESS";
@@ -15,6 +16,10 @@ export const USER_UPDATE_INFO_FAILED = "USER_UPDATE_INFO_FAILED";
 export const GET_ALL_USER_REQUEST = "GET_ALL_USER_REQUEST";
 export const GET_ALL_USER_SUCCESS = "GET_ALL_USER_SUCCESS";
 export const GET_ALL_USER_FAILED = "GET_ALL_USER_FAILED";
+
+export const USER_ENROLL_REQUEST = "USER_ENROLL_REQUEST";
+export const USER_ENROLL_SUCCESS = "USER_ENROLL_SUCCESS";
+export const USER_ENROLL_FAILED = "USER_ENROLL_FAILED";
 
 export const USER_FETCH_INFO_REQUEST = "USER_FETCH_INFO_REQUEST";
 // example APIs Redux-Saga
@@ -35,7 +40,8 @@ const UserFetchInfoReducer = createReducer(
 const UserSignUpReducer = createReducer(
   USER_SIGN_UP_REQUEST,
   USER_SIGN_UP_SUCCESS,
-  USER_SIGN_UP_FAILED
+  USER_SIGN_UP_FAILED,
+  USER_SIGN_UP_CLEAR
 );
 
 const UserUpdateInfoReducer = createReducer(
@@ -49,10 +55,17 @@ const GetAllUserReducer = createReducer(
   GET_ALL_USER_FAILED
 );
 
+const UserEnrollReducer = createReducer(
+  USER_ENROLL_REQUEST,
+  USER_ENROLL_SUCCESS,
+  USER_ENROLL_FAILED
+);
+
 export {
   UserReducer,
   UserSignUpReducer,
   UserUpdateInfoReducer,
   UserFetchInfoReducer,
   GetAllUserReducer,
+  UserEnrollReducer,
 };

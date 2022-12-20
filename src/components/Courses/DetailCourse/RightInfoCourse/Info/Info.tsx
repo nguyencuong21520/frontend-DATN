@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Tag } from 'antd';
+import { useSelector } from 'react-redux';
+import { State } from '../../../../../redux-saga/reducer/reducer';
+import { useDispatch } from 'react-redux';
+import { UserAction } from '../../../../../redux-saga/user/action';
+import { Action } from '../../../../../global/interface';
+import { USER_ENROLL_REQUEST } from '../../../../../redux-saga/user/reducer';
 import Lock from '../../../../../assets/img/Lock.png';
 import { ReactComponent as IconStudent } from '../../../../../assets/svg/IconStudent.svg';
 import { ReactComponent as IconPractice } from '../../../../../assets/svg/IconPractice.svg';
@@ -25,17 +31,37 @@ const InfoList: Array<Record<string, React.ReactElement | string>> = [
   },
 
 ]
-export const Info = () => {
+interface Props {
+  child?: React.ReactElement;
+  idCourse?: string;
+}
+export const Info = (props: Props) => {
   const log = (e: React.MouseEvent<HTMLElement>) => {
     console.log(e);
   };
+  const dispatch = useDispatch();
+  const userEnroll = useSelector((state: State) => state.UserEnrollReducer);
+  useEffect(() => {
+    console.log(userEnroll)
+  }, [userEnroll])
+  const handleRequestEnroll = () => {
+    const payload: Action = {
+      type: USER_ENROLL_REQUEST,
+      payload: {
+        params: {
+          _idCourse: props.idCourse as string
+        }
+      }
+    }
+    dispatch(UserAction(payload))
+  }
   return (
     <div className="container-tab-info-course">
       <div className="fnc-join-class block">
         <div className="icon-lock">
           <img src={Lock} alt="Lock" />
         </div>
-        <button>Tham gia</button>
+        <button onClick={handleRequestEnroll}>Tham gia</button>
       </div>
       <div className="take block">
         <span className="title">Bạn sẽ học được gì?</span>

@@ -1,49 +1,31 @@
 import React from 'react';
+import { Obj } from '../../../../../global/interface';
 import { ReactComponent as IconTick } from '../../../../../assets/svg/IconTick.svg';
 import './style.scss';
-
-const mockupData = [
-    {
-        key: 'LV1',
-        title: 'Khoá 1 - Giới thiệu về excel',
-        units: [
-            'U1: Presentation',
-            'U2: Job opportunities (career profile)',
-            'U3: How to get the most out of this course!'
-        ]
-    },
-    {
-        key: 'LV2',
-        title: 'Khoá 2 - Làm việc chuyên sâu',
-        units: [
-            'U4: Hiểu về biểu thức',
-            'U5: Cấu trúc điều kiện',
-            'U6: Thực hành biểu thức, cấu trúc điều kiện'
-        ]
-    },
-
-]
-export const ContentInfoSource = () => {
-    console.log(mockupData[0].units[0].split(':'));
-
+interface ContentInfoSourceProps {
+    children?: React.ReactElement;
+    crrCourse: Obj;
+}
+export const ContentInfoSource = (props: ContentInfoSourceProps) => {
+    const dataCourse = props.crrCourse;
+    const dataUnit = dataCourse.previewUnit as Obj[];
     return (
         <div className="container-content-info-course">
             <h3>Tổng quan</h3>
-            {mockupData.map((item) => {
+            {dataUnit.length === 0 ? <div>Chưa có dữ liệu</div> : dataUnit.map((item) => {
                 return (
-                    <div className="level-course" key={item.key}>
-                        <span className="title">{item.title}</span>
+                    <div className="level-course" key={item._id as string}>
+                        <span className="title">{item.unitName as string}</span>
                         <ul className="list-units">
-                            {item.units.map((unitItem) => {
+                            {item.lesson.map((unitItem: Obj, idx: number) => {
                                 return (
-                                    <li key={item.key + item.units}>
-                                        <span className="title-unit">{unitItem.split(':')[0]}</span>
-                                        <span className="name-unit">{unitItem.split(':')[1].trim()}</span>
+                                    <li key={item._id + unitItem._id}>
+                                        <span className="title-unit">U{idx + 1}</span>
+                                        <span className="name-unit">{unitItem.lessonName.trim()}</span>
                                         <IconTick className={`status true`} />
                                     </li>
                                 )
                             })}
-
                         </ul>
                     </div>
                 )
