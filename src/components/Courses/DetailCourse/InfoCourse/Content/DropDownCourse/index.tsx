@@ -3,10 +3,14 @@ import { Collapse } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Obj } from '../../../../../../global/interface';
 import IconPlay from '../../../../../../assets/img/IconPlay.png';
+import ScormIcon from '../../../../../../assets/img/ScormIcon.png';
+import { TYPE_FILE } from '../../../../../../global/enum';
+import { ActiveLesson } from '../../..';
 import './style.scss';
 
 interface DropdownCourseDataProps {
     dataUnit: Obj[];
+    handleActiveLesson(data: ActiveLesson): void;
 }
 export const DropdownCourse = (props: DropdownCourseDataProps) => {
     return (
@@ -20,9 +24,17 @@ export const DropdownCourse = (props: DropdownCourseDataProps) => {
                 {props.dataUnit?.map((item, idx) => {
                     return (
                         <Collapse.Panel header={<h3 className="title">Khoá {idx + 1} - {item.unitName}</h3>} key={item._id as string} className="site-collapse-custom-panel">
-                            {item.lesson.map((unit: Obj) => {
+                            {item.lesson.map((unit: Obj, idx: number) => {
                                 return (
-                                    <p className="summary-unit"><img src={IconPlay} alt="play" key={item._id as string} />{unit.lessonName as string}</p>
+                                    <p className="summary-unit"
+                                        onClick={() => {
+                                            props.handleActiveLesson({
+                                                type: unit.type,
+                                                src: unit.source
+                                            })
+                                        }}
+                                        key={idx}
+                                    ><img src={unit.type === TYPE_FILE.SCORM ? ScormIcon : IconPlay} alt="play" key={unit._id as string} />{unit.lessonName as string}</p>
                                 )
                             })}
                         </Collapse.Panel>

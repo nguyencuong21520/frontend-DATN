@@ -27,6 +27,7 @@ export const Login = () => {
                     if ((userSignIn?.response as Obj)?.success) {
                         Toaster.Success('Đăng nhập thành công!');
                         setSpin(false);
+                        localStorage.removeItem('access_token');
                         localStorage.setItem('access_token', `Bearer ${(userSignIn.response as Obj)?.response?.token}`)
                         setTimeout(() => {
                             navigate('/', { replace: true });

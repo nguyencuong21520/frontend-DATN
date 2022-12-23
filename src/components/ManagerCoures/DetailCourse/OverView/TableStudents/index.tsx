@@ -11,6 +11,7 @@ import { formatDate } from '../../../../../utils/date';
 import { NoDataGrid } from '../../../../NoDataGrid';
 import './style.scss';
 import { MessageOutlined, RollbackOutlined } from '@ant-design/icons';
+import { getDomain } from '../../../../../utils';
 
 enum SEARCH_FIELD {
     NAME = 'NAME',
@@ -148,7 +149,7 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
                 maxWidth: 50,
                 onCellClicked: (params: CellClickedEvent) => {
                     // todo: id
-                    window.open(`${process.env.REACT_APP_HOST}:3000/messenger/${params.data.name}`)
+                    window.open(`${getDomain()}:${window.location.port}/messenger/${params.data.name}`)
                 }
             },
             {

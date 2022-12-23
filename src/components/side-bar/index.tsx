@@ -3,8 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { USER } from "../../global/enum";
 import { useGetUser } from "../../utils/Hook";
-import { UserAction } from "../../redux-saga/user/action";
-import { USER_LOGOUT_CLEAR } from "../../redux-saga/user/reducer";
 import { ReactComponent as Ellipse1 } from "../../assets/svg/Ellipse1.svg";
 import { ReactComponent as Vector1 } from "../../assets/svg/Vector1.svg";
 import { ReactComponent as Polygon1 } from "../../assets/svg/Polygon1.svg";
@@ -19,6 +17,7 @@ import { ReactComponent as User } from "../../assets/svg/User.svg";
 import { ReactComponent as Leave } from "../../assets/svg/Leave.svg";
 import { Users } from "../../assets/img";
 import "./style.scss";
+import { CLEAR_ALL_REDUCERS } from "../../redux-saga/reducer/reducer";
 
 interface NavigationBar {
   icon: React.ReactElement;
@@ -135,6 +134,20 @@ const navigationForAdmin: Array<NavigationBar> = [
   },
 ];
 
+const navBottom = [
+  {
+    icon: <User className="icon-cpn" />,
+    title: "Tài khoản",
+    key: Page.ACCOUNT,
+    route: "my-profile",
+  },
+  {
+    icon: <Leave className="icon-cpn" />,
+    title: "Đăng xuất",
+    key: Page.LOGOUT,
+    route: "/account/login",
+  },
+]
 export const SideBar = () => {
   const [currentPage, setCurrentPage] = useState<string>(Page.HOME_PAGE);
   const navigate = useNavigate();
@@ -151,11 +164,9 @@ export const SideBar = () => {
   };
   const userLogout = () => {
     localStorage.removeItem("access_token");
-    dispatch(
-      UserAction({
-        type: USER_LOGOUT_CLEAR,
-      })
-    );
+    dispatch({
+      type: CLEAR_ALL_REDUCERS
+    })
   };
   return (
     <div className="side-bar">
@@ -233,7 +244,7 @@ export const SideBar = () => {
       <div className="navigation-bar">
         <div className="part-bottom">
           <div className="bottom">
-            {navigation.slice(5, navigation.length).map((item) => {
+            {navBottom.map((item) => {
               return (
                 <div
                   className={`nav-item ${currentPage === item.route ? "actived" : null

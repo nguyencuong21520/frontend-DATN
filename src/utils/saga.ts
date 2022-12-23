@@ -7,9 +7,13 @@ import { Obj } from "../global/interface";
 const getConfigQuery = (config?: Obj | string | undefined) => {
   return (config as Obj) || {};
 };
-const getData = (uri?: string, passParameters?: Obj | string | undefined) => {
+const getData = (
+  uri?: string,
+  data?: Obj,
+  passParameters?: Obj | string | undefined
+) => {
   // call api
-  const response = httpClient.get(uri as string).then(
+  const response = httpClient.get(uri as string, data).then(
     (response) => {
       return response;
     },
@@ -43,6 +47,7 @@ const putData = async (
   data?: Obj,
   passParameters?: Obj | string | undefined
 ) => {
+  console.log(data)
   const response = httpClient
     .put(uri as string, data, getConfigQuery(passParameters))
     .then(
@@ -68,7 +73,7 @@ export function* watchRequest(
     let response;
     switch (method) {
       case METHOD.GET:
-        response = yield call(getData, uri, passParameters);
+        response = yield call(getData, uri, bodyRequest, passParameters);
         break;
       case METHOD.POST:
         response = yield call(postData, uri, bodyRequest, passParameters);

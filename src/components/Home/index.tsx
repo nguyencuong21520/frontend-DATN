@@ -14,6 +14,7 @@ import { ReactComponent as TimeRange } from '../../assets/svg/TimeRange.svg';
 import { ReactComponent as LampThink } from '../../assets/svg/LampThink.svg';
 import { ReactComponent as FinalTest } from '../../assets/svg/FinalTest.svg';
 import './style.scss';
+import { getDomain } from '../../utils';
 
 interface DashBoard {
     key: string;
@@ -140,6 +141,7 @@ export const Home = () => {
     useEffect(() => {
         document.title = 'Trang chủ';
     }, [])
+    getDomain();
     return (
         <div className="container-home">
             <div className="top-home">

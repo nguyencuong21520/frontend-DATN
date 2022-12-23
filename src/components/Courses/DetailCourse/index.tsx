@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { TYPE_FILE } from "../../../global/enum";
 import { Obj } from "../../../global/interface";
 import { State } from "../../../redux-saga/reducer/reducer";
 import { getData } from "../../../utils/Hook";
 import { CourcesAction } from "../action";
 import { COURCES_REQUEST_GET_DATA } from "../reducer";
 import { Content } from "./InfoCourse/Content";
+import { ModalScorm } from "./InfoCourse/Content/DropDownCourse/ModalScorm";
 import { InfoCourse } from "./InfoCourse/Info";
 import { ContentInfoSource } from "./RightInfoCourse/Content";
 import { Info } from "./RightInfoCourse/Info/Info";
@@ -33,6 +35,10 @@ const ListContent = [
     },
 ];
 
+export interface ActiveLesson {
+    type: string;
+    src: string;
+}
 const DetailCourse = () => {
     const { id } = useParams();
     const [contentTab, setContentTab] = useState<ContentDetailCourse>(
@@ -43,6 +49,10 @@ const DetailCourse = () => {
     const detailCource = dataCources.find((item: Obj) => {
         return (item._id as string) === id;
     });
+    const [currentLesson, setCurrentLesson] = useState<ActiveLesson | null>(null);
+    const setActiveLesson = (data: ActiveLesson) => {
+        setCurrentLesson(data);
+    }
     const dispatch = useDispatch();
     useEffect(() => {
         if (!cources) {
@@ -52,7 +62,11 @@ const DetailCourse = () => {
                 })
             );
         }
+        return () => {
+            setCurrentLesson(null)
+        }
     }, []);
+
     const ComponentConent: Record<ContentDetailCourse, React.ReactElement> = {
         [ContentDetailCourse.INFO]: (
             <InfoCourse
@@ -61,11 +75,30 @@ const DetailCourse = () => {
                 comment={dataCources?.comment as Obj[] || []}
             />
         ),
-        [ContentDetailCourse.CONTENT]: <Content unit={detailCource} />,
+        [ContentDetailCourse.CONTENT]: <Content unit={detailCource} setCurrentLesson={setActiveLesson} />,
         [ContentDetailCourse.STUDIENT]: <>Học sinh</>,
     };
+    const [visibleModal, setVisibleModal] = useState<boolean>(false);
+    useEffect(() => {
+        if (currentLesson && currentLesson.type === TYPE_FILE.SCORM) {
+            setVisibleModal(true);
+        }
+        window.scrollTo({
+            behavior: "smooth",
+            top: 0
+        })
+    }, [currentLesson]);
+    useEffect(() => {
+        if (!visibleModal) {
+            if (detailCource) {
+                setCurrentLesson(null)
+            }
+        }
+    }, [visibleModal])
     return (
         <div className="container-detail-course">
+            {visibleModal && <ModalScorm visible={visibleModal} setVisible={(visible: boolean) => { setVisibleModal(visible) }} scr={currentLesson?.src as string} />}
+
             {!detailCource ? (
                 <div>Không có dữ liệu</div>
             ) : (
@@ -81,12 +114,23 @@ const DetailCourse = () => {
                         <div className="container-overview">
                             <div className="intro-overview">
                                 <div className="video-intro">
-                                    <video
-                                        className="video"
-                                        controls
-                                        width="100%"
-                                        src={(detailCource.videoThumbnail as string) || ""}
-                                    ></video>
+                                    {!currentLesson ? (
+                                        <video
+                                            className="video"
+                                            controls
+                                            width="100%"
+                                            src={(detailCource.videoThumbnail as string) || ""}
+                                        ></video>) : (
+                                        currentLesson.type === TYPE_FILE.VIDEO ? (
+                                            <video
+                                                className="video"
+                                                controls
+                                                width="100%"
+                                                src={(currentLesson.src as string) || ""}
+                                            ></video>
+                                        ) : (<h1>SCORM Pratice</h1>)
+                                    )}
+
                                 </div>
                                 <div className="overview">
                                     <h3>{(detailCource.nameCourse as string) || ""}</h3>
@@ -117,7 +161,7 @@ const DetailCourse = () => {
                     <div className="right-info-course">
                         {contentTab === ContentDetailCourse.INFO && <Info idCourse={id as string} statusEnroll={detailCource.enroll} />}
                         {contentTab === ContentDetailCourse.CONTENT && (
-                            <ContentInfoSource crrCourse={detailCource} />
+                            <ContentInfoSource crrCourse={detailCource} statusEnroll={detailCource.enroll} />
                         )}
                     </div>
                 </>

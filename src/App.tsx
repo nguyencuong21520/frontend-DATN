@@ -54,16 +54,20 @@ function App() {
               </Route>
             </>
           ) : (
-            <Route path="admin">
-              <Route path="" element={<Hello />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="messenger" element={<Messenger />} />
-              <Route path="collection">
-                <Route path="courses" element={<CollectionCourse navigate={navigate} />} />
-                <Route path="course/:id" element={<MangerDetailCourse />} />
-                <Route path="users" element={<CollectionUser />} />
+            <>
+              <Route path="admin">
+                <Route path="" element={<Hello />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="collection">
+                  <Route path="courses" element={<CollectionCourse navigate={navigate} />} />
+                  <Route path="course/:id" element={<MangerDetailCourse />} />
+                  <Route path="users" element={<CollectionUser />} />
+                </Route>
               </Route>
-            </Route>
+              <Route path="messenger">
+                <Route path=":id" element={<Messenger />} />
+              </Route>
+            </>
           )}
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="setting" element={<Setting />} />

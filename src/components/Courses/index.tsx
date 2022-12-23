@@ -259,7 +259,6 @@ export const Cources = () => {
             <div>Không có dữ liệu!</div>
           ) : (
             dataCources.map((item, index) => {
-              console.log(item.enroll)
               return (
                 <div
                   className={`item-course cell${index + 1}`}

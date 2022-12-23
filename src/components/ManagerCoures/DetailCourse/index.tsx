@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { Tabs } from 'antd';
 import { OverView } from './OverView';
 import { UnitCourse } from './UnitCourse';
@@ -11,10 +10,9 @@ interface MangerDetailCourseProps {
 }
 
 export const MangerDetailCourse = (props: MangerDetailCourseProps) => {
-    const { id } = useParams();
     const tabs = [
         { label: 'Tổng quan', key: '1', children: <OverView /> },
-        { label: 'Thông tin khóa', key: 'item-2', children:<UnitCourse/> },
+        { label: 'Thông tin khóa', key: 'item-2', children: <UnitCourse /> },
         { label: 'Yêu cầu vào lớp', key: 'item-3', children: <QueueClassCourse /> },
     ];
     return (

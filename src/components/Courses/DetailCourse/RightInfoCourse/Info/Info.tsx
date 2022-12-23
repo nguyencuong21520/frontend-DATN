@@ -59,7 +59,6 @@ export const Info = (props: Props) => {
       }
     }
     return () => {
-      setSpin(false);
       const payload: Action = {
         type: USER_ENROLL_CLEAR,
       }
