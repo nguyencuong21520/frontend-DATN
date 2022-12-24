@@ -7,5 +7,5 @@ export const getCrrToken = () => {
     return token;
 };
 export const getDomain = () => {
-    return document.URL.includes('localhost') ? process.env.REACT_APP_HOST : process.env.REACT_APP_DOMAIN
+    return document.URL.includes('localhost') ? (process.env.REACT_APP_HOST + ':' + window.location.port) : process.env.REACT_APP_DOMAIN
 }

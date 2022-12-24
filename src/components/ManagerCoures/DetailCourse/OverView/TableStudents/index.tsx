@@ -149,7 +149,7 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
                 maxWidth: 50,
                 onCellClicked: (params: CellClickedEvent) => {
                     // todo: id
-                    window.open(`${getDomain()}:${window.location.port}/messenger/${params.data.name}`)
+                    window.open(`${getDomain()}/messenger/${params.data.name}`)
                 }
             },
             {

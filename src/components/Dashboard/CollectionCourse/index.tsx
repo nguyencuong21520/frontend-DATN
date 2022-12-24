@@ -4,10 +4,13 @@ import { AgGridReact } from 'ag-grid-react';
 import { EyeOutlined } from '@ant-design/icons';
 import { Button, Input, Select, RadioChangeEvent, Radio } from 'antd';
 import { connect } from 'react-redux';
-import { Obj } from '../../../global/interface';
+import { Action, Obj } from '../../../global/interface';
 import { State } from '../../../redux-saga/reducer/reducer';
 import { NoDataGrid } from '../../NoDataGrid';
 import { ReactComponent as Filters } from "../../../assets/svg/Filters.svg";
+import { CourcesAction } from '../../Courses/action';
+import { COURCES_REQUEST_GET_DATA } from '../../Courses/reducer';
+import { getData } from '../../../utils/Hook';
 import './style.scss';
 
 enum SORT_BY {
@@ -21,6 +24,8 @@ interface CollectionCourseProps {
     navigate(path: string, options?: {
         replace?: boolean;
     }): void;
+    courses: null | Obj;
+    CourcesAction(payload: Action): void;
 }
 interface CollectionCourseStates {
     fieldSearch?: string;
@@ -59,197 +64,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
     constructor(props: CollectionCourseProps) {
         super(props);
         this.gridRef = React.createRef();
-        this.rowData = [
-            {
-                no: 1,
-                id: 'EXCELBA20001111',
-                nameCourse: 'Exel',
-                major: 'EXCEL',
-                author: 'Ths. Nguyễn Văn Cường',
-                studentenroll: 20,
-                studentPending: 5
-            },
-            {
-                no: 2,
-                id: 'EXCELBA20001111',
-                nameCourse: 'Exel Av',
-                major: 'EXCEL',
-                author: 'Ths. Nguyễn Văn Cường',
-                studentenroll: 20,
-                studentPending: 5
-            },
-            {
-                no: 3,
-                id: 'EXCELBA20001111',
-                nameCourse: 'Exel cơ bản',
-                major: 'EXCEL',
-                author: 'Ths. Nguyễn Văn Cường',
-                studentenroll: 20,
-                studentPending: 5
-            },
-            {
-                no: 4,
-                id: 'EXCELBA20001111',
-                nameCourse: 'Exel cơ bản',
-                major: 'EXCEL',
-                author: 'Ths. Nguyễn Văn Cường',
-                studentenroll: 20,
-                studentPending: 5
-            },
-            {
-                no: 5,
-                id: 'Powerpoint Hub',
-                nameCourse: 'PP cơ bản',
-                major: 'POWERPOINT',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 6,
-                id: 'Word Pro',
-                major: 'WORD',
-                nameCourse: 'Word cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 7,
-                id: 'Powerpoint Hub',
-                nameCourse: 'PP cơ bản',
-                major: 'POWERPOINT',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                nameCourse: 'PP cơ bản',
-                major: 'POWERPOINT',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                nameCourse: 'PP cơ bản',
-                major: 'POWERPOINT',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                nameCourse: 'PP cơ bản',
-                major: 'POWERPOINT',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                major: 'POWERPOINT',
-                id: 'Powerpoint Hub',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-            {
-                no: 8,
-                id: 'Powerpoint Hub',
-                major: 'POWERPOINT',
-                nameCourse: 'PP cơ bản',
-                author: 'Ths. Trần Đăng Khoa',
-                studentenroll: 16,
-                studentPending: 1
-            },
-        ];
+        this.rowData = this.mapDataColumnDefs(getData(this.props.courses)) || [];
         this.columnDefs = [
             {
                 field: 'no',
@@ -259,7 +74,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                 width: 20
             },
             {
-                field: 'id',
+                field: '_id',
                 headerName: 'Id',
                 cellClass: 'cell',
                 resizable: false,
@@ -298,7 +113,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                     return <EyeOutlined />
                 },
                 onCellClicked: (params: CellClickedEvent) => {
-                    this.props.navigate(`/admin/collection/course/${params.data.id}`, { replace: true })
+                    this.props.navigate(`/admin/collection/course/${params.data._id}`, { replace: true })
                 },
                 maxWidth: 50
             }
@@ -311,6 +126,13 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
     shouldComponentUpdate(nextProps: CollectionCourseProps, nextState: CollectionCourseStates): boolean {
         if (this.state.sortBy !== nextState.sortBy) {
             return true;
+        }
+        if (this.props.courses !== nextProps.courses && nextProps.courses) {
+            this.rowData = this.mapDataColumnDefs(getData(nextProps.courses)) || [];
+            if (!nextProps.courses.pending) {
+                this.gridRef.current?.api.hideOverlay();
+                this.gridRef.current?.api.setRowData(this.rowData);
+            }
         }
         return false;
     }
@@ -331,6 +153,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                 this.filterData = [];
                 break;
         }
+
         if (this.filterData.length !== 0) {
             this.gridRef.current?.api.setRowData(this.filterData);
         } else {
@@ -344,6 +167,31 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
         (btnPagina[1] as HTMLElement).innerHTML = ' &#171; ';
         (btnPagina[2] as HTMLElement).innerHTML = ' &#187; ';
         (btnPagina[3] as HTMLElement).innerHTML = '';
+        this.queryDataCourse();
+    }
+    queryDataCourse = () => {
+        if (!this.props.courses) {
+            this.gridRef.current?.api.showLoadingOverlay();
+            this.props.CourcesAction({
+                type: COURCES_REQUEST_GET_DATA
+            })
+        } else {
+            this.rowData = this.mapDataColumnDefs(getData(this.props.courses)) || [];
+            this.gridRef.current?.api.setRowData(this.rowData);
+        }
+    }
+    mapDataColumnDefs = (data: Obj[]) => {
+        return data?.map((item, idx) => {
+            console.log(item)
+            return {
+                no: idx + 1,
+                _id: item._id,
+                nameCourse: item.nameCourse,
+                author: item.author.username,
+                studentenroll: item.studentEnroll as Record<string, unknown>[] || [],
+
+            }
+        })
     }
     render() {
         return (
@@ -389,7 +237,6 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                         onGridReady={this.onGridReady}
                         headerHeight={32}
                         columnDefs={this.columnDefs}
-                        rowData={this.rowData}
                         defaultColDef={{ resizable: true }}
                         suppressDragLeaveHidesColumns={true}
                         onViewportChanged={() => {
@@ -408,8 +255,12 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
     }
 }
 
-const mapStateToProps = (state: State) => ({})
+const mapStateToProps = (state: State) => ({
+    courses: state.Cources
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    CourcesAction
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionCourse)

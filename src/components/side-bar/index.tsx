@@ -94,18 +94,6 @@ const navigationForTeacher: Array<NavigationBar> = [
     key: Page.MESS,
     route: "messenger",
   },
-  {
-    icon: <Settings className="icon-cpn" />,
-    title: "Cài đặt",
-    key: Page.SETTING,
-    route: "setting",
-  },
-  {
-    icon: <Leave className="icon-cpn" />,
-    title: "Đăng xuất",
-    key: Page.LOGOUT,
-    route: "/account/login",
-  },
 ];
 const navigationForAdmin: Array<NavigationBar> = [
   {
