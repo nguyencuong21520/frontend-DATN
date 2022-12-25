@@ -24,6 +24,7 @@ import { Dashboard } from "./components/Dashboard";
 import CollectionCourse from "./components/Dashboard/CollectionCourse";
 import CollectionUser from "./components/Dashboard/CollectionUser";
 import "./App.scss";
+import { CreateaCourse } from "./components/CreateCourse";
 
 function App() {
   const currentUser = useGetUser();
@@ -52,6 +53,9 @@ function App() {
                 <Route path="courses" element={<MangerCourses />} />
                 <Route path=":id" element={<MangerDetailCourse />} />
               </Route>
+              <Route path="create">
+                <Route path="course" element={<CreateaCourse />}></Route>
+              </Route>
             </>
           ) : (
             <>
@@ -62,6 +66,9 @@ function App() {
                   <Route path="courses" element={<CollectionCourse navigate={navigate} />} />
                   <Route path="course/:id" element={<MangerDetailCourse />} />
                   <Route path="users" element={<CollectionUser />} />
+                </Route>
+                <Route path="create">
+                  <Route path="course" element={<CreateaCourse />}></Route>
                 </Route>
               </Route>
               <Route path="messenger">

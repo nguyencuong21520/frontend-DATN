@@ -28,11 +28,11 @@ export const ContentInfoSource = (props: ContentInfoSourceProps) => {
         });
         dispatch(CourcesAction({
             type: MASK_DONE_COURSE_QUERY,
-            // payload: {
-            //     body: {
-            //         lessonId: _idLesson
-            //     }
-            // }
+            payload: {
+                body: {
+                    lessonId: _idLesson
+                }
+            }
         }))
     }
     console.log(dataDetailCourse)

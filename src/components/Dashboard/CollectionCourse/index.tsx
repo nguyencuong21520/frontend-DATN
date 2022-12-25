@@ -12,6 +12,7 @@ import { CourcesAction } from '../../Courses/action';
 import { COURCES_REQUEST_GET_DATA } from '../../Courses/reducer';
 import { getData } from '../../../utils/Hook';
 import './style.scss';
+import { Link } from 'react-router-dom';
 
 enum SORT_BY {
     LATEST = 'LASTEST',
@@ -230,6 +231,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                             <Button>Đặt lại</Button>
                         </div>
                     </div>
+                    <Link to="/admin/create/course" replace><Button className="add-course-bnt">Tạo khoá học</Button></Link>
                 </div>
                 <div className="table">
                     <AgGridReact
