@@ -25,10 +25,14 @@ import CollectionCourse from "./components/Dashboard/CollectionCourse";
 import CollectionUser from "./components/Dashboard/CollectionUser";
 import "./App.scss";
 import { CreateaCourse } from "./components/CreateCourse";
+import { useSelector } from "react-redux";
+import { State } from "./redux-saga/reducer/reducer";
 
 function App() {
   const currentUser = useGetUser();
   const navigate = useNavigate();
+  const vlRole = useSelector((state:State)=>state.RoleViewAppVLReducer);
+  console.log(vlRole)
   return (
     <Routes>
       <Route path='/' element={<AuthProtect><Layout /></AuthProtect>}>

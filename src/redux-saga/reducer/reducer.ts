@@ -2,7 +2,10 @@ import { AnyAction, combineReducers, Reducer } from "redux";
 import CourcesReducer, {
   OneCourceDetailReducer,
 } from "../../components/Courses/reducer";
-import { RoleViewAppReducer } from "../RoleViewApp/reducer";
+import {
+  RoleViewAppReducer,
+  RoleViewAppVLReducer,
+} from "../RoleViewApp/reducer";
 import {
   GetAllUserReducer,
   MaskDoneCourse,
@@ -12,7 +15,7 @@ import {
   UserSignUpReducer,
   UserUpdateInfoReducer,
 } from "../user/reducer";
-export const CLEAR_ALL_REDUCERS = 'CLEAR_ALL_REDUCERS';
+export const CLEAR_ALL_REDUCERS = "CLEAR_ALL_REDUCERS";
 const state = combineReducers({
   User: UserReducer,
   UserFetchInfoReducer: UserFetchInfoReducer,
@@ -23,7 +26,8 @@ const state = combineReducers({
   UserUpdateInfoReducer: UserUpdateInfoReducer,
   GetAllUserReducer: GetAllUserReducer,
   UserEnrollReducer: UserEnrollReducer,
-  MaskDoneCourse: MaskDoneCourse
+  MaskDoneCourse: MaskDoneCourse,
+  RoleViewAppVLReducer: RoleViewAppVLReducer,
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {
