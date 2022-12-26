@@ -1,5 +1,7 @@
 import { AnyAction, combineReducers, Reducer } from "redux";
 import CourcesReducer, {
+  CreateCourseReducer,
+  CreateUnitCourseReducer,
   OneCourceDetailReducer,
 } from "../../components/Courses/reducer";
 import {
@@ -27,6 +29,8 @@ const state = combineReducers({
   GetAllUserReducer: GetAllUserReducer,
   UserEnrollReducer: UserEnrollReducer,
   MaskDoneCourse: MaskDoneCourse,
+  CreateCourseReducer: CreateCourseReducer,
+  CreateUnitCourseReducer: CreateUnitCourseReducer
   RoleViewAppVLReducer: RoleViewAppVLReducer,
 });
 export type State = ReturnType<typeof state>;

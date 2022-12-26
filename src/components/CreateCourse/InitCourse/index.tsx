@@ -11,6 +11,8 @@ import { UserAction } from '../../../redux-saga/user/action';
 import { GET_ALL_USER_REQUEST } from '../../../redux-saga/user/reducer';
 import { getData } from '../../../utils/Hook';
 import { IMG_COURSE, USER, VideoThumbnail } from '../../../global/enum';
+import { CourcesAction } from '../../Courses/action';
+import { CREATE_COURSE_REQUEST } from '../../Courses/reducer';
 
 const optionsMajor = [
     {
@@ -40,11 +42,15 @@ const optionsLevel = [
         value: 'INTENSVIVE'
     },
 ]
-export const InitCourse = () => {
+interface Props {
+    children?: React.ReactElement;
+    setCrrStep(step: number): void;
+}
+export const InitCourse = (props: Props) => {
     const { handleSubmit, handleChange, handleBlur, handleReset, touched, errors, values } = useFormik({
         initialValues: {
             major: "Excel",
-            nameCource: "",
+            nameCourse: "",
             img: "",
             summaryCource: "",
             videoThumbnail: "",
@@ -53,7 +59,7 @@ export const InitCourse = () => {
         },
         validationSchema: validateYup.object().shape({
             major: validateYup.string().required("Chuyên môn không được thiếu"),
-            nameCource: validateYup.string().required("Bạn cần cung cấp tên khoá học"),
+            nameCourse: validateYup.string().required("Bạn cần cung cấp tên khoá học"),
             summaryCource: validateYup.string().required("Bạn cần cung cấp tổng quan khoá học"),
         }),
         onSubmit: (values) => {
@@ -62,13 +68,29 @@ export const InitCourse = () => {
                 img: values.major === "Excel" ? IMG_COURSE['EXCEL'] : (values.major === "Word" ? IMG_COURSE['WORD'] : IMG_COURSE['PP']),
                 videoThumbnail: values.major === "Excel" ? VideoThumbnail['EXCEL'] : (values.major === "Word" ? VideoThumbnail['WORD'] : VideoThumbnail['PP']),
             }
-            console.log(mapBody)
+            dispatch(CourcesAction({
+                type: CREATE_COURSE_REQUEST,
+                payload: {
+                    body: mapBody
+                }
+            }))
+            setSpin(true);
         },
     });
     const getDataUser = useSelector((state: State) => state.GetAllUserReducer);
     const [userTeacher, setUserTeacher] = useState<Array<Obj>>([]);
     const [pickTeacher, setPickTeacher] = useState<string>("");
+    const requestCreateCourse = useSelector((state: State) => state.CreateCourseReducer);
+
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (requestCreateCourse && !requestCreateCourse.pending) {
+            setSpin(false);
+            if ((requestCreateCourse.response as Obj)?.success) {
+                props.setCrrStep(1)
+            }
+        }
+    }, [requestCreateCourse]);
     useEffect(() => {
         if (!getDataUser) {
             dispatch(UserAction({
@@ -121,8 +143,8 @@ export const InitCourse = () => {
                 </div>
                 <div>
                     <span>Tên khoá học</span>
-                    <Input value={values.nameCource} name="nameCource" onChange={handleChange} onBlur={handleBlur} />
-                    <p className="error">{errors.nameCource && touched.nameCource && errors.nameCource}</p>
+                    <Input value={values.nameCourse} name="nameCourse" onChange={handleChange} onBlur={handleBlur} />
+                    <p className="error">{errors.nameCourse && touched.nameCourse && errors.nameCourse}</p>
                 </div>
                 <div>
                     <span>Mô tả khoá học</span>
@@ -143,7 +165,7 @@ export const InitCourse = () => {
                 </div>
                 <div>
                     <Button onClick={handleReset}>Đặt lại</Button>
-                    {!spin ? <Button htmlType="submit">Tạo</Button> : (<div style={{ textAlign: 'center' }}><Spin /></div>)}
+                    {!spin ? <Button htmlType="submit">Tạo</Button> : (<Spin className="spin-add" />)}
                 </div>
             </form >
         </div >
