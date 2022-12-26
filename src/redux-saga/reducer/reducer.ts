@@ -30,7 +30,7 @@ const state = combineReducers({
   UserEnrollReducer: UserEnrollReducer,
   MaskDoneCourse: MaskDoneCourse,
   CreateCourseReducer: CreateCourseReducer,
-  CreateUnitCourseReducer: CreateUnitCourseReducer
+  CreateUnitCourseReducer: CreateUnitCourseReducer,
   RoleViewAppVLReducer: RoleViewAppVLReducer,
 });
 export type State = ReturnType<typeof state>;
