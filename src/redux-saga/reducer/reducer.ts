@@ -4,7 +4,10 @@ import CourcesReducer, {
   CreateUnitCourseReducer,
   OneCourceDetailReducer,
 } from "../../components/Courses/reducer";
-import { RoleViewAppReducer } from "../RoleViewApp/reducer";
+import {
+  RoleViewAppReducer,
+  RoleViewAppVLReducer,
+} from "../RoleViewApp/reducer";
 import {
   GetAllUserReducer,
   MaskDoneCourse,
@@ -14,7 +17,7 @@ import {
   UserSignUpReducer,
   UserUpdateInfoReducer,
 } from "../user/reducer";
-export const CLEAR_ALL_REDUCERS = 'CLEAR_ALL_REDUCERS';
+export const CLEAR_ALL_REDUCERS = "CLEAR_ALL_REDUCERS";
 const state = combineReducers({
   User: UserReducer,
   UserFetchInfoReducer: UserFetchInfoReducer,
@@ -28,6 +31,7 @@ const state = combineReducers({
   MaskDoneCourse: MaskDoneCourse,
   CreateCourseReducer: CreateCourseReducer,
   CreateUnitCourseReducer: CreateUnitCourseReducer
+  RoleViewAppVLReducer: RoleViewAppVLReducer,
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

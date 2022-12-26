@@ -17,6 +17,7 @@ import { Lock } from "../../assets/img";
 import { UnLock } from "../../assets/img";
 import { WatingIcon } from "../../assets/img";
 import "./style.scss";
+import { getData } from "../../utils/Hook";
 
 const initFieldsFilter = {
   sortBy: "Popular",
@@ -56,8 +57,7 @@ export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
   const [spin, setSpin] = useState(true);
   const cources = useSelector((state: State) => state.Cources);
-  const dataCources =
-    ((cources?.response as Obj)?.response?.data as Record<string, unknown>[]) ||
+  const dataCources =getData(cources) ||
     [];
   const dispatchAction = useDispatch();
   const navigate = useNavigate();
@@ -258,7 +258,7 @@ export const Cources = () => {
           !spin && dataCources.length === 0 ? (
             <div>Không có dữ liệu!</div>
           ) : (
-            dataCources.map((item, index) => {
+            dataCources.map((item:Obj, index:number) => {
               return (
                 <div
                   className={`item-course cell${index + 1}`}
