@@ -12,6 +12,7 @@ interface Props {
 
 export const CreateaCourse = (props: Props) => {
     const [crrStep, setCrrStep] = useState<number>(0);
+
     return (
         <div className="contaienr-create-course">
             <div className="header-step">
@@ -20,13 +21,13 @@ export const CreateaCourse = (props: Props) => {
                     current={crrStep}
                 >
                     <Step title="Khởi tạo" />
-                    <Step title="Thêm nội dung" />
+                    <Step title="Thêm học phần" />
                     <Step title="Thêm bài học" />
                 </Steps>
             </div>
             <div className="container-main">
                 {
-                    crrStep === 0 ? (<InitCourse />) : (crrStep === 1 ? (<AddUnit />) : (<AddLesson />))
+                    crrStep === 0 ? (<InitCourse setCrrStep={(step: number) => { setCrrStep(step) }} />) : (crrStep === 1 ? (<AddUnit setCrrStep={(step: number) => { setCrrStep(step) }} />) : (<AddLesson setCrrStep={(step: number) => { setCrrStep(step) }} />))
                 }
             </div>
         </div>

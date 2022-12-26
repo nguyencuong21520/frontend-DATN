@@ -1,5 +1,5 @@
 import { all } from "redux-saga/effects";
-import queryDataCources, { queryGetOneCourseDetail } from "../course/saga";
+import queryDataCources, { queryCreateCourseRequest, querycreateLessonUnitRequest, queryCreateUnitCourseRequest, queryGetOneCourseDetail } from "../course/saga";
 import {
   queryDataUser,
   queryGetAllUser,
@@ -20,6 +20,9 @@ export function* rootSaga() {
     queryGetAllUser(),
     queryUserEnrollCourse(),
     queryGetOneCourseDetail(),
-    queryMaskDoneCourse()
+    queryMaskDoneCourse(),
+    queryCreateCourseRequest(),
+    queryCreateUnitCourseRequest(),
+    querycreateLessonUnitRequest()
   ]);
 }

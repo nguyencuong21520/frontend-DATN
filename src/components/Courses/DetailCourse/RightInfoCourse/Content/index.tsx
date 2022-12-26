@@ -35,7 +35,6 @@ export const ContentInfoSource = (props: ContentInfoSourceProps) => {
             }
         }))
     }
-    console.log(dataDetailCourse)
     useEffect(() => {
         if (!dataDetailCourse) {
             dispatch(CourcesAction({
