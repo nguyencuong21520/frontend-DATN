@@ -9,7 +9,7 @@ import { Button, message, Upload } from 'antd';
 import { Obj } from '../../../global/interface';
 import { useDispatch } from 'react-redux';
 import { CourcesAction } from '../../Courses/action';
-import { CREATE_LESSON_UNIT_REQUEST } from '../../Courses/reducer';
+import { CREATE_COURSE_CLEAR, CREATE_LESSON_UNIT_CLEAR, CREATE_LESSON_UNIT_REQUEST, CREATE_UNIT_COURSE_CLEAR } from '../../Courses/reducer';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux-saga/reducer/reducer';
 import { Toaster } from '../../../utils/ToastMess';
@@ -34,7 +34,7 @@ export const AddLesson = (props: Props) => {
     });
     const dispatch = useDispatch();
     const createUnit = useSelector((state: State) => state.CreateUnitCourseReducer);
-    const createLesson = useSelector((state: State) => state.CreateUnitCourseReducer);
+    const createLesson = useSelector((state: State) => state.CreateLessonUnitReducer);
     const handleCreateLesson = () => {
         const bodyData = {
             ...values,
@@ -65,18 +65,29 @@ export const AddLesson = (props: Props) => {
                 setSourceFile((info.fileList[0].response.response as Obj)?.message.index)
             }
             if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
+                message.success(`Tải lên thành công!`);
             } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
+                message.error(`Tải lên thất bại!`);
             }
         },
     };
-    console.log(createLesson)
     useEffect(() => {
         if (createLesson) {
             if (!createLesson.pending) {
                 if ((createLesson?.response as Obj)?.success) {
                     Toaster.Success('Thêm khoá học thành công!');
+                    dispatch(CourcesAction({
+                        type: CREATE_COURSE_CLEAR
+                    }))
+                    dispatch(CourcesAction({
+                        type: CREATE_COURSE_CLEAR
+                    }))
+                    dispatch(CourcesAction({
+                        type: CREATE_UNIT_COURSE_CLEAR
+                    }))
+                    dispatch(CourcesAction({
+                        type: CREATE_LESSON_UNIT_CLEAR
+                    }))
                 } else {
                     Toaster.Error('Thêm khoá học thất bại!');
                 }
