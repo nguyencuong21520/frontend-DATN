@@ -80,9 +80,6 @@ export const AddLesson = (props: Props) => {
                         type: CREATE_COURSE_CLEAR
                     }))
                     dispatch(CourcesAction({
-                        type: CREATE_COURSE_CLEAR
-                    }))
-                    dispatch(CourcesAction({
                         type: CREATE_UNIT_COURSE_CLEAR
                     }))
                     dispatch(CourcesAction({
