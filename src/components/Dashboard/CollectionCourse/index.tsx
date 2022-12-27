@@ -160,7 +160,6 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
         } else {
             this.gridRef.current?.api.setRowData(this.rowData);
         }
-        console.log(this.filterData)
     };
     onGridReady = () => {
         const btnPagina = document.querySelectorAll('div.container-collection-course-admin div.table div.ag-paging-button');
@@ -183,14 +182,12 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
     }
     mapDataColumnDefs = (data: Obj[]) => {
         return data?.map((item, idx) => {
-            console.log(item)
             return {
                 no: idx + 1,
                 _id: item._id,
                 nameCourse: item.nameCourse,
                 author: item.author.username,
                 studentenroll: item.studentEnroll as Record<string, unknown>[] || [],
-
             }
         })
     }

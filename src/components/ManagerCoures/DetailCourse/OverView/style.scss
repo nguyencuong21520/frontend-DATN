@@ -1,52 +1,56 @@
 .container-overview {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding-bottom: 10px;
+  flex-direction: column;
+  gap: 2px;
+
+  .part-info {
+    flex: 1;
     display: flex;
-    padding-bottom: 10px;
-    flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    gap: 15px;
+    .left {
+      img {
+        width: 220px;
+        height: 160px;
+      }
+    }
+  }
 
-    .part-info {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 15px;
+  .list-student {
+    flex: 1;
+
+    .ag-root-wrapper.ag-ltr {
+      .text-right {
+        text-align: right;
+      }
     }
 
+    .text {
+      margin: 0;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
 
+      u {
+        cursor: pointer;
+        transition: 0.5s;
 
-    .list-student {
-        flex: 1;
-
-        .ag-root-wrapper.ag-ltr {
-            .text-right {
-                text-align: right;
-            }
+        &:hover {
+          color: rgb(97, 151, 245);
         }
-
-        .text {
-            margin: 0;
-            margin-bottom: 5px;
-            display: flex;
-            justify-content: space-between;
-
-            u {
-                cursor: pointer;
-                transition: 0.5s;
-
-                &:hover {
-                    color: rgb(97, 151, 245);
-                }
-            }
-        }
+      }
     }
+  }
 }
 
 .detail-students-table-teacher {
-    min-width: 60vw;
-    min-height: 80vh;
+  min-width: 60vw;
+  min-height: 80vh;
 
-    .ant-modal-body {
-        height: 60vh;
-    }
+  .ant-modal-body {
+    height: 60vh;
+  }
 }

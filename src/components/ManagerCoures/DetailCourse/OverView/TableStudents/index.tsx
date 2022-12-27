@@ -3,15 +3,16 @@ import { AgGridReact } from 'ag-grid-react';
 import { connect } from 'react-redux';
 import { Input, Popconfirm } from 'antd';
 import type { RadioChangeEvent } from 'antd';
+import { MessageOutlined, RollbackOutlined } from '@ant-design/icons';
 import { Radio, DatePickerProps, DatePicker } from 'antd';
 import { CellClickedEvent, ColDef, ColGroupDef, ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+import { Obj } from '../../../../../global/interface';
+import { getDomain } from '../../../../../utils';
 import { State } from '../../../../../redux-saga/reducer/reducer';
 import { FORMAT_DATE } from '../../../../../global/enum';
 import { formatDate } from '../../../../../utils/date';
 import { NoDataGrid } from '../../../../NoDataGrid';
 import './style.scss';
-import { MessageOutlined, RollbackOutlined } from '@ant-design/icons';
-import { getDomain } from '../../../../../utils';
 
 enum SEARCH_FIELD {
     NAME = 'NAME',
@@ -21,104 +22,12 @@ enum SEARCH_FIELD {
 }
 interface TableStudentsProps {
     onDetail?: boolean
+    listStudent: Obj[]
 }
 interface TableStudentsStates {
     field: SEARCH_FIELD;
     value: string | Date;
 }
-const initData = [
-    {
-        no: 1,
-        name: 'Trần Đăng Khoa',
-        email: 'k@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 2,
-        name: 'Nguyễn Văn Cường',
-        email: 'kcuon@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 3,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-    {
-        no: 4,
-        name: 'Nguyễn Văn Cường',
-        email: 'cường@gmail.com',
-        phone: '035882112',
-        dateEnRoll: new Date()
-    },
-]
 class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
     private gridRef: RefObject<AgGridReact>;
     private columnDefs: ColDef[] | ColGroupDef[];
@@ -190,7 +99,7 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
                     return (
                         <Popconfirm title={`Xóa ${params.data.name} khỏi lớp?`} okText="Đồng ý" cancelText="Hủy" onConfirm={() => {
                             // todo: id
-                            this.onConfirmRemoveStudent(params.data.name);
+                            this.onConfirmRemoveStudent(params.data.id);
                         }}>
                             <RollbackOutlined className="roll-back" />
                         </Popconfirm>
@@ -199,7 +108,8 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
                 maxWidth: 50
             }
         ]
-        this.rowData = initData
+        this.rowData = [];
+        this.handleData(this.props.listStudent);
     }
     onChange = (e: RadioChangeEvent) => {
         this.setState({
@@ -208,6 +118,20 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
         })
         this.searchField(e.target.value, this.state.value);
     };
+    handleData = (data: Obj[]) => {
+        const hi = data.map((item: Obj, idx: number) => {
+            return {
+                no: idx + 1,
+                id: item.user._id,
+                name: item.user.username,
+                email: item.user.email,
+                phone: item.user.phone,
+                dateEnRoll: new Date(item.time),
+                access: item.access
+            }
+        })
+        this.rowData = hi.filter((item: Obj) => item.access === true);
+    }
     onConfirmRemoveStudent = (idStudent: string) => {
         console.log('id student:', idStudent);
     }
@@ -232,29 +156,30 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
     }
     searchField = (field: SEARCH_FIELD, value: string | Date) => {
         let data;
+        this.handleData(this.props.listStudent);
         switch (field) {
             case SEARCH_FIELD.NAME:
-                data = initData.filter((item) => {
+                data = this.rowData.filter((item) => {
                     return (item.name as string).toLowerCase().includes(value.toString().toLowerCase());
                 });
                 break;
             case SEARCH_FIELD.EMAIL:
-                data = initData.filter((item) => {
+                data = this.rowData.filter((item) => {
                     return (item.email as string).toLowerCase().includes(value.toString().toLowerCase());
                 });
                 break;
             case SEARCH_FIELD.SDT:
-                data = initData.filter((item) => {
+                data = this.rowData.filter((item) => {
                     return (item.phone as string).toLowerCase().includes(value.toString().toLowerCase());
                 });
                 break;
             case SEARCH_FIELD.DATE:
-                data = initData.filter((item) => {
+                data = this.rowData.filter((item) => {
                     return item.dateEnRoll === value;
                 });
                 break;
             default:
-                data = initData.filter((item) => {
+                data = this.rowData.filter((item) => {
                     return (item.name as string).toLowerCase().includes((value.toString()).toLowerCase());
                 });
                 break;
@@ -266,16 +191,17 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
             this.gridRef.current?.api.setRowData(this.rowData);
         }
         if (value.toString().trim() === '') {
-            this.rowData = initData;
+            this.handleData(this.props.listStudent);
             this.gridRef.current?.api.setRowData(this.rowData);
         }
     }
     onChangeDate: DatePickerProps['onChange'] = (_, dateString) => {
         if (dateString.trim() === '') {
-            this.rowData = initData;
+            this.handleData(this.props.listStudent);
             this.gridRef.current?.api.setRowData(this.rowData);
         } else {
-            this.rowData = initData.filter((item) => {
+            this.handleData(this.props.listStudent);
+            this.rowData = this.rowData.filter((item: Obj) => {
                 return formatDate(item.dateEnRoll, FORMAT_DATE.YMD) === dateString;
             })
             this.gridRef.current?.api.setRowData(this.rowData);
