@@ -119,7 +119,7 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
         this.searchField(e.target.value, this.state.value);
     };
     handleData = (data: Obj[]) => {
-        const hi = data.map((item: Obj, idx: number) => {
+        const hi = data?.map((item: Obj, idx: number) => {
             return {
                 no: idx + 1,
                 id: item.user._id,
