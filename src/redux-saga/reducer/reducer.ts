@@ -10,6 +10,7 @@ import {
   RoleViewAppVLReducer,
 } from "../RoleViewApp/reducer";
 import {
+  AddStudentEnrollReducer,
   GetAllUserReducer,
   MaskDoneCourse,
   UserEnrollReducer,
@@ -33,7 +34,8 @@ const state = combineReducers({
   CreateCourseReducer: CreateCourseReducer,
   CreateUnitCourseReducer: CreateUnitCourseReducer,
   RoleViewAppVLReducer: RoleViewAppVLReducer,
-  CreateLessonUnitReducer: CreateLessonUnitReducer
+  CreateLessonUnitReducer: CreateLessonUnitReducer,
+  AddStudentEnrollReducer: AddStudentEnrollReducer
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

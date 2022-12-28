@@ -9,18 +9,28 @@ import { State } from '../../../../redux-saga/reducer/reducer';
 import { NoDataGrid } from '../../../NoDataGrid';
 import './style.scss';
 import { Popconfirm } from 'antd';
+import { Action, Obj } from '../../../../global/interface';
+import { getData } from '../../../../utils/Hook';
+import { UserAction } from '../../../Login/action';
+import { ADD_STUDENT_ENROLL_CLEAR, ADD_STUDENT_ENROLL_REQUEST } from '../../../../redux-saga/user/reducer';
+import { Toaster } from '../../../../utils/ToastMess';
 
 enum HandleRequest {
     ACCEPT = 'ACCEPT',
     DECLINE = 'DECLINE'
 }
 interface QueueClassCourseProps {
-
+    detailCourse: Obj | null;
+    addStudentEnroll: Obj | null;
+    idCourse: string;
+    UserAction(payload: Action): void;
 }
 class QueueClassCourse extends Component<QueueClassCourseProps> {
     private gridRef: RefObject<AgGridReact>;
     private columnDefs: ColDef[] | ColGroupDef[];
     private rowData: Record<string, unknown>[];
+    private studentWating: Record<string, unknown>[];
+    private query: boolean = false;
     constructor(props: QueueClassCourseProps) {
         super(props);
         this.gridRef = React.createRef();
@@ -65,7 +75,7 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
                 cellRenderer: (params: ValueGetterParams) => {
                     return <Popconfirm title={`Từ chối ${params.data.name}?`} okText="Đồng ý" cancelText="Hủy" onConfirm={() => {
                         // todo: id
-                        this.onHandleRequest(params.data.name, HandleRequest.DECLINE);
+                        this.onHandleRequest(params.data._id, HandleRequest.DECLINE);
                     }}>
                         <MinusCircleOutlined className="red" />
                     </Popconfirm>
@@ -79,228 +89,68 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
                 cellRenderer: (params: ValueGetterParams) => {
                     return <Popconfirm title={`Chấp nhận ${params.data.name} vào lớp?`} okText="Đồng ý" cancelText="Hủy" onConfirm={() => {
                         // todo: id
-                        this.onHandleRequest(params.data.name, HandleRequest.ACCEPT);
+                        this.onHandleRequest(params.data._id, HandleRequest.ACCEPT);
                     }}>
                         <PlusCircleOutlined className="blue" />
                     </Popconfirm>
                 },
             },
         ];
-        this.rowData = [
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-            {
-                no: 1,
-                name: 'Trịnh Thành Long',
-                email: 'long@gmail.yahoo.com',
-                phone: '0771223',
-                dateRequire: new Date()
-            },
-        ]
+        this.studentWating = ((getData(this.props.detailCourse)[0] as Obj)?.student?.listStudent as Record<string, unknown>[])?.filter((item: Obj) => {
+            return !item.access;
+        }) || [];
+        this.rowData = this.studentWating.map((item: Obj, idx: number) => {
+            return {
+                no: idx + 1,
+                _id: item.user._id,
+                name: item.user.username,
+                email: item.user.email,
+                phone: item.user.phone,
+                dateRequire: new Date(item.time)
+            }
+        })
+    }
+    shouldComponentUpdate(nextProps: Readonly<QueueClassCourseProps>): boolean {
+        if (nextProps.addStudentEnroll !== this.props.addStudentEnroll && nextProps.addStudentEnroll) {
+            if (!nextProps.addStudentEnroll.pending) {
+                if ((nextProps.addStudentEnroll.response as Obj)?.success) {
+                    if (nextProps.addStudentEnroll.type === ADD_STUDENT_ENROLL_REQUEST) {
+                        if (this.query) {
+                            Toaster.Success(`Chấp thuận thành công`);
+                            this.query = false;
+                        }
+                        this.props.UserAction({
+                            type: ADD_STUDENT_ENROLL_CLEAR
+                        })
+                    } else {
+                        Toaster.Success(`Từ chối thành công`);
+                    }
+                } else {
+                    Toaster.Error(`Yêu cầu thất bại!`);
+                }
+            }
+        }
+        return false;
     }
     onHandleRequest = (id: string, type: HandleRequest) => {
-
+        this.query = true;
+        switch (type) {
+            case HandleRequest.ACCEPT:
+                this.props.UserAction({
+                    type: ADD_STUDENT_ENROLL_REQUEST,
+                    payload: {
+                        params: {
+                            _idCourse: this.props.idCourse
+                        },
+                        body: {
+                            studentId: id
+                        }
+                    }
+                })
+                break;
+            case HandleRequest.DECLINE:
+                break;
+        }
     }
     onGridReady = () => {
         const btnPagina = document.querySelectorAll('.container-queue-class div.ag-paging-button');
@@ -336,8 +186,13 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
     }
 }
 
-const mapStateToProps = (state: State) => ({})
+const mapStateToProps = (state: State) => ({
+    detailCourse: state.OneCourceDetailReducer,
+    addStudentEnroll: state.AddStudentEnrollReducer
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    UserAction
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(QueueClassCourse)

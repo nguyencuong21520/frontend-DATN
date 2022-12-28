@@ -47,8 +47,7 @@ const putData = async (
   data?: Obj,
   passParameters?: Obj | string | undefined
 ) => {
-  console.log(data)
-  const response = httpClient
+  const response = await httpClient
     .put(uri as string, data, getConfigQuery(passParameters))
     .then(
       (response) => {

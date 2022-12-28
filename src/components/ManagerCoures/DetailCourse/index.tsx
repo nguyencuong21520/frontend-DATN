@@ -54,7 +54,7 @@ export const MangerDetailCourse = (props: MangerDetailCourseProps) => {
     const tabs = [
         { label: 'Tổng quan', key: '1', children: <OverView /> },
         { label: 'Thông tin khóa', key: 'item-2', children: <UnitCourse /> },
-        { label: 'Yêu cầu vào lớp', key: 'item-3', children: <QueueClassCourse /> },
+        { label: 'Yêu cầu vào lớp', key: 'item-3', children: <QueueClassCourse idCourse={id as string} /> },
     ];
     return (
         <div className="container-detail-course">

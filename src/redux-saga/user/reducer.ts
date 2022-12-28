@@ -27,6 +27,11 @@ export const MASK_DONE_COURSE_SUCCESS = "MASK_DONE_COURSE_SUCCESS";
 export const MASK_DONE_COURSE_FAILED = "MASK_DONE_COURSE_FAILED";
 export const MASK_DONE_COURSE_CLEAR = "MASK_DONE_COURSE_CLEAR";
 
+export const ADD_STUDENT_ENROLL_REQUEST = "ADD_STUDENT_ENROLL_REQUEST";
+export const ADD_STUDENT_ENROLL_SUCCESS = "ADD_STUDENT_ENROLL_SUCCESS";
+export const ADD_STUDENT_ENROLL_FAILED = "ADD_STUDENT_ENROLL_FAILED";
+export const ADD_STUDENT_ENROLL_CLEAR = "ADD_STUDENT_ENROLL_CLEAR";
+
 export const USER_FETCH_INFO_REQUEST = "USER_FETCH_INFO_REQUEST";
 // example APIs Redux-Saga
 const UserReducer = createReducer(
@@ -74,6 +79,13 @@ const MaskDoneCourse = createReducer(
   MASK_DONE_COURSE_CLEAR
 );
 
+const AddStudentEnrollReducer = createReducer(
+  ADD_STUDENT_ENROLL_REQUEST,
+  ADD_STUDENT_ENROLL_SUCCESS,
+  ADD_STUDENT_ENROLL_FAILED,
+  ADD_STUDENT_ENROLL_CLEAR
+);
+
 export {
   UserReducer,
   UserSignUpReducer,
@@ -81,5 +93,6 @@ export {
   UserFetchInfoReducer,
   GetAllUserReducer,
   UserEnrollReducer,
-  MaskDoneCourse
+  MaskDoneCourse,
+  AddStudentEnrollReducer
 };

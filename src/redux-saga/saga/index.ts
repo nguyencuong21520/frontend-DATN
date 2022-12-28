@@ -4,6 +4,7 @@ import {
   queryDataUser,
   queryGetAllUser,
   queryMaskDoneCourse,
+  queryStudentEnroll,
   queryUserEnrollCourse,
   queryUserFetchInfo,
   signUpUser,
@@ -23,6 +24,7 @@ export function* rootSaga() {
     queryMaskDoneCourse(),
     queryCreateCourseRequest(),
     queryCreateUnitCourseRequest(),
-    querycreateLessonUnitRequest()
+    querycreateLessonUnitRequest(),
+    queryStudentEnroll()
   ]);
 }

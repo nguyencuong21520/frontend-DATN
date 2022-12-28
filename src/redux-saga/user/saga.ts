@@ -20,6 +20,9 @@ import {
   MASK_DONE_COURSE_QUERY,
   MASK_DONE_COURSE_FAILED,
   MASK_DONE_COURSE_SUCCESS,
+  ADD_STUDENT_ENROLL_REQUEST,
+  ADD_STUDENT_ENROLL_SUCCESS,
+  ADD_STUDENT_ENROLL_FAILED,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -88,6 +91,16 @@ function* maskDoneSourse(payload: Obj) {
   );
 }
 
+function* addStudentEnroll(payload: Obj) {
+  yield watchRequest(
+    `/api/course/accept/${payload.payload.payload.params._idCourse}`,
+    METHOD.PUT,
+    ADD_STUDENT_ENROLL_SUCCESS,
+    ADD_STUDENT_ENROLL_FAILED,
+    payload.payload.payload.body
+  );
+}
+
 export function* queryDataUser() {
   yield all([takeLatest(USER_REQUEST_LOGIN_API, userLogin)]);
 }
@@ -109,4 +122,7 @@ export function* queryUserEnrollCourse() {
 }
 export function* queryMaskDoneCourse() {
   yield all([takeLatest(MASK_DONE_COURSE_QUERY, maskDoneSourse)]);
+}
+export function* queryStudentEnroll() {
+  yield all([takeLatest(ADD_STUDENT_ENROLL_REQUEST, addStudentEnroll)]);
 }
