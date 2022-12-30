@@ -20,6 +20,7 @@ export const ContentInfoSource = (props: ContentInfoSourceProps) => {
     const crrDetail = getData(dataDetailCourse);
     const [spin, setSpin] = useState<boolean>(true);
     const [crrMask, setCrrMask] = useState<Array<string>>([]);
+    const [reviewUnit, setReviewUnit] = useState([]);
 
     const handleMaskDone = (_idLesson: string) => {
         setCrrMask((prev) => {
@@ -50,12 +51,19 @@ export const ContentInfoSource = (props: ContentInfoSourceProps) => {
             if (!dataDetailCourse.pending) {
                 setSpin(false)
             }
+            if (crrDetail.length > 0) {
+                if ((crrDetail[0] as Obj)?.enroll === 'waiting' || !(crrDetail[0] as Obj)?.enroll) {
+                    setReviewUnit((crrDetail[0] as Obj)?.previewUnit)
+                } else {
+                    setReviewUnit((crrDetail[0] as Obj)?.unit)
+                }
+            }
         }
     }, [dataDetailCourse])
     return (
         <div className="container-content-info-course">
             <h3>Tổng quan</h3>
-            {!crrDetail ? <Spin /> : !crrDetail.pending && (crrDetail.response as Obj)?.success ? <div>Chưa có dữ liệu</div> : ((crrDetail[0] as Obj)?.unit as Obj[])?.map((item: Obj) => {
+            {!crrDetail ? <Spin /> : !crrDetail.pending && (crrDetail.response as Obj)?.success ? <div>Chưa có dữ liệu</div> : reviewUnit.map((item: Obj) => {
                 return (
                     <div className="level-course" key={item._id as string}>
                         <span className="title">{item.unitName as string}</span>

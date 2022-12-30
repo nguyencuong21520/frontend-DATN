@@ -6,7 +6,7 @@ import { Obj } from "../../../global/interface";
 import { State } from "../../../redux-saga/reducer/reducer";
 import { getData } from "../../../utils/Hook";
 import { CourcesAction } from "../../../redux-saga/course/action";
-import { COURCES_REQUEST_GET_DATA } from "../../../redux-saga/course/reducer";
+import { COURCES_REQUEST_GET_DATA, GET_ONE_DETAIL_ONE_COURSE } from "../../../redux-saga/course/reducer";
 import { Content } from "./InfoCourse/Content";
 import { ModalScorm } from "./InfoCourse/Content/DropDownCourse/ModalScorm";
 import { InfoCourse } from "./InfoCourse/Info";
@@ -50,10 +50,20 @@ const DetailCourse = () => {
         return (item._id as string) === id;
     });
     const [currentLesson, setCurrentLesson] = useState<ActiveLesson | null>(null);
+    const dataDetailCourse = useSelector((state: State) => state.OneCourceDetailReducer);
+    const [statusQuery, setStatusQuery] = useState<boolean>(true);
+    const crrDetail = getData(dataDetailCourse) || [];
     const setActiveLesson = (data: ActiveLesson) => {
         setCurrentLesson(data);
     }
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (dataDetailCourse) {
+            if (!dataDetailCourse.pending) {
+                setStatusQuery(false);
+            }
+        }
+    }, [statusQuery, dataDetailCourse])
     useEffect(() => {
         if (!cources) {
             dispatch(
@@ -62,15 +72,24 @@ const DetailCourse = () => {
                 })
             );
         }
-
+        if (!dataDetailCourse) {
+            dispatch(CourcesAction({
+                type: GET_ONE_DETAIL_ONE_COURSE,
+                payload: {
+                    body: {
+                        _idCourse: id
+                    }
+                }
+            }))
+        }
     }, [cources, dispatch]);
-
     const ComponentConent: Record<ContentDetailCourse, React.ReactElement> = {
         [ContentDetailCourse.INFO]: (
             <InfoCourse
                 idCourse={id}
                 content={(detailCource?.summaryCourse as string) || ""}
-                comment={dataCources?.comment as Obj[] || []}
+                comment={(crrDetail[0] as Obj)?.comment as Obj[] || []}
+                statusQuery={statusQuery}
             />
         ),
         [ContentDetailCourse.CONTENT]: <Content unit={detailCource} setCurrentLesson={setActiveLesson} />,

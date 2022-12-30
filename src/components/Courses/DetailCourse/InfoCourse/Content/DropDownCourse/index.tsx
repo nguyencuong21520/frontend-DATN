@@ -23,7 +23,7 @@ export const DropdownCourse = (props: DropdownCourseDataProps) => {
             >
                 {props.dataUnit?.map((item, idx) => {
                     return (
-                        <Collapse.Panel header={<h3 className="title">Khoá {idx + 1} - {item.unitName}</h3>} key={item._id as string} className="site-collapse-custom-panel">
+                        <Collapse.Panel header={<h3 className="title">Chương {idx + 1} - {item.unitName}</h3>} key={item._id as string} className="site-collapse-custom-panel">
                             {item.lesson.map((unit: Obj, idx: number) => {
                                 return (
                                     <p className="summary-unit"
