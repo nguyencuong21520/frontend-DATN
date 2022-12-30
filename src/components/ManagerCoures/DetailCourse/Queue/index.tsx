@@ -101,16 +101,16 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
         this.studentWating = ((getData(this.props.detailCourse)[0] as Obj)?.student?.listStudent as Record<string, unknown>[])?.filter((item: Obj) => {
             return !item.access;
         }) || [];
-        this.rowData = this.studentWating.map((item: Obj, idx: number) => {
+        this.rowData = this.studentWating?.map((item: Obj, idx: number) => {
             return {
                 no: idx + 1,
-                _id: item.user._id,
-                name: item.user.username,
-                email: item.user.email,
-                phone: item.user.phone,
-                dateRequire: new Date(item.time)
+                _id: (item?.user as Obj)?._id,
+                name: (item?.user as Obj)?.username,
+                email: (item?.user as Obj)?.email,
+                phone: (item?.user as Obj)?.phone,
+                dateRequire: new Date((item as Obj)?.time)
             }
-        })
+        }) || [];
     }
     shouldComponentUpdate(nextProps: Readonly<QueueClassCourseProps>): boolean {
         if (nextProps.addStudentEnroll !== this.props.addStudentEnroll && nextProps.addStudentEnroll) {
