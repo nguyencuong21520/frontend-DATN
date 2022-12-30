@@ -34,6 +34,7 @@ export const AuthProtect = (props: any) => {
                     query.current = false;
                 } else {
                     localStorage.removeItem('access_token');
+                    localStorage.removeItem(`enrollRequest${currentUser._id}`);
                     setSpin(false);
                     navigate('/account/login', { replace: true });
                 }

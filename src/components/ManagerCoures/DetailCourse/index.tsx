@@ -8,8 +8,8 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux-saga/reducer/reducer';
 import { useDispatch } from 'react-redux';
-import { CourcesAction } from '../../Courses/action';
-import { GET_ONE_DETAIL_ONE_COURSE, GET_ONE_DETAIL_ONE_COURSE_CLEAR } from '../../Courses/reducer';
+import { CourcesAction } from '../../../redux-saga/course/action';
+import { GET_ONE_DETAIL_ONE_COURSE, GET_ONE_DETAIL_ONE_COURSE_CLEAR } from '../../../redux-saga/course/reducer';
 import { Obj } from '../../../global/interface';
 
 interface MangerDetailCourseProps {

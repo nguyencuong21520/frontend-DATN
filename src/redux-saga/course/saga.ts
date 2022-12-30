@@ -16,7 +16,10 @@ import {
   CREATE_LESSON_UNIT_REQUEST,
   CREATE_LESSON_UNIT_SUCCESS,
   CREATE_LESSON_UNIT_FAILED,
-} from "../../components/Courses/reducer";
+  REMOVE_STUDENT_ENROLL_SUCCESS,
+  REMOVE_STUDENT_ENROLL_FAILED,
+  REMOVE_STUDENT_ENROLL_REQUEST,
+} from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
 
@@ -68,6 +71,16 @@ function* createLessonUnitRequest(payload: Obj) {
   );
 }
 
+function* removeStudentEnrollRequest(payload: Obj) {
+  yield watchRequest(
+    `/api/course/remove/${payload.payload.payload.params._idCourse}`,
+    METHOD.PUT,
+    REMOVE_STUDENT_ENROLL_SUCCESS,
+    REMOVE_STUDENT_ENROLL_FAILED,
+    payload.payload.payload.body
+  );
+}
+
 export default function* queryDataCources() {
   yield all([takeLatest(COURCES_REQUEST_GET_DATA, courcesRequest)]);
 }
@@ -85,4 +98,8 @@ export function* queryCreateUnitCourseRequest() {
 
 export function* querycreateLessonUnitRequest() {
   yield all([takeLatest(CREATE_LESSON_UNIT_REQUEST, createLessonUnitRequest)]);
+}
+
+export function* queryRemoveStudenEnroll() {
+  yield all([takeLatest(REMOVE_STUDENT_ENROLL_REQUEST, removeStudentEnrollRequest)]);
 }

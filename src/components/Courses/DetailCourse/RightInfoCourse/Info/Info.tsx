@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Spin, Tag } from 'antd';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../../redux-saga/reducer/reducer';
@@ -15,6 +15,7 @@ import { ReactComponent as IconPractice } from '../../../../../assets/svg/IconPr
 import { ReactComponent as TimeRange } from '../../../../../assets/svg/TimeRange.svg';
 import { ReactComponent as Statiscal } from '../../../../../assets/svg/Statiscal.svg';
 import './style.scss';
+import { getData } from '../../../../../utils/Hook';
 const InfoList: Array<Record<string, React.ReactElement | string>> = [
   {
     icon: <IconStudent />,
@@ -45,13 +46,30 @@ export const Info = (props: Props) => {
   };
   const dispatch = useDispatch();
   const userEnroll = useSelector((state: State) => state.UserEnrollReducer);
+  const crrUser = useSelector((state: State) => state.User);
+  const getUser = getData(crrUser)
+  const [storeRqEnroll, setStoreRqEnroll] = useState<Array<string>>([]);
   const [spin, setSpin] = useState(false);
+  const setQuery = useRef(true);
+  useEffect(() => {
+    if (setQuery.current) {
+      localStorage.setItem(`enrollRequest${getUser._id}`, JSON.stringify(storeRqEnroll));
+      if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
+        setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
+      }
+      setQuery.current = false;
+    }
+  }, [storeRqEnroll])
   useEffect(() => {
     if (userEnroll) {
       if (!userEnroll.pending) {
         if ((userEnroll?.response as Obj)?.success) {
           Toaster.Success('Yêu cầu tham gia khoá học thành công!');
           setSpin(false);
+          setStoreRqEnroll((prev) => {
+            prev.push(props.idCourse as string);
+            return [...prev];
+          })
         } else {
           Toaster.Error('Yêu cầu thất bại, hãy thử lại nhé!');
           setSpin(false);
@@ -83,13 +101,13 @@ export const Info = (props: Props) => {
         <div className="icon-lock">
           {props.statusEnroll === true ? (
             <img src={Unlock} alt="UnLock" />
-          ) : (props.statusEnroll === 'waiting' ? (<img src={WatingIcon} alt="wating" />) : (
+          ) : (storeRqEnroll.includes(props.idCourse as string) || props.statusEnroll === 'waiting' ? (<img src={WatingIcon} alt="wating" />) : (
             <img src={Lock} alt="Lock" />)
           )}
         </div>
         {props.statusEnroll === true ? (
           <h2>Đã tham gia</h2>
-        ) : (props.statusEnroll === 'waiting' ? (<h2>Đang đợi duyệt</h2>) : (
+        ) : (storeRqEnroll.includes(props.idCourse as string) || props.statusEnroll === 'waiting' ? (<h2>Đang đợi duyệt</h2>) : (
           spin ?
             <Spin /> :
             <button onClick={handleRequestEnroll}>Tham gia</button>)

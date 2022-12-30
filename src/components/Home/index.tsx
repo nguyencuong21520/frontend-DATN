@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Progress, Spin } from "antd";
 import { Excel, WatingIcon } from "../../assets/img";
@@ -15,13 +15,13 @@ import { ReactComponent as TimeRange } from "../../assets/svg/TimeRange.svg";
 import { ReactComponent as LampThink } from "../../assets/svg/LampThink.svg";
 import { ReactComponent as FinalTest } from "../../assets/svg/FinalTest.svg";
 import "./style.scss";
-import { getDomain } from "../../utils";
 import { State } from "../../redux-saga/reducer/reducer";
-import { CourcesAction } from "../Courses/action";
-import { COURCES_REQUEST_GET_DATA } from "../Courses/reducer";
+import { CourcesAction } from "../../redux-saga/course/action";
+import { COURCES_REQUEST_GET_DATA } from "../../redux-saga/course/reducer";
 import { getData } from "../../utils/Hook";
 import { Obj } from "../../global/interface";
 import { MAJOR_THUMBNAIL } from "../Courses";
+import { MASK_DONE_COURSE_CLEAR } from "../../redux-saga/user/reducer";
 
 interface DashBoard {
   key: string;
@@ -29,14 +29,6 @@ interface DashBoard {
   title: string;
   icon: React.ReactElement;
   bottom?: React.ReactElement | string;
-}
-interface TypeDataCourses {
-  id: number;
-  name: string;
-  img: React.ReactElement;
-  summary: string;
-  time: string;
-  status: boolean;
 }
 interface PerformType {
   icon: React.ReactElement;
@@ -65,56 +57,7 @@ const perfom: Array<PerformType> = [
     remind: "Hạn: 00:00 09/10",
   },
 ];
-const mockupDataCourses: Array<TypeDataCourses> = [
-  {
-    id: 1,
-    name: "Excel",
-    img: <Excel />,
-    summary: "Excel cơ bản",
-    time: "15 lessons (10h5m)",
-    status: true,
-  },
-  {
-    id: 2,
-    name: "Excel",
-    img: <Excel />,
-    summary: "Excel cơ bản",
-    time: "15 lessons (10h5m)",
-    status: false,
-  },
-  {
-    id: 3,
-    name: "Excel",
-    img: <Excel />,
-    summary: "Excel cơ bản",
-    time: "15 lessons (10h5m)",
-    status: true,
-  },
-  {
-    id: 4,
-    name: "Excel",
-    img: <Excel />,
-    summary: "Excel cơ bản",
-    time: "15 lessons (10h5m)",
-    status: true,
-  },
-  {
-    id: 5,
-    name: "Excel",
-    img: <Excel />,
-    summary: "Excel cơ bản",
-    time: "15 lessons (10h5m)",
-    status: false,
-  },
-  {
-    id: 6,
-    name: "Excel",
-    img: <Excel />,
-    summary: "Excel cơ bản",
-    time: "15 lessons (10h5m)",
-    status: true,
-  },
-];
+
 const analysisDashboard: Array<DashBoard> = [
   {
     key: "avg.point",
@@ -148,8 +91,8 @@ const analysisDashboard: Array<DashBoard> = [
   },
 ];
 export const Home = () => {
-  getDomain();
   const course = useSelector((state: State) => state.Cources);
+  const navigate = useNavigate()
   const [spin, setSpin] = useState(true);
   const data = getData(course) || [];
   const dispatch = useDispatch();
@@ -201,27 +144,24 @@ export const Home = () => {
                   <div
                     className={`item-course cell${index + 1}`}
                     key={item._id as string}
-                    // onClick={() => {
-                    //   navigate(`detail/${item._id as string}`);
-                    // }}
+                    onClick={() => {
+                      navigate(`/courses/detail/${item._id as string}`);
+                    }}
                   >
                     <div className="img-title">
                       <span className="span title">{item.major as string}</span>
                       <img
                         src={
-                          String((item as Obj)?.nameCourse)
+                          String((item as Obj)?.major)
                             .toLowerCase()
                             .includes("word")
                             ? MAJOR_THUMBNAIL["Word"]
-                            : String((item as Obj)?.nameCourse)
-                                .toLowerCase()
-                                .includes("excel")
-                            ? MAJOR_THUMBNAIL["Excel"]
-                            : String((item as Obj)?.nameCourse)
-                                .toLowerCase()
-                                .includes("powerpoint")
-                            ? MAJOR_THUMBNAIL["PP"]
-                            : ""
+                            : String((item as Obj)?.major)
+                              .toLowerCase()
+                              .includes("excel")
+                              ? MAJOR_THUMBNAIL["Excel"]
+                              : MAJOR_THUMBNAIL["PP"]
+
                         }
                         alt="subj"
                         className="img-subj"

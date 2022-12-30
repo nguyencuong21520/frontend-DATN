@@ -1,11 +1,11 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { Dropdown, Menu, Space, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Obj } from "../../global/interface";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../../redux-saga/reducer/reducer";
-import { COURCES_REQUEST_GET_DATA } from "./reducer";
-import { CourcesAction } from "./action";
+import { COURCES_REQUEST_GET_DATA, GET_ONE_DETAIL_ONE_COURSE_CLEAR } from "../../redux-saga/course/reducer";
+import { CourcesAction } from "../../redux-saga/course/action";
 import { ReactComponent as DropdownArrow } from "../../assets/svg/DropdownArrow.svg";
 import { ReactComponent as Filters } from "../../assets/svg/Filters.svg";
 import { ReactComponent as ShapeCube } from "../../assets/svg/ShapeCube.svg";
@@ -18,6 +18,7 @@ import { UnLock } from "../../assets/img";
 import { WatingIcon } from "../../assets/img";
 import "./style.scss";
 import { getData } from "../../utils/Hook";
+import { MASK_DONE_COURSE_CLEAR } from "../../redux-saga/user/reducer";
 
 const initFieldsFilter = {
   sortBy: "Popular",
@@ -57,7 +58,9 @@ export const Cources = () => {
   const [filter, dispatch] = useReducer(reducerFilter, initFieldsFilter);
   const [spin, setSpin] = useState(true);
   const cources = useSelector((state: State) => state.Cources);
-  const dataCources =getData(cources) ||
+  const dataCources = getData(cources)?.filter((item: Obj) => {
+    return item.enroll === 'waiting' || item.enroll === true
+  }) ||
     [];
   const dispatchAction = useDispatch();
   const navigate = useNavigate();
@@ -72,6 +75,11 @@ export const Cources = () => {
     }
     if (cources && !(cources?.pending)) {
       setSpin(false);
+    }
+    return () => {
+      dispatchAction(CourcesAction({
+        type: GET_ONE_DETAIL_ONE_COURSE_CLEAR
+      }))
     }
   }, [cources]);
   const menuSortBy = (
@@ -258,7 +266,7 @@ export const Cources = () => {
           !spin && dataCources.length === 0 ? (
             <div>Không có dữ liệu!</div>
           ) : (
-            dataCources.map((item:Obj, index:number) => {
+            dataCources.map((item: Obj, index: number) => {
               return (
                 <div
                   className={`item-course cell${index + 1}`}
@@ -270,7 +278,7 @@ export const Cources = () => {
                   <div className="img-title">
                     <span className="span title">{item.major as string}</span>
                     <img
-                      src={String((item as Obj)?.nameCourse).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.nameCourse).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : String((item as Obj)?.nameCourse).toLowerCase().includes('powerpoint') ? MAJOR_THUMBNAIL['PP'] : ''}
+                      src={String((item as Obj)?.major).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.major).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : MAJOR_THUMBNAIL['PP']}
                       alt="subj"
                       className="img-subj"
                     />

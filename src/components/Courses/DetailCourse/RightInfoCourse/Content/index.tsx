@@ -4,11 +4,11 @@ import { ReactComponent as IconTick } from '../../../../../assets/svg/IconTick.s
 import { Spin } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { State } from '../../../../../redux-saga/reducer/reducer';
-import { GET_ONE_DETAIL_ONE_COURSE } from '../../../reducer';
+import { GET_ONE_DETAIL_ONE_COURSE } from '../../../../../redux-saga/course/reducer';
 import { getData } from '../../../../../utils/Hook';
-import { CourcesAction } from '../../../action';
+import { CourcesAction } from '../../../../../redux-saga/course/action';
 import './style.scss';
-import { MASK_DONE_COURSE_CLEAR, MASK_DONE_COURSE_QUERY } from '../../../../../redux-saga/user/reducer';
+import { MASK_DONE_COURSE_QUERY } from '../../../../../redux-saga/user/reducer';
 interface ContentInfoSourceProps {
     children?: React.ReactElement;
     crrCourse: Obj;
@@ -46,15 +46,10 @@ export const ContentInfoSource = (props: ContentInfoSourceProps) => {
                 }
             }))
         }
-        if (crrDetail) {
-            if (!crrDetail.pending) {
+        if (crrDetail && dataDetailCourse) {
+            if (!dataDetailCourse.pending) {
                 setSpin(false)
             }
-        }
-        return () => {
-            dispatch(CourcesAction({
-                type: MASK_DONE_COURSE_CLEAR
-            }))
         }
     }, [dataDetailCourse])
     return (

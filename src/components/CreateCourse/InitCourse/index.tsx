@@ -11,8 +11,8 @@ import { UserAction } from '../../../redux-saga/user/action';
 import { GET_ALL_USER_REQUEST } from '../../../redux-saga/user/reducer';
 import { getData } from '../../../utils/Hook';
 import { IMG_COURSE, USER, VideoThumbnail } from '../../../global/enum';
-import { CourcesAction } from '../../Courses/action';
-import { CREATE_COURSE_REQUEST } from '../../Courses/reducer';
+import { CourcesAction } from '../../../redux-saga/course/action';
+import { CREATE_COURSE_REQUEST } from '../../../redux-saga/course/reducer';
 
 const optionsMajor = [
     {

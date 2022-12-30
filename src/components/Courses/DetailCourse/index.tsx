@@ -5,8 +5,8 @@ import { TYPE_FILE } from "../../../global/enum";
 import { Obj } from "../../../global/interface";
 import { State } from "../../../redux-saga/reducer/reducer";
 import { getData } from "../../../utils/Hook";
-import { CourcesAction } from "../action";
-import { COURCES_REQUEST_GET_DATA } from "../reducer";
+import { CourcesAction } from "../../../redux-saga/course/action";
+import { COURCES_REQUEST_GET_DATA } from "../../../redux-saga/course/reducer";
 import { Content } from "./InfoCourse/Content";
 import { ModalScorm } from "./InfoCourse/Content/DropDownCourse/ModalScorm";
 import { InfoCourse } from "./InfoCourse/Info";
@@ -62,10 +62,8 @@ const DetailCourse = () => {
                 })
             );
         }
-        return () => {
-            setCurrentLesson(null)
-        }
-    }, []);
+
+    }, [cources, dispatch]);
 
     const ComponentConent: Record<ContentDetailCourse, React.ReactElement> = {
         [ContentDetailCourse.INFO]: (
@@ -94,7 +92,7 @@ const DetailCourse = () => {
                 setCurrentLesson(null)
             }
         }
-    }, [visibleModal])
+    }, [detailCource, visibleModal])
     return (
         <div className="container-detail-course">
             {visibleModal && <ModalScorm visible={visibleModal} setVisible={(visible: boolean) => { setVisibleModal(visible) }} scr={currentLesson?.src as string} />}

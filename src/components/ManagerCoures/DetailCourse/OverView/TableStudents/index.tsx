@@ -122,15 +122,15 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
         const hi = data?.map((item: Obj, idx: number) => {
             return {
                 no: idx + 1,
-                id: item.user._id,
-                name: item.user.username,
-                email: item.user.email,
-                phone: item.user.phone,
-                dateEnRoll: new Date(item.time),
-                access: item.access
+                id: (item?.user as Obj)?._id,
+                name: (item?.user as Obj)?.username,
+                email: (item?.user as Obj)?.email,
+                phone: (item?.user as Obj)?.phone,
+                dateEnRoll: new Date((item?.user as Obj)?.time),
+                access: (item?.user as Obj)?.access
             }
         })
-        this.rowData = hi.filter((item: Obj) => item.access === true);
+        this.rowData = hi.filter((item: Obj) => item?.access === true) || [];
     }
     onConfirmRemoveStudent = (idStudent: string) => {
         console.log('id student:', idStudent);

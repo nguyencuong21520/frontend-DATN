@@ -47,7 +47,7 @@ const navigation: Array<NavigationBar> = [
     icon: <ListCources className="icon-cpn" />,
     title: "Khoá học của tôi",
     key: Page.COURSES,
-    route: "cources",
+    route: "courses",
   },
   {
     icon: <Mess className="icon-cpn" />,
@@ -152,6 +152,7 @@ export const SideBar = () => {
   };
   const userLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem(`enrollRequest${currentUser._id}`);
     dispatch({
       type: CLEAR_ALL_REDUCERS
     })

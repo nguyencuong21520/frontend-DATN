@@ -4,7 +4,8 @@ import CourcesReducer, {
   CreateLessonUnitReducer,
   CreateUnitCourseReducer,
   OneCourceDetailReducer,
-} from "../../components/Courses/reducer";
+  RemoveStudentEnrollReducer,
+} from "../course/reducer";
 import {
   RoleViewAppReducer,
   RoleViewAppVLReducer,
@@ -35,7 +36,8 @@ const state = combineReducers({
   CreateUnitCourseReducer: CreateUnitCourseReducer,
   RoleViewAppVLReducer: RoleViewAppVLReducer,
   CreateLessonUnitReducer: CreateLessonUnitReducer,
-  AddStudentEnrollReducer: AddStudentEnrollReducer
+  AddStudentEnrollReducer: AddStudentEnrollReducer,
+  RemoveStudentEnrollReducer: RemoveStudentEnrollReducer
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

@@ -31,7 +31,7 @@ import { State } from "./redux-saga/reducer/reducer";
 function App() {
   const currentUser = useGetUser();
   const navigate = useNavigate();
-  const vlRole = useSelector((state:State)=>state.RoleViewAppVLReducer);
+  const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
   console.log(vlRole)
   return (
     <Routes>
@@ -40,7 +40,7 @@ function App() {
           {currentUser?.role === USER.STUDENT ? (
             <>
               <Route path="" element={<Home />} />
-              <Route path="cources">
+              <Route path="courses">
                 <Route path="" element={<Cources />} />
                 <Route path="detail/:id" element={<DetailCourse />} />
               </Route>

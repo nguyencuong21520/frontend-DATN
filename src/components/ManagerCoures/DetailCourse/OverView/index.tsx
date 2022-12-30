@@ -15,7 +15,7 @@ export const OverView = (prop: OverViewProps) => {
     const crrCourse = useSelector((state: State) => state.OneCourceDetailReducer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const dataCourse = getData(crrCourse) || [];
-    const listStudent = ((dataCourse[0] as Obj)?.student as Obj)?.listStudent as Obj[];
+    const listStudent = ((dataCourse[0] as Obj)?.student as Obj)?.listStudent as Obj[] || [];
     const handleModal = (visible: boolean) => {
         setVisibleModal(visible)
     }

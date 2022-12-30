@@ -14,6 +14,7 @@ import { getData } from '../../../../utils/Hook';
 import { UserAction } from '../../../Login/action';
 import { ADD_STUDENT_ENROLL_CLEAR, ADD_STUDENT_ENROLL_REQUEST } from '../../../../redux-saga/user/reducer';
 import { Toaster } from '../../../../utils/ToastMess';
+import { REMOVE_STUDENT_ENROLL_CLEAR, REMOVE_STUDENT_ENROLL_REQUEST } from '../../../../redux-saga/course/reducer';
 
 enum HandleRequest {
     ACCEPT = 'ACCEPT',
@@ -22,6 +23,7 @@ enum HandleRequest {
 interface QueueClassCourseProps {
     detailCourse: Obj | null;
     addStudentEnroll: Obj | null;
+    removeStudentEnroll: Obj | null;
     idCourse: string;
     UserAction(payload: Action): void;
 }
@@ -119,12 +121,26 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
                             Toaster.Success(`Chấp thuận thành công`);
                             this.query = false;
                         }
-                        this.props.UserAction({
-                            type: ADD_STUDENT_ENROLL_CLEAR
-                        })
-                    } else {
-                        Toaster.Success(`Từ chối thành công`);
                     }
+                    this.props.UserAction({
+                        type: ADD_STUDENT_ENROLL_CLEAR
+                    })
+                } else {
+                    Toaster.Error(`Yêu cầu thất bại!`);
+                }
+            }
+        } else if ((nextProps.removeStudentEnroll !== this.props.removeStudentEnroll && nextProps.removeStudentEnroll)) {
+            if (!nextProps.removeStudentEnroll.pending) {
+                if ((nextProps.removeStudentEnroll.response as Obj)?.success) {
+                    if (nextProps.removeStudentEnroll.type === REMOVE_STUDENT_ENROLL_REQUEST) {
+                        if (this.query) {
+                            Toaster.Success(`Từ chối thành công`);
+                            this.query = false;
+                        }
+                    }
+                    this.props.UserAction({
+                        type: REMOVE_STUDENT_ENROLL_CLEAR
+                    })
                 } else {
                     Toaster.Error(`Yêu cầu thất bại!`);
                 }
@@ -149,6 +165,17 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
                 })
                 break;
             case HandleRequest.DECLINE:
+                this.props.UserAction({
+                    type: REMOVE_STUDENT_ENROLL_REQUEST,
+                    payload: {
+                        params: {
+                            _idCourse: this.props.idCourse
+                        },
+                        body: {
+                            studentId: id
+                        }
+                    }
+                })
                 break;
         }
     }
@@ -188,7 +215,8 @@ class QueueClassCourse extends Component<QueueClassCourseProps> {
 
 const mapStateToProps = (state: State) => ({
     detailCourse: state.OneCourceDetailReducer,
-    addStudentEnroll: state.AddStudentEnrollReducer
+    addStudentEnroll: state.AddStudentEnrollReducer,
+    removeStudentEnroll: state.RemoveStudentEnrollReducer,
 })
 
 const mapDispatchToProps = {
