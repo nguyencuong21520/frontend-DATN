@@ -23,6 +23,9 @@ import {
   ADD_STUDENT_ENROLL_REQUEST,
   ADD_STUDENT_ENROLL_SUCCESS,
   ADD_STUDENT_ENROLL_FAILED,
+  ADD_COMMENT_COURSE_SUCCESS,
+  ADD_COMMENT_COURSE_FAILED,
+  ADD_COMMENT_COURSE_REQUEST,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -101,6 +104,16 @@ function* addStudentEnroll(payload: Obj) {
   );
 }
 
+function* addCommentCourse(payload: Obj) {
+  yield watchRequest(
+    `/api/course/addComment/${payload.payload.payload.params._idCourse}`,
+    METHOD.PUT,
+    ADD_COMMENT_COURSE_SUCCESS,
+    ADD_COMMENT_COURSE_FAILED,
+    payload.payload.payload.body
+  );
+}
+
 export function* queryDataUser() {
   yield all([takeLatest(USER_REQUEST_LOGIN_API, userLogin)]);
 }
@@ -125,4 +138,7 @@ export function* queryMaskDoneCourse() {
 }
 export function* queryStudentEnroll() {
   yield all([takeLatest(ADD_STUDENT_ENROLL_REQUEST, addStudentEnroll)]);
+}
+export function* queryAddCommentCourse() {
+  yield all([takeLatest(ADD_COMMENT_COURSE_REQUEST, addCommentCourse)]);
 }
