@@ -1,4 +1,4 @@
-export { default as Excel } from "./Excel.png";
+export { default as Excel } from "./Excel_.png";
 export { default as Lock } from "./Lock.png";
 export { default as UnLock } from "./UnLock.png";
 export { default as Slide } from "./Slide.png";

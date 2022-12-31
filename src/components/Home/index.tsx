@@ -160,11 +160,14 @@ export const Home = () => {
                               .toLowerCase()
                               .includes("excel")
                               ? MAJOR_THUMBNAIL["Excel"]
-                              : MAJOR_THUMBNAIL["PP"]
+                              : String((item as Obj)?.major)
+                                .toLowerCase()
+                                .includes("power")
+                                ? MAJOR_THUMBNAIL["PP"] : item.img
 
                         }
-                        alt="subj"
-                        className="img-subj"
+                      alt="subj"
+                      className="img-subj"
                       />
                     </div>
                     <div className="summary">
