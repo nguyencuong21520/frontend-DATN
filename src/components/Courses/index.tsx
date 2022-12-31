@@ -278,7 +278,10 @@ export const Cources = () => {
                   <div className="img-title">
                     <span className="span title">{item.major as string}</span>
                     <img
-                      src={String((item as Obj)?.major).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.major).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : MAJOR_THUMBNAIL['PP']}
+                      src={String((item as Obj)?.major).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.major).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] :  String((item as Obj)?.major)
+                      .toLowerCase()
+                      .includes("power")
+                      ? MAJOR_THUMBNAIL["PP"] : item.img}
                       alt="subj"
                       className="img-subj"
                     />

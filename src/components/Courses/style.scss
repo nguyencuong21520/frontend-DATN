@@ -120,6 +120,7 @@ div.container-courses {
         img {
           width: 229px;
           height: 160px;
+          object-fit: contain;
         }
         span.title {
           position: absolute;
