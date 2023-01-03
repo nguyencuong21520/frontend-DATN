@@ -8,6 +8,13 @@ import { Obj } from '../../global/interface';
 import { NoDataGrid } from '../NoDataGrid';
 import { ReactComponent as Search } from '../../assets/svg/search.svg';
 import './style.scss';
+import { useSelector } from 'react-redux';
+import { State } from '../../redux-saga/reducer/reducer';
+import { getData, useGetUser } from '../../utils/Hook';
+import { useDispatch } from 'react-redux';
+import { CourcesAction } from '../../redux-saga/course/action';
+import { COURCES_REQUEST_GET_DATA } from '../../redux-saga/course/reducer';
+import { USER } from '../../global/enum';
 
 const SelectOption = ({ onChange, options }: { onChange(field: string): void, options: Array<Obj> }) => {
     return (
@@ -68,7 +75,7 @@ export const MangerCourses = () => {
             })
         })
         setListFilter([]);
-        gridRef.current?.api.setRowData(rowData);
+        gridRef.current?.api.setRowData(dataCourses);
     }
     const handleListFilter = () => {
         setListFilter((prev) => {
@@ -118,172 +125,51 @@ export const MangerCourses = () => {
             maxWidth: 50
         }
     ])
-    const [rowData,] = useState<Obj[]>([
-        {
-            no: 1,
-            id: 'EXCELBA20001111',
-            nameCourse: 'Exel',
-            author: 'Ths. Nguyễn Văn Cường',
-            studentenroll: 20,
-        },
-        {
-            no: 2,
-            id: 'EXCELBA20001111',
-            nameCourse: 'Exel Av',
-            author: 'Ths. Nguyễn Văn Cường',
-            studentenroll: 20
-        },
-        {
-            no: 3,
-            id: 'EXCELBA20001111',
-            nameCourse: 'Exel cơ bản',
-            author: 'Ths. Nguyễn Văn Cường',
-            studentenroll: 20
-        },
-        {
-            no: 4,
-            id: 'EXCELBA20001111',
-            nameCourse: 'Exel cơ bản',
-            author: 'Ths. Nguyễn Văn Cường',
-            studentenroll: 20
-        },
-        {
-            no: 5,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 6,
-            id: 'Word Pro',
-            nameCourse: 'Word cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 7,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-        {
-            no: 8,
-            id: 'Powerpoint Hub',
-            nameCourse: 'PP cơ bản',
-            author: 'Ths. Trần Đăng Khoa',
-            studentenroll: 16
-        },
-    ]);
+
     const gridRef = useRef<AgGridReact>(null);
     const [rsSearch, setRsSearch] = useState<Obj[]>([]);
     const [valueSearch, setValueSearch] = useState<string>('');
+    const allCourses = useSelector((state: State) => state.Cources);
+    const dataCourses = getData(allCourses);
+    const [courseSelf, setCourseSelf] = useState<Obj[]>([]);
+    const currentUser = useGetUser();
+    const dispatch = useDispatch();
 
     const handleSearch = () => {
-        if (valueSearch.trim() !== '') {
-            const rs = rowData.filter((item) => {
-                return item.nameCourse.toLowerCase().includes(valueSearch.toLowerCase());
-            })
-            if (rs.length !== 0) {
-                setRsSearch(rs);
-            } else {
-                gridRef.current?.api.setRowData([]);
-                gridRef.current?.api.showNoRowsOverlay();
+        if ((dataCourses as Obj[]).length > 0) {
+            if (valueSearch.trim() !== '') {
+                const rs = (dataCourses as Obj[])?.filter((item: Obj) => {
+                    return item.nameCourse.toLowerCase().includes(valueSearch.toLowerCase());
+                })
+                if (rs.length !== 0) {
+                    setRsSearch(rs);
+                } else {
+                    gridRef.current?.api.setRowData([]);
+                    gridRef.current?.api.showNoRowsOverlay();
+                }
             }
         }
     }
+    const getDataCourseSelf = () => {
+        if (currentUser) {
+            if (currentUser.role === USER.TEACHER && dataCourses) {
+                const data = dataCourses.filter((item: Obj) => {
+                    return (item.author as Obj)._id === currentUser._id;
+                });
+                setCourseSelf(data);
+            }
+        }
+    }
+    useEffect(() => {
+        if (!dataCourses) {
+            dispatch(CourcesAction({
+                type: COURCES_REQUEST_GET_DATA,
+            }))
+        } else {
+            getDataCourseSelf();
+        }
+
+    }, [dataCourses, dispatch, currentUser]);
     useEffect(() => {
         if (rsSearch.length !== 0) {
             gridRef.current?.api.setRowData(rsSearch);
@@ -298,13 +184,24 @@ export const MangerCourses = () => {
                 gridRef.current?.api.sizeColumnsToFit();
             })
         }
-    }, [rsSearch])
+    }, [rsSearch]);
+    useEffect(() => {
+        if (dataCourses) {
+            console.log(courseSelf);
+            gridRef.current?.api.setRowData(courseSelf);
+        }
+    }, [courseSelf])
     const onGridReady = () => {
         const btnPagina = document.querySelectorAll('div.ag-paging-button');
         (btnPagina[0] as HTMLElement).innerHTML = '';
         (btnPagina[1] as HTMLElement).innerHTML = ' &#171; ';
         (btnPagina[2] as HTMLElement).innerHTML = ' &#187; ';
         (btnPagina[3] as HTMLElement).innerHTML = '';
+        gridRef.current?.api.showLoadingOverlay()
+        if (dataCourses) {
+            gridRef.current?.api.hideOverlay()
+            getDataCourseSelf();
+        }
     }
     return (
         <div className="container-manager-courses">
@@ -330,7 +227,6 @@ export const MangerCourses = () => {
                     onGridReady={onGridReady}
                     headerHeight={32}
                     columnDefs={columnDefs}
-                    rowData={rowData}
                     defaultColDef={{ resizable: true }}
                     suppressDragLeaveHidesColumns={true}
                     onViewportChanged={() => {

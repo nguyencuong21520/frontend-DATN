@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Dropdown, Menu, Space, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Obj } from "../../global/interface";
@@ -18,7 +18,6 @@ import { UnLock } from "../../assets/img";
 import { WatingIcon } from "../../assets/img";
 import "./style.scss";
 import { getData } from "../../utils/Hook";
-import { MASK_DONE_COURSE_CLEAR } from "../../redux-saga/user/reducer";
 
 const initFieldsFilter = {
   sortBy: "Popular",
@@ -278,10 +277,10 @@ export const Cources = () => {
                   <div className="img-title">
                     <span className="span title">{item.major as string}</span>
                     <img
-                      src={String((item as Obj)?.major).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.major).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] :  String((item as Obj)?.major)
-                      .toLowerCase()
-                      .includes("power")
-                      ? MAJOR_THUMBNAIL["PP"] : item.img}
+                      src={String((item as Obj)?.major).toLowerCase().includes('word') ? MAJOR_THUMBNAIL['Word'] : String((item as Obj)?.major).toLowerCase().includes('excel') ? MAJOR_THUMBNAIL['Excel'] : String((item as Obj)?.major)
+                        .toLowerCase()
+                        .includes("power")
+                        ? MAJOR_THUMBNAIL["PP"] : item.img}
                       alt="subj"
                       className="img-subj"
                     />
