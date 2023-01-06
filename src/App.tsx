@@ -33,7 +33,7 @@ function App() {
   const currentUser = useGetUser();
   const navigate = useNavigate();
   const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
-  console.log(vlRole)
+
   return (
     <Routes>
       <Route path='/' element={<AuthProtect><Layout /></AuthProtect>}>

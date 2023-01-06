@@ -95,6 +95,8 @@ export const Home = () => {
   const [spin, setSpin] = useState(true);
   const data = getData(course) || [];
   const dispatch = useDispatch();
+
+
   const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
   useEffect(() => {
     document.title = "Trang chủ";
