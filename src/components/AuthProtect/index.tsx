@@ -7,6 +7,7 @@ import { Obj } from '../../global/interface';
 import { State } from '../../redux-saga/reducer/reducer';
 import { UserAction } from '../../redux-saga/user/action';
 import { USER_FETCH_INFO_REQUEST } from '../../redux-saga/user/reducer';
+import { set } from 'date-fns';
 
 export const AuthProtect = (props: any) => {
     const dispatch = useDispatch();
@@ -14,8 +15,12 @@ export const AuthProtect = (props: any) => {
     const query = useRef<boolean>(true);
     const currentUser = useSelector((state: State) => state.User);
     const navigate = useNavigate();
+    const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
     useEffect(() => {
-        if (query.current) {
+        if ((vlRole?.response as Obj)?.payload.dataRole) {
+            setSpin(false)
+        }
+        else if (query.current) {
             if (!currentUser && localStorage.getItem('access_token')) {
                 dispatch(UserAction({
                     type: USER_FETCH_INFO_REQUEST
@@ -27,7 +32,11 @@ export const AuthProtect = (props: any) => {
         }
     }, [])
     useEffect(() => {
-        if (currentUser) {
+        if ((vlRole?.response as Obj)?.payload.dataRole) {
+            setSpin(false)
+
+        }
+        else if (currentUser) {
             if (!currentUser.pending) {
                 if ((currentUser?.response as Obj)?.success) {
                     setSpin(false);

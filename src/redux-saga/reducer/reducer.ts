@@ -40,7 +40,8 @@ const state = combineReducers({
   CreateLessonUnitReducer: CreateLessonUnitReducer,
   AddStudentEnrollReducer: AddStudentEnrollReducer,
   RemoveStudentEnrollReducer: RemoveStudentEnrollReducer,
-  AddCommentCourseReducer: AddCommentCourseReducer
+  AddCommentCourseReducer: AddCommentCourseReducer,
+  CourseVLReducer: CourcesReducer,
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

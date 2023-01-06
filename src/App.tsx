@@ -27,6 +27,7 @@ import "./App.scss";
 import { CreateaCourse } from "./components/CreateCourse";
 import { useSelector } from "react-redux";
 import { State } from "./redux-saga/reducer/reducer";
+import { Obj } from "./global/interface";
 
 function App() {
   const currentUser = useGetUser();
@@ -46,6 +47,14 @@ function App() {
               </Route>
               <Route path="messenger" element={<Messenger />} />
               <Route path="practice-scorm" element={<PracticeScorm />} />
+            </>
+          ) : (vlRole?.response as Obj)?.payload.dataRole === "VL" ? (
+            <>
+              <Route path="" element={<Home />} />
+              <Route path="courses">
+                <Route path="" element={<Cources />} />
+                <Route path="detail/:id" element={<DetailCourse />} />
+              </Route>
             </>
           ) : currentUser?.role === USER.TEACHER ? (
             <>

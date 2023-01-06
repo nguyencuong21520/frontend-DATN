@@ -19,6 +19,9 @@ import {
   REMOVE_STUDENT_ENROLL_SUCCESS,
   REMOVE_STUDENT_ENROLL_FAILED,
   REMOVE_STUDENT_ENROLL_REQUEST,
+  GET_COURSE_VL_FAILED,
+  GET_COURSE_VL_SUCCESS,
+  GET_COURSE_VL,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -81,6 +84,15 @@ function* removeStudentEnrollRequest(payload: Obj) {
   );
 }
 
+function* CourseVLRequest(payload: Obj) {
+  yield watchRequest(
+    `/api/course`,
+    METHOD.GET,
+    GET_COURSE_VL_SUCCESS,
+    GET_COURSE_VL_FAILED
+  );
+}
+
 export default function* queryDataCources() {
   yield all([takeLatest(COURCES_REQUEST_GET_DATA, courcesRequest)]);
 }
@@ -101,5 +113,11 @@ export function* querycreateLessonUnitRequest() {
 }
 
 export function* queryRemoveStudenEnroll() {
-  yield all([takeLatest(REMOVE_STUDENT_ENROLL_REQUEST, removeStudentEnrollRequest)]);
+  yield all([
+    takeLatest(REMOVE_STUDENT_ENROLL_REQUEST, removeStudentEnrollRequest),
+  ]);
+}
+
+export function* queryCourseVL() {
+  yield all([takeLatest(GET_COURSE_VL, CourseVLRequest)]);
 }

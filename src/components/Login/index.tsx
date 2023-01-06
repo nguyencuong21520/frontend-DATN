@@ -10,7 +10,7 @@ import { UserAction } from "../../redux-saga/user/action";
 import { USER_REQUEST_LOGIN_API } from "../../redux-saga/user/reducer";
 import "./style.scss";
 import { RoleViewAppAction } from "../../redux-saga/RoleViewApp/action";
-import {  ROLE_VIEW_SUCCESS_VL } from "../../redux-saga/RoleViewApp/reducer";
+import { ROLE_VIEW_SUCCESS_VL } from "../../redux-saga/RoleViewApp/reducer";
 interface LoginType {
     email: string;
     password: string;
@@ -21,7 +21,7 @@ export const Login = () => {
     const query = useRef<boolean>(false);
     const userSignIn = useSelector((state: State) => state.User);
     const [spin, setSpin] = useState<boolean>(false);
-
+    const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
     const setRoleVL = (role: string) => {
         dispatch(RoleViewAppAction({
             type: ROLE_VIEW_SUCCESS_VL,
@@ -32,29 +32,32 @@ export const Login = () => {
     }
     useEffect(() => {
         document.title = "Đăng nhập";
-        if (spin) {
-            if (userSignIn) {
-                if (!userSignIn.pending) {
-                    if ((userSignIn?.response as Obj)?.success) {
-                        Toaster.Success("Đăng nhập thành công!");
-                        setSpin(false);
-                        localStorage.removeItem("access_token");
-                        localStorage.setItem(
-                            "access_token",
-                            `Bearer ${(userSignIn.response as Obj)?.response?.token}`
-                        );
-                        setTimeout(() => {
-                            navigate("/", { replace: true });
-                        }, 2000);
-                    } else {
-                        setSpin(false);
-                        Toaster.Error("Đăng nhập thất bại!");
+        if ((vlRole?.response as Obj)?.payload.dataRole) {
+            navigate("/", { replace: true });
+        } else
+            if (spin) {
+                if (userSignIn) {
+                    if (!userSignIn.pending) {
+                        if ((userSignIn?.response as Obj)?.success) {
+                            Toaster.Success("Đăng nhập thành công!");
+                            setSpin(false);
+                            localStorage.removeItem("access_token");
+                            localStorage.setItem(
+                                "access_token",
+                                `Bearer ${(userSignIn.response as Obj)?.response?.token}`
+                            );
+                            setTimeout(() => {
+                                navigate("/", { replace: true });
+                            }, 2000);
+                        } else {
+                            setSpin(false);
+                            Toaster.Error("Đăng nhập thất bại!");
+                        }
+                        query.current = false;
                     }
-                    query.current = false;
                 }
             }
-        }
-    }, [userSignIn, navigate, spin]);
+    }, [userSignIn, navigate, spin, vlRole]);
     const onFinish = (e: LoginType) => {
         setSpin(true);
         dispatch(
@@ -128,7 +131,7 @@ export const Login = () => {
                             <Spin />
                         </div>
                     )}
-                    <Button type="primary" className="btn-login" onClick={() => { setRoleVL("VL") }}>
+                    <Button type="primary" className="btn-vl" onClick={() => { setRoleVL("VL") }}>
                         Khách vãng lai
                     </Button>
                 </Form>

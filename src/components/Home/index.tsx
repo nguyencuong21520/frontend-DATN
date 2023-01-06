@@ -17,7 +17,7 @@ import { ReactComponent as FinalTest } from "../../assets/svg/FinalTest.svg";
 import "./style.scss";
 import { State } from "../../redux-saga/reducer/reducer";
 import { CourcesAction } from "../../redux-saga/course/action";
-import { COURCES_REQUEST_GET_DATA } from "../../redux-saga/course/reducer";
+import { COURCES_REQUEST_GET_DATA, GET_COURSE_VL } from "../../redux-saga/course/reducer";
 import { getData } from "../../utils/Hook";
 import { Obj } from "../../global/interface";
 import { MAJOR_THUMBNAIL } from "../Courses";
@@ -96,14 +96,24 @@ export const Home = () => {
   const [spin, setSpin] = useState(true);
   const data = getData(course) || [];
   const dispatch = useDispatch();
+  const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
   useEffect(() => {
     document.title = "Trang chủ";
+
     if (!course) {
-      dispatch(
-        CourcesAction({
-          type: COURCES_REQUEST_GET_DATA,
-        })
-      );
+      if ((vlRole?.response as Obj)?.payload.dataRole) {
+        dispatch(
+          CourcesAction({
+            type: GET_COURSE_VL,
+          })
+        );
+      } else {
+        dispatch(
+          CourcesAction({
+            type: COURCES_REQUEST_GET_DATA,
+          })
+        );
+      }
     }
     if (course && !course.pending) {
       setSpin(false);
@@ -166,8 +176,8 @@ export const Home = () => {
                                 ? MAJOR_THUMBNAIL["PP"] : item.img
 
                         }
-                      alt="subj"
-                      className="img-subj"
+                        alt="subj"
+                        className="img-subj"
                       />
                     </div>
                     <div className="summary">

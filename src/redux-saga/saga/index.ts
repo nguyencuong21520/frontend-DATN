@@ -1,5 +1,12 @@
 import { all } from "redux-saga/effects";
-import queryDataCources, { queryCreateCourseRequest, querycreateLessonUnitRequest, queryCreateUnitCourseRequest, queryGetOneCourseDetail, queryRemoveStudenEnroll } from "../course/saga";
+import queryDataCources, {
+  queryCourseVL,
+  queryCreateCourseRequest,
+  querycreateLessonUnitRequest,
+  queryCreateUnitCourseRequest,
+  queryGetOneCourseDetail,
+  queryRemoveStudenEnroll,
+} from "../course/saga";
 import {
   queryAddCommentCourse,
   queryDataUser,
@@ -28,6 +35,7 @@ export function* rootSaga() {
     querycreateLessonUnitRequest(),
     queryStudentEnroll(),
     queryRemoveStudenEnroll(),
-    queryAddCommentCourse()
+    queryAddCommentCourse(),
+    queryCourseVL(),
   ]);
 }
