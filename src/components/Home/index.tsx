@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Progress, Spin } from "antd";
-import { Excel, WatingIcon } from "../../assets/img";
+import { WatingIcon } from "../../assets/img";
 import { Lock } from "../../assets/img";
 import { UnLock } from "../../assets/img";
 import { ReactComponent as AvgPoint } from "../../assets/svg/AvgPoint.svg";
@@ -21,7 +21,6 @@ import { COURCES_REQUEST_GET_DATA, GET_COURSE_VL } from "../../redux-saga/course
 import { getData } from "../../utils/Hook";
 import { Obj } from "../../global/interface";
 import { MAJOR_THUMBNAIL } from "../Courses";
-import { MASK_DONE_COURSE_CLEAR } from "../../redux-saga/user/reducer";
 
 interface DashBoard {
   key: string;

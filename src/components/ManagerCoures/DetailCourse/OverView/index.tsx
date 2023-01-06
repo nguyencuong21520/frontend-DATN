@@ -9,8 +9,9 @@ import { State } from '../../../../redux-saga/reducer/reducer';
 import './style.scss';
 interface OverViewProps {
     children?: React.ReactElement;
+    idCourse?: string;
 }
-export const OverView = (prop: OverViewProps) => {
+export const OverView = (props: OverViewProps) => {
     const [visibleModal, setVisibleModal] = useState<boolean>(false);
     const crrCourse = useSelector((state: State) => state.OneCourceDetailReducer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,8 +47,8 @@ export const OverView = (prop: OverViewProps) => {
                     }}
                     title="Thông tin học sinh"
                     className="detail-students-table-teacher"
-                ><TableStudents onDetail listStudent={listStudent || []} /></Modal>
-                <TableStudents listStudent={listStudent || []} />
+                ><TableStudents onDetail listStudent={listStudent} idCourse={props.idCourse} /></Modal>
+                <TableStudents listStudent={listStudent} />
             </div>
         </div>
     )

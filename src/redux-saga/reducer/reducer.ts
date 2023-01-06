@@ -41,7 +41,6 @@ const state = combineReducers({
   AddStudentEnrollReducer: AddStudentEnrollReducer,
   RemoveStudentEnrollReducer: RemoveStudentEnrollReducer,
   AddCommentCourseReducer: AddCommentCourseReducer,
-  CourseVLReducer: CourcesReducer,
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

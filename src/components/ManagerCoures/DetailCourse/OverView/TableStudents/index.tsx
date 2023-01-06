@@ -6,13 +6,16 @@ import type { RadioChangeEvent } from 'antd';
 import { MessageOutlined, RollbackOutlined } from '@ant-design/icons';
 import { Radio, DatePickerProps, DatePicker } from 'antd';
 import { CellClickedEvent, ColDef, ColGroupDef, ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
-import { Obj } from '../../../../../global/interface';
+import { Action, Obj } from '../../../../../global/interface';
 import { getDomain } from '../../../../../utils';
 import { State } from '../../../../../redux-saga/reducer/reducer';
 import { FORMAT_DATE } from '../../../../../global/enum';
 import { formatDate } from '../../../../../utils/date';
 import { NoDataGrid } from '../../../../NoDataGrid';
+import { CourcesAction } from '../../../../../redux-saga/course/action';
 import './style.scss';
+import { REMOVE_STUDENT_ENROLL_CLEAR, REMOVE_STUDENT_ENROLL_REQUEST } from '../../../../../redux-saga/course/reducer';
+import { Toaster } from '../../../../../utils/ToastMess';
 
 enum SEARCH_FIELD {
     NAME = 'NAME',
@@ -21,8 +24,11 @@ enum SEARCH_FIELD {
     DATE = 'DATE',
 }
 interface TableStudentsProps {
-    onDetail?: boolean
-    listStudent: Obj[]
+    onDetail?: boolean;
+    listStudent: Obj[];
+    removeStudentEnroll: null | Obj;
+    CourcesAction(payload: Action): void;
+    idCourse?: string;
 }
 interface TableStudentsStates {
     field: SEARCH_FIELD;
@@ -32,6 +38,7 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
     private gridRef: RefObject<AgGridReact>;
     private columnDefs: ColDef[] | ColGroupDef[];
     private rowData: Record<string, unknown>[];
+    private query: boolean = false;
 
     constructor(props: TableStudentsProps) {
         super(props);
@@ -126,14 +133,25 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
                 name: (item?.user as Obj)?.username,
                 email: (item?.user as Obj)?.email,
                 phone: (item?.user as Obj)?.phone,
-                dateEnRoll: new Date((item?.user as Obj)?.time),
-                access: (item?.user as Obj)?.access
+                dateEnRoll: new Date((item as Obj)?.time),
+                access: (item as Obj)?.access
             }
         })
         this.rowData = hi.filter((item: Obj) => item?.access === true) || [];
     }
     onConfirmRemoveStudent = (idStudent: string) => {
-        console.log('id student:', idStudent);
+        this.props.CourcesAction({
+            type: REMOVE_STUDENT_ENROLL_REQUEST,
+            payload: {
+                params: {
+                    _idCourse: this.props.idCourse as string
+                },
+                body: {
+                    studentId: idStudent
+                }
+            }
+        })
+        this.query = true;
     }
     onGridReady = () => {
         const btnPagina = document.querySelectorAll('.detail-students-table-teacher div.ag-paging-button');
@@ -151,6 +169,22 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
         }
         if (this.state.field !== nextState.field) {
             return true;
+        }
+        if ((nextProps.removeStudentEnroll !== this.props.removeStudentEnroll && nextProps.removeStudentEnroll)) {
+            if (!nextProps.removeStudentEnroll.pending) {
+                if ((nextProps.removeStudentEnroll.response as Obj)?.success) {
+                    console.log('del')
+                    if (this.query) {
+                        Toaster.Success(`Xoá học sinh thành công`);
+                        this.query = false;
+                    }
+                    this.props.CourcesAction({
+                        type: REMOVE_STUDENT_ENROLL_CLEAR
+                    })
+                } else {
+                    Toaster.Error(`Yêu cầu thất bại!`);
+                }
+            }
         }
         return false;
     }
@@ -250,8 +284,12 @@ class TableStudents extends Component<TableStudentsProps, TableStudentsStates> {
     }
 }
 
-const mapStateToProps = (state: State) => ({})
+const mapStateToProps = (state: State) => ({
+    removeStudentEnroll: state.RemoveStudentEnrollReducer
+})
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+    CourcesAction
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableStudents)

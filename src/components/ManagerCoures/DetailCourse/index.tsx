@@ -52,7 +52,7 @@ export const MangerDetailCourse = (props: MangerDetailCourseProps) => {
         }
     }, [id, getDetailCourse, dispatch])
     const tabs = [
-        { label: 'Tổng quan', key: '1', children: <OverView /> },
+        { label: 'Tổng quan', key: '1', children: <OverView idCourse={id} /> },
         { label: 'Thông tin khóa', key: 'item-2', children: <UnitCourse /> },
         { label: 'Yêu cầu vào lớp', key: 'item-3', children: <QueueClassCourse idCourse={id as string} /> },
     ];
