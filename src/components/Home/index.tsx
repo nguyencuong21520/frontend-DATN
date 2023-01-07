@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Progress, Spin } from "antd";
@@ -91,7 +91,8 @@ const analysisDashboard: Array<DashBoard> = [
 ];
 export const Home = () => {
   const course = useSelector((state: State) => state.Cources);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const isQuery = useRef(true);
   const [spin, setSpin] = useState(true);
   const data = getData(course) || [];
   const dispatch = useDispatch();
@@ -101,7 +102,8 @@ export const Home = () => {
   useEffect(() => {
     document.title = "Trang chủ";
 
-    if (!course) {
+    if (!course && isQuery.current) {
+      isQuery.current = false
       if ((vlRole?.response as Obj)?.payload.dataRole) {
         dispatch(
           CourcesAction({

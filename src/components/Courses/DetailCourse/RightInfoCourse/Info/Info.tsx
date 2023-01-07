@@ -52,12 +52,14 @@ export const Info = (props: Props) => {
   const [spin, setSpin] = useState(false);
   const setQuery = useRef(true);
   useEffect(() => {
-    if (setQuery.current) {
-      localStorage.setItem(`enrollRequest${getUser._id}`, JSON.stringify(storeRqEnroll));
-      if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
-        setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
+    if (getUser) {
+      if (setQuery.current) {
+        localStorage.setItem(`enrollRequest${getUser._id}`, JSON.stringify(storeRqEnroll));
+        if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
+          setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
+        }
+        setQuery.current = false;
       }
-      setQuery.current = false;
     }
   }, [storeRqEnroll])
   useEffect(() => {

@@ -6,7 +6,7 @@ import { Obj } from "../../../global/interface";
 import { State } from "../../../redux-saga/reducer/reducer";
 import { getData } from "../../../utils/Hook";
 import { CourcesAction } from "../../../redux-saga/course/action";
-import { COURCES_REQUEST_GET_DATA, GET_ONE_DETAIL_ONE_COURSE } from "../../../redux-saga/course/reducer";
+import { COURCES_REQUEST_GET_DATA, GET_ONE_DETAIL_ONE_COURSE, GET_ONE_DETAIL_ONE_COURSE_VL } from "../../../redux-saga/course/reducer";
 import { Content } from "./InfoCourse/Content";
 import { ModalScorm } from "./InfoCourse/Content/DropDownCourse/ModalScorm";
 import { InfoCourse } from "./InfoCourse/Info";
@@ -46,11 +46,12 @@ const DetailCourse = () => {
     );
     const cources = useSelector((state: State) => state.Cources);
     const dataCources = getData(cources) || [];
-    const detailCource = dataCources.find((item: Obj) => {
+    const detailCource = dataCources?.find((item: Obj) => {
         return (item._id as string) === id;
     });
     const [currentLesson, setCurrentLesson] = useState<ActiveLesson | null>(null);
     const dataDetailCourse = useSelector((state: State) => state.OneCourceDetailReducer);
+    const vlRole = useSelector((state: State) => state.RoleViewAppVLReducer);
     const [statusQuery, setStatusQuery] = useState<boolean>(true);
     const crrDetail = getData(dataDetailCourse) || [];
     const setActiveLesson = (data: ActiveLesson) => {
@@ -65,22 +66,35 @@ const DetailCourse = () => {
         }
     }, [statusQuery, dataDetailCourse])
     useEffect(() => {
-        if (!cources) {
-            dispatch(
-                CourcesAction({
-                    type: COURCES_REQUEST_GET_DATA,
-                })
-            );
-        }
-        if (!dataDetailCourse) {
-            dispatch(CourcesAction({
-                type: GET_ONE_DETAIL_ONE_COURSE,
-                payload: {
-                    body: {
-                        _idCourse: id
+        if (vlRole) {
+            if (!dataDetailCourse) {
+                dispatch(CourcesAction({
+                    type: GET_ONE_DETAIL_ONE_COURSE_VL,
+                    payload: {
+                        body: {
+                            _idCourse: id
+                        }
                     }
-                }
-            }))
+                }))
+            }
+        } else {
+            if (!cources) {
+                dispatch(
+                    CourcesAction({
+                        type: COURCES_REQUEST_GET_DATA,
+                    })
+                );
+            }
+            if (!dataDetailCourse) {
+                dispatch(CourcesAction({
+                    type: GET_ONE_DETAIL_ONE_COURSE,
+                    payload: {
+                        body: {
+                            _idCourse: id
+                        }
+                    }
+                }))
+            }
         }
     }, [cources, dispatch]);
     const ComponentConent: Record<ContentDetailCourse, React.ReactElement> = {

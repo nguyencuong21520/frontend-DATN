@@ -22,6 +22,7 @@ import {
   GET_COURSE_VL_FAILED,
   GET_COURSE_VL_SUCCESS,
   GET_COURSE_VL,
+  GET_ONE_DETAIL_ONE_COURSE_VL,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -88,11 +89,19 @@ function* CourseVLRequest(payload: Obj) {
   yield watchRequest(
     `/api/course`,
     METHOD.GET,
-    GET_COURSE_VL_SUCCESS,
-    GET_COURSE_VL_FAILED
+    COURCES_GET_SUCCESS,
+    COURCES_GET_FAILED
   );
 }
 
+function* getOneCourseDetailVL(payload: Obj) {
+  yield watchRequest(
+    `/api/course/${payload.payload.payload.body._idCourse}`,
+    METHOD.GET,
+    GET_ONE_DETAIL_ONE_COURSE_SUCCESS,
+    GET_ONE_DETAIL_ONE_COURSE_FAILED
+  );
+}
 export default function* queryDataCources() {
   yield all([takeLatest(COURCES_REQUEST_GET_DATA, courcesRequest)]);
 }
@@ -120,4 +129,8 @@ export function* queryRemoveStudenEnroll() {
 
 export function* queryCourseVL() {
   yield all([takeLatest(GET_COURSE_VL, CourseVLRequest)]);
+}
+
+export function* queryGetOneCourseDetailVL() {
+  yield all([takeLatest(GET_ONE_DETAIL_ONE_COURSE_VL, getOneCourseDetailVL)]);
 }
