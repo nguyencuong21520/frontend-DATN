@@ -45,6 +45,7 @@ const optionsLevel = [
 interface Props {
     children?: React.ReactElement;
     setCrrStep(step: number): void;
+    user: null | Object;
 }
 export const InitCourse = (props: Props) => {
     const { handleSubmit, handleChange, handleBlur, handleReset, touched, errors, values } = useFormik({
@@ -92,18 +93,22 @@ export const InitCourse = (props: Props) => {
         }
     }, [requestCreateCourse]);
     useEffect(() => {
-        if (!getDataUser) {
-            dispatch(UserAction({
-                type: GET_ALL_USER_REQUEST
-            })
-            )
-        }
-        if (getDataUser) {
-            if (!getDataUser.pending) {
-                setUserTeacher(() => {
-                    return (getData(getDataUser) as Obj[]).filter((item) => item.role === USER.TEACHER)
-                });
-                setSpinGetTeacher(false);
+        if (((props.user as Obj)?.role as string) === USER.ADMIN) {
+            if (!getDataUser) {
+                dispatch(UserAction({
+                    type: GET_ALL_USER_REQUEST
+                })
+                )
+            }
+            if (getDataUser) {
+                if (!getDataUser.pending) {
+                    if (getData(getDataUser)) {
+                        setUserTeacher(() => {
+                            return (getData(getDataUser) as Obj[])?.filter((item) => item.role === USER.TEACHER) || []
+                        });
+                    }
+                    setSpinGetTeacher(false);
+                }
             }
         }
     }, [getDataUser])
@@ -128,19 +133,23 @@ export const InitCourse = (props: Props) => {
                     </select>
                     <p className="error">{errors.major && touched.major && errors.major}</p>
                 </div>
-                <div>
-                    <span>Giáo viên</span>
-                    {!spinGetTeacher ? (userTeacher.length !== 0 ? <select name="author" value={pickTeacher} onChange={e => {
-                        setPickTeacher(e.target.value);
-                    }} className="select">
-                        {userTeacher.map((item, idx) => {
-                            return (
-                                <option value={item._id as string} key={idx}>{item.username as string}</option>
-                            )
-                        })}
-                    </select> : <span>Ôi không có giáo viên nào hết!</span>) : (<div style={{ textAlign: 'center' }}><Spin /></div>)}
-                    <p className="error">{pickTeacher.length === 0 ? 'Chưa có giáo viên' : ''}</p>
-                </div>
+                {
+                    ((props.user as Obj)?.role as string) === USER.ADMIN && (
+                        <div>
+                            <span>Giáo viên</span>
+                            {!spinGetTeacher ? (userTeacher.length !== 0 ? <select name="author" value={pickTeacher} onChange={e => {
+                                setPickTeacher(e.target.value);
+                            }} className="select">
+                                {userTeacher.map((item, idx) => {
+                                    return (
+                                        <option value={item._id as string} key={idx}>{item.username as string}</option>
+                                    )
+                                })}
+                            </select> : <span>Ôi không có giáo viên nào hết!</span>) : (<div style={{ textAlign: 'center' }}><Spin /></div>)}
+                            <p className="error">{pickTeacher.length === 0 ? 'Chưa có giáo viên' : ''}</p>
+                        </div>)
+                }
+
                 <div>
                     <span>Tên khoá học</span>
                     <Input value={values.nameCourse} name="nameCourse" onChange={handleChange} onBlur={handleBlur} />

@@ -3,6 +3,7 @@ import CourcesReducer, {
   CreateCourseReducer,
   CreateLessonUnitReducer,
   CreateUnitCourseReducer,
+  DropCourseReducer,
   OneCourceDetailReducer,
   RemoveStudentEnrollReducer,
 } from "../course/reducer";
@@ -41,6 +42,7 @@ const state = combineReducers({
   AddStudentEnrollReducer: AddStudentEnrollReducer,
   RemoveStudentEnrollReducer: RemoveStudentEnrollReducer,
   AddCommentCourseReducer: AddCommentCourseReducer,
+  DropCourseReducer: DropCourseReducer
 });
 export type State = ReturnType<typeof state>;
 const rootReducer: Reducer = (currentState: State, action: AnyAction) => {

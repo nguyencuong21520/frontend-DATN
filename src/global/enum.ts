@@ -14,7 +14,8 @@ export enum FORMAT_DATE {
 }
 export enum TYPE_FILE {
     SCORM = 'SCORM',
-    VIDEO = 'VIDEO'
+    VIDEO = 'VIDEO',
+    IMG = 'IMG',
 }
 export const IMG_COURSE = {
     WORD: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Microsoft_Office_Word_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Word_%282019%E2%80%93present%29.svg.png",

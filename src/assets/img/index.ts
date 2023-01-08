@@ -9,4 +9,5 @@ export { default as WatingIcon } from "./watingicon.png";
 export { default as Word } from "./Word.png";
 export { default as PP } from "./PP.png";
 export { default as ScormIcon } from "./PP.png";
-export {};
+export { default as DropIcon } from "./DropIcon.png";
+export { };

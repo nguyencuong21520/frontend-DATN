@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as validateYup from "yup";
 import { useFormik } from 'formik';
 import './style.scss';
-import { Input, Spin } from 'antd';
+import { Input, Spin, Progress } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { Button, message, Upload } from 'antd';
@@ -13,6 +13,8 @@ import { CREATE_COURSE_CLEAR, CREATE_LESSON_UNIT_CLEAR, CREATE_LESSON_UNIT_REQUE
 import { useSelector } from 'react-redux';
 import { State } from '../../../redux-saga/reducer/reducer';
 import { Toaster } from '../../../utils/ToastMess';
+import { uploadFile } from '../../../firebase';
+import { TYPE_FILE } from '../../../global/enum';
 interface Props {
     child?: React.ReactElement;
     setCrrStep(step: number): void;
@@ -53,23 +55,50 @@ export const AddLesson = (props: Props) => {
         setSpin(true);
     }
     const [sourceFile, setSourceFile] = useState<string>('');
+    const [errUpload, setErrUpload] = useState<string | null>(null);
     const [spin, setSpin] = useState<boolean>(false);
+    const fileUpload = useRef();
+    const uploadQuery = useRef(false);
+    const [progess, setProgress] = useState(0);
+    useEffect(() => {
+        if (uploadQuery.current) {
+            if (progess === 100) {
+                (document.querySelector('.container-add-lesson .ant-upload-text-icon') as HTMLElement)!.style.display = 'none';
+                message.success(`Tải lên thành công!`);
+                uploadQuery.current = false;
+            }
+        }
+    }, [progess])
     const propsFile: UploadProps = {
         name: 'file',
-        action: 'http://ec2-54-199-158-253.ap-northeast-1.compute.amazonaws.com:3002/upload',
+        ...(values.type === 'SCORM' && {
+            action: 'http://ec2-54-199-158-253.ap-northeast-1.compute.amazonaws.com:3002/upload'
+        }),
         headers: {
             authorization: 'authorization-text',
         },
         onChange(info) {
-            if (info.file.status !== 'uploading') {
-                setSourceFile((info.fileList[0].response.response as Obj)?.message.index)
-            }
-            if (info.file.status === 'done') {
-                message.success(`Tải lên thành công!`);
-            } else if (info.file.status === 'error') {
-                message.error(`Tải lên thất bại!`);
+            if (values.type === 'VIDEO') {
+                if (info.fileList.length === 0) {
+                    setProgress(0);
+                }
+            } else {
+                if (info.file.status !== 'uploading') {
+                    setSourceFile((info.fileList[0].response.response as Obj)?.message.index)
+                }
+                if (info.file.status === 'done') {
+
+                } else if (info.file.status === 'error') {
+                    message.error(`Tải lên thất bại!`);
+                }
             }
         },
+        ...(values.type === 'VIDEO' && {
+            customRequest(e) {
+                uploadQuery.current = true
+                uploadFile(TYPE_FILE.VIDEO, e.file, setProgress, setSourceFile, setErrUpload);
+            },
+        })
     };
     useEffect(() => {
         if (createLesson) {
@@ -105,9 +134,10 @@ export const AddLesson = (props: Props) => {
                 </select>
                 <br />
                 <label htmlFor="file" style={{ marginRight: '10px' }}>Chọn file tại đây</label>
-                <Upload {...propsFile} id="file" name='file' maxCount={1}>
+                <Upload {...propsFile} id="file" name='file' maxCount={1} ref={fileUpload} >
                     <Button icon={<UploadOutlined />}>Kích để upload</Button>
                 </Upload>
+                {values.type === 'VIDEO' && <Progress percent={Math.ceil(progess)} status={!errUpload ? 'normal' : 'exception'} />}
                 <p className="error">{sourceFile === '' ? 'Hiện chưa có file bài học' : ''}</p>
                 {spin ? <Spin /> : <Button htmlType='submit'>Hoàn tất</Button>}
             </form>

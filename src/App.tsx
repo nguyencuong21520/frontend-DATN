@@ -63,8 +63,8 @@ function App() {
                 <Route path=":id" element={<Messenger />} />
               </Route>
               <Route path="manager">
-                <Route path="courses" element={<MangerCourses />} />
-                <Route path=":id" element={<MangerDetailCourse />} />
+                <Route path="courses" element={<CollectionCourse navigate={navigate} teacher />} />
+                <Route path="course/:id" element={<MangerDetailCourse />} />
               </Route>
               <Route path="create">
                 <Route path="course" element={<CreateaCourse />}></Route>

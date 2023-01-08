@@ -37,6 +37,11 @@ export const REMOVE_STUDENT_ENROLL_SUCCESS = "REMOVE_STUDENT_ENROLL_SUCCESS";
 export const REMOVE_STUDENT_ENROLL_FAILED = "REMOVE_STUDENT_ENROLL_FAILED";
 export const REMOVE_STUDENT_ENROLL_CLEAR = "REMOVE_STUDENT_ENROLL_CLEAR";
 
+export const DROP_COUSE_REQUEST = "DROP_COUSE_REQUEST";
+export const DROP_COUSE_SUCCESS = "DROP_COUSE_SUCCESS";
+export const DROP_COUSE_FAILED = "DROP_COUSE_FAILED";
+export const DROP_COUSE_CLEAR = "DROP_COUSE_CLEAR";
+
 // example APIs Redux-Saga
 const CourcesReducer = createReducer(
   COURCES_REQUEST_GET_DATA,
@@ -83,6 +88,13 @@ const CourseVLReducer = createReducer(
   GET_COURSE_VL_CLEAR
 );
 
+const DropCourseReducer = createReducer(
+  DROP_COUSE_REQUEST,
+  DROP_COUSE_SUCCESS,
+  DROP_COUSE_FAILED,
+  DROP_COUSE_CLEAR
+);
+
 export default CourcesReducer;
 export {
   OneCourceDetailReducer,
@@ -91,4 +103,5 @@ export {
   CreateLessonUnitReducer,
   RemoveStudentEnrollReducer,
   CourseVLReducer,
+  DropCourseReducer
 };

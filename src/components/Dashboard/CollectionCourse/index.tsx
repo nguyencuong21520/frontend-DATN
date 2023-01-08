@@ -27,6 +27,8 @@ interface CollectionCourseProps {
     }): void;
     courses: null | Obj;
     CourcesAction(payload: Action): void;
+    teacher?: boolean;
+    crrUser?: null | Object;
 }
 interface CollectionCourseStates {
     fieldSearch?: string;
@@ -87,10 +89,12 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                 resizable: false,
             },
             {
-                field: 'author',
-                headerName: 'Giáo viên',
-                cellClass: 'cell',
-                resizable: false,
+                ...!this.props.teacher && {
+                    field: 'author',
+                    headerName: 'Giáo viên',
+                    cellClass: 'cell',
+                    resizable: false,
+                }
             },
             {
                 field: 'studentenroll',
@@ -114,7 +118,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                     return <EyeOutlined />
                 },
                 onCellClicked: (params: CellClickedEvent) => {
-                    this.props.navigate(`/admin/collection/course/${params.data._id}`, { replace: true })
+                    this.props.navigate(`${this.props.teacher ? '/manager' : '/admin/collection'}/course/${params.data._id}`, { replace: true })
                 },
                 maxWidth: 50
             }
@@ -181,6 +185,20 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
         }
     }
     mapDataColumnDefs = (data: Obj[]) => {
+        if (this.props.teacher) {
+            const dataForTeacher = data?.filter((item) => {
+                return item.author._id === getData((this.props.crrUser as Obj))._id;
+            })
+            return dataForTeacher?.map((item, idx) => {
+                return {
+                    no: idx + 1,
+                    _id: item._id,
+                    nameCourse: item.nameCourse,
+                    author: item.author.username,
+                    studentenroll: item.studentEnroll as Record<string, unknown>[] || [],
+                }
+            })
+        }
         return data?.map((item, idx) => {
             return {
                 no: idx + 1,
@@ -216,19 +234,20 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                                 style={{ width: 120 }}
                                 options={optionsLevel}
                             />
-                            <Select
+                            {!this.props.teacher && <Select
                                 id='select-teacher'
                                 placeholder='Giáo viên'
                                 style={{ minWidth: 150 }}
                                 options={optionsTeacher}
-                            />
+                            />}
+
                         </div>
                         <div className="btn-handle">
                             <Button>Tìm kiếm</Button>
                             <Button>Đặt lại</Button>
                         </div>
                     </div>
-                    <Link to="/admin/create/course" replace><Button className="add-course-bnt">Tạo khoá học</Button></Link>
+                    <Link to={`${this.props.teacher ? '/create' : '/admin/create'}/course`} replace><Button className="add-course-bnt">Tạo khoá học</Button></Link>
                 </div>
                 <div className="table">
                     <AgGridReact
@@ -255,7 +274,8 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
 }
 
 const mapStateToProps = (state: State) => ({
-    courses: state.Cources
+    courses: state.Cources,
+    crrUser: state.User
 })
 
 const mapDispatchToProps = {

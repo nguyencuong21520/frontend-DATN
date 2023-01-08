@@ -50,23 +50,26 @@ export const Info = (props: Props) => {
   const getUser = getData(crrUser)
   const [storeRqEnroll, setStoreRqEnroll] = useState<Array<string>>([]);
   const [spin, setSpin] = useState(false);
-  const setQuery = useRef(true);
+  const setQuery = useRef(false);
   useEffect(() => {
     if (getUser) {
       if (setQuery.current) {
         localStorage.setItem(`enrollRequest${getUser._id}`, JSON.stringify(storeRqEnroll));
-        if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
-          setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
-        }
         setQuery.current = false;
       }
     }
   }, [storeRqEnroll])
   useEffect(() => {
+    if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
+      setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
+    }
+  }, [])
+  useEffect(() => {
     if (userEnroll) {
       if (!userEnroll.pending) {
         if ((userEnroll?.response as Obj)?.success) {
           Toaster.Success('Yêu cầu tham gia khoá học thành công!');
+          setQuery.current = true;
           setSpin(false);
           setStoreRqEnroll((prev) => {
             prev.push(props.idCourse as string);
