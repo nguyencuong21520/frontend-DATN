@@ -61,7 +61,7 @@ export const AddLesson = (props: Props) => {
     const uploadQuery = useRef(false);
     const [progess, setProgress] = useState(0);
     useEffect(() => {
-        if (uploadQuery.current) {
+        if (uploadQuery.current && values.type === 'VIDEO') {
             if (progess === 100) {
                 (document.querySelector('.container-add-lesson .ant-upload-text-icon') as HTMLElement)!.style.display = 'none';
                 message.success(`Tải lên thành công!`);
@@ -69,6 +69,12 @@ export const AddLesson = (props: Props) => {
             }
         }
     }, [progess])
+    useEffect(() => {
+        if (errUpload) {
+            message.error(errUpload);
+            setErrUpload(null);
+        }
+    }, [errUpload])
     const propsFile: UploadProps = {
         name: 'file',
         ...(values.type === 'SCORM' && {
@@ -77,26 +83,37 @@ export const AddLesson = (props: Props) => {
         headers: {
             authorization: 'authorization-text',
         },
+        ...(values.type === 'SCORM' && {
+            beforeUpload(file: Obj, FileList) {
+                if (file.type !== 'application/zip') {
+                    message.error('File SCORM phải là định dạng zip!');
+                    FileList = []
+                    return false;
+                }
+            }
+        }),
         onChange(info) {
             if (values.type === 'VIDEO') {
                 if (info.fileList.length === 0) {
                     setProgress(0);
                 }
             } else {
-                if (info.file.status !== 'uploading') {
-                    setSourceFile((info.fileList[0].response.response as Obj)?.message.index)
-                }
-                if (info.file.status === 'done') {
-
-                } else if (info.file.status === 'error') {
-                    message.error(`Tải lên thất bại!`);
+                if (info.file.status && info.file.status !== 'removed') {
+                    if (info.file.status !== 'uploading') {
+                        setSourceFile((info.fileList[0].response.response as Obj)?.message.index)
+                    }
+                    if (info.file.status === 'done') {
+                        message.success(`Tải file thành công!`);
+                    } else if (info.file.status === 'error') {
+                        message.error(`Tải lên thất bại!`);
+                    }
                 }
             }
         },
         ...(values.type === 'VIDEO' && {
             customRequest(e) {
                 uploadQuery.current = true
-                uploadFile(TYPE_FILE.VIDEO, e.file, setProgress, setSourceFile, setErrUpload);
+                uploadFile(values.type as TYPE_FILE, e.file, setProgress, setSourceFile, setErrUpload);
             },
         })
     };

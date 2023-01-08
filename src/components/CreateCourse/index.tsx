@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const CreateaCourse = (props: Props) => {
-    const [crrStep, setCrrStep] = useState<number>(2);
+    const [crrStep, setCrrStep] = useState<number>(0);
     const crrUser = useSelector((state: State) => state.User);
     const dataCrrUser = getData(crrUser);
     const user = {

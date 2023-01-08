@@ -53,7 +53,7 @@ export const InitCourse = (props: Props) => {
             major: "Excel",
             nameCourse: "",
             img: "",
-            summaryCource: "",
+            summaryCourse: "",
             videoThumbnail: "",
             level: "BASIC"
 
@@ -61,7 +61,7 @@ export const InitCourse = (props: Props) => {
         validationSchema: validateYup.object().shape({
             major: validateYup.string().required("Chuyên môn không được thiếu"),
             nameCourse: validateYup.string().required("Bạn cần cung cấp tên khoá học"),
-            summaryCource: validateYup.string().required("Bạn cần cung cấp tổng quan khoá học"),
+            summaryCourse: validateYup.string().required("Bạn cần cung cấp tổng quan khoá học"),
         }),
         onSubmit: (values) => {
             const mapBody = {
@@ -158,9 +158,9 @@ export const InitCourse = (props: Props) => {
                 <div>
                     <span>Mô tả khoá học</span>
                     <br />
-                    <textarea value={values.summaryCource} name="summaryCource" onChange={handleChange} onBlur={handleBlur} />
+                    <textarea value={values.summaryCourse} name="summaryCourse" onChange={handleChange} onBlur={handleBlur} />
                     <br />
-                    <p className="error">{errors.summaryCource && touched.summaryCource && errors.summaryCource}</p>
+                    <p className="error">{errors.summaryCourse && touched.summaryCourse && errors.summaryCourse}</p>
                 </div>
                 <div>
                     <span>Cấp độ</span>
