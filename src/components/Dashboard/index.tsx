@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Course from "./Statistical/Course";
+import UserChart from "./Statistical/UserChart";
 import TotalCourse from "./Statistical/TotalCourse";
 import "./style.scss";
 
@@ -12,7 +13,7 @@ export const Dashboard = () => {
     <div className="container-dashboard">
       <div className="chart">
         <div className="plot child">
-          <Course />
+          <UserChart />
           <Course />
         </div>
         <div className="total-course child">

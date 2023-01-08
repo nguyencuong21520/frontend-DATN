@@ -26,6 +26,9 @@ import {
   ADD_COMMENT_COURSE_SUCCESS,
   ADD_COMMENT_COURSE_FAILED,
   ADD_COMMENT_COURSE_REQUEST,
+  USERS_DASH_BOARD_SUCCESS,
+  USERS_DASH_BOARD_FAILED,
+  USERS_DASH_BOARD,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -114,6 +117,15 @@ function* addCommentCourse(payload: Obj) {
   );
 }
 
+function* usersDashBoardRequest(payload: Obj) {
+  yield watchRequest(
+    `/api/user/dashboard`,
+    METHOD.GET,
+    USERS_DASH_BOARD_SUCCESS,
+    USERS_DASH_BOARD_FAILED,
+  );
+}
+
 export function* queryDataUser() {
   yield all([takeLatest(USER_REQUEST_LOGIN_API, userLogin)]);
 }
@@ -141,4 +153,7 @@ export function* queryStudentEnroll() {
 }
 export function* queryAddCommentCourse() {
   yield all([takeLatest(ADD_COMMENT_COURSE_REQUEST, addCommentCourse)]);
+}
+export function* queryUsersDashBoard() {
+  yield all([takeLatest(USERS_DASH_BOARD, usersDashBoardRequest)]);
 }

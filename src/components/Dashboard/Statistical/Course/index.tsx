@@ -6,7 +6,7 @@ import { State } from "../../../../redux-saga/reducer/reducer";
 import { chartConfig } from "./config";
 import "./style.scss";
 
-interface CourcesProps {}
+interface CourcesProps { }
 class Course extends Component<CourcesProps> {
   private chartOpstion: Highcharts.Options;
   constructor(props: CourcesProps) {

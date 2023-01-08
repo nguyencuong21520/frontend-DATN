@@ -4,6 +4,7 @@ import queryDataCources, {
   queryCreateCourseRequest,
   querycreateLessonUnitRequest,
   queryCreateUnitCourseRequest,
+  queryDropCourse,
   queryGetOneCourseDetail,
   queryRemoveStudenEnroll,
 } from "../course/saga";
@@ -15,6 +16,7 @@ import {
   queryStudentEnroll,
   queryUserEnrollCourse,
   queryUserFetchInfo,
+  queryUsersDashBoard,
   signUpUser,
   updateInfoUser,
 } from "../user/saga";
@@ -37,5 +39,7 @@ export function* rootSaga() {
     queryRemoveStudenEnroll(),
     queryAddCommentCourse(),
     queryCourseVL(),
+    queryDropCourse(),
+    queryUsersDashBoard()
   ]);
 }

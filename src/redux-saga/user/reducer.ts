@@ -37,6 +37,10 @@ export const ADD_COMMENT_COURSE_SUCCESS = "ADD_COMMENT_COURSE_SUCCESS";
 export const ADD_COMMENT_COURSE_FAILED = "ADD_COMMENT_COURSE_FAILED";
 export const ADD_COMMENT_COURSE_CLEAR = "ADD_COMMENT_COURSE_CLEAR";
 
+export const USERS_DASH_BOARD = "USERS_DASH_BOARD";
+export const USERS_DASH_BOARD_SUCCESS = "USERS_DASH_BOARD_SUCCESS";
+export const USERS_DASH_BOARD_FAILED = "USERS_DASH_BOARD_FAILED";
+
 export const USER_FETCH_INFO_REQUEST = "USER_FETCH_INFO_REQUEST";
 // example APIs Redux-Saga
 const UserReducer = createReducer(
@@ -96,6 +100,11 @@ const AddCommentCourseReducer = createReducer(
   ADD_COMMENT_COURSE_FAILED,
   ADD_COMMENT_COURSE_CLEAR
 );
+const UsersDashBoardReducer = createReducer(
+  USERS_DASH_BOARD,
+  USERS_DASH_BOARD_SUCCESS,
+  USERS_DASH_BOARD_FAILED,
+);
 
 export {
   UserReducer,
@@ -106,5 +115,6 @@ export {
   UserEnrollReducer,
   MaskDoneCourse,
   AddStudentEnrollReducer,
-  AddCommentCourseReducer
+  AddCommentCourseReducer,
+  UsersDashBoardReducer
 };

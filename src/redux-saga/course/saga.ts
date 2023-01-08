@@ -23,6 +23,12 @@ import {
   GET_COURSE_VL_SUCCESS,
   GET_COURSE_VL,
   GET_ONE_DETAIL_ONE_COURSE_VL,
+  DROP_COUSE_SUCCESS,
+  DROP_COUSE_FAILED,
+  DROP_COUSE_REQUEST,
+  COURSES_DASH_BOARD,
+  COURSES_DASH_BOARD_SUCCESS,
+  COURSES_DASH_BOARD_FAILED,
 } from "./reducer";
 import { METHOD } from "../../global/enum";
 import { Obj } from "../../global/interface";
@@ -102,6 +108,25 @@ function* getOneCourseDetailVL(payload: Obj) {
     GET_ONE_DETAIL_ONE_COURSE_FAILED
   );
 }
+
+function* dropCourseRequest(payload: Obj) {
+  yield watchRequest(
+    `/api/course/delete/${payload.payload.payload.params._idCourse}`,
+    METHOD.GET,
+    DROP_COUSE_SUCCESS,
+    DROP_COUSE_FAILED
+  );
+}
+
+function* courseDashBoardRequest(payload: Obj) {
+  yield watchRequest(
+    `/api/course/delete/${payload.payload.payload.params._idCourse}`,
+    METHOD.GET,
+    COURSES_DASH_BOARD_SUCCESS,
+    COURSES_DASH_BOARD_FAILED
+  );
+}
+
 export default function* queryDataCources() {
   yield all([takeLatest(COURCES_REQUEST_GET_DATA, courcesRequest)]);
 }
@@ -133,4 +158,8 @@ export function* queryCourseVL() {
 
 export function* queryGetOneCourseDetailVL() {
   yield all([takeLatest(GET_ONE_DETAIL_ONE_COURSE_VL, getOneCourseDetailVL)]);
+}
+
+export function* queryDropCourse() {
+  yield all([takeLatest(DROP_COUSE_REQUEST, dropCourseRequest)]);
 }
