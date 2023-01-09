@@ -1,7 +1,6 @@
 import Highcharts from "highcharts";
 import { Obj } from "../../../../global/interface";
 export const chartConfig = (data: Obj): Highcharts.Options => {
-  console.log(data)
   return {
     chart: {
       type: "column",
@@ -26,22 +25,38 @@ export const chartConfig = (data: Obj): Highcharts.Options => {
       {
         name: "Excel",
         type: "column",
-        data: [data.BASIC?.Excel, data.ADVANCED?.Excel, data.INTENSVIVE?.Excel],
+        data: [
+          data.BASIC?.Excel || 0,
+          data.ADVANCED?.Excel || 0,
+          data.INTENSVIVE?.Excel || 0,
+        ],
       },
       {
         name: "Word",
         type: "column",
-        data: [data.BASIC?.Word, data.ADVANCED?.Word, data.INTENSVIVE?.Word],
+        data: [
+          data.BASIC?.Word || 0,
+          data.ADVANCED?.Word || 0,
+          data.INTENSVIVE?.Word || 0,
+        ],
       },
       {
         name: "Powerpoint",
         type: "column",
-        data: [data.BASIC?.PP, data.ADVANCED?.PP, data.INTENSVIVE?.PP],
+        data: [
+          data.BASIC?.PP || 0,
+          data.ADVANCED?.PP || 0,
+          data.INTENSVIVE?.PP || 0,
+        ],
       },
       {
         name: "Window",
         type: "column",
-        data: [data.BASIC?.Window, data.ADVANCED?.Window, data.INTENSVIVE?.Window],
+        data: [
+          data.BASIC?.Window || 0,
+          data.ADVANCED?.Window || 0,
+          data.INTENSVIVE?.Window || 0,
+        ],
       },
     ],
   };

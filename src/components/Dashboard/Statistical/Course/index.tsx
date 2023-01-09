@@ -17,14 +17,14 @@ class Course extends Component<Props> {
   private chartRef: React.RefObject<{ chart: Highcharts.Chart }>;
   constructor(props: Props) {
     super(props);
-    this.chartOpstion = chartConfig(getData(this.props.userDashboard)?.user || {});
+    this.chartOpstion = chartConfig(getData(this.props.userDashboard)?.course.byMajor || {});
     this.chartRef = React.createRef();
   }
   shouldComponentUpdate(nextProps: Props): boolean {
     if (nextProps.userDashboard) {
       if (!nextProps.userDashboard.pending) {
         const data = getData(nextProps.userDashboard)
-        this.chartOpstion = chartConfig(data.user);
+        this.chartOpstion = chartConfig(data.course.byMajor);
         this.chartRef.current?.chart.update(this.chartOpstion);
       }
     }
