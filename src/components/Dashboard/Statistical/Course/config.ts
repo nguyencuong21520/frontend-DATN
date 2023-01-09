@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
-export const chartConfig = (): Highcharts.Options => {
+import { Obj } from "../../../../global/interface";
+export const chartConfig = (data: Obj): Highcharts.Options => {
   return {
     chart: {
       type: "spline",

@@ -7,8 +7,8 @@ import { chartConfig } from "./config";
 import "./style.scss";
 import { Action, Obj } from "../../../../global/interface";
 import { UserAction } from "../../../../redux-saga/user/action";
-import { USERS_DASH_BOARD } from "../../../../redux-saga/user/reducer";
 import { getData } from "../../../../utils/Hook";
+import { Spin } from "antd";
 
 interface Props {
   userDashboard: Obj | null;
@@ -20,9 +20,6 @@ class UserChart extends Component<Props> {
   constructor(props: Props) {
     super(props);
     this.chartOpstion = chartConfig(getData(this.props.userDashboard)?.user || {});
-    if (!this.props.userDashboard) {
-      this.queryData();
-    }
     this.chartRef = React.createRef();
   }
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -30,22 +27,15 @@ class UserChart extends Component<Props> {
       if (!nextProps.userDashboard.pending) {
         const data = getData(nextProps.userDashboard)
         this.chartOpstion = chartConfig(data.user);
-        console.log(nextProps)
         this.chartRef.current?.chart.update(this.chartOpstion);
-        return true;
       }
     }
-    return false;
-  }
-  queryData = () => {
-    this.props.UserAction({
-      type: USERS_DASH_BOARD
-    })
+    return true;
   }
   render() {
     return (
       <div className="container-statis-course">
-        <HighchartsReact highcharts={Highcharts} options={this.chartOpstion} />
+        {this.props.userDashboard?.pending ? <Spin /> : (<HighchartsReact highcharts={Highcharts} options={this.chartOpstion} />)}
       </div>
     );
   }

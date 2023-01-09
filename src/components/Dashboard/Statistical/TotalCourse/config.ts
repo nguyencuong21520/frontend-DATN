@@ -1,5 +1,7 @@
 import Highcharts from "highcharts";
-export const chartConfig = (): Highcharts.Options => {
+import { Obj } from "../../../../global/interface";
+export const chartConfig = (data: Obj): Highcharts.Options => {
+  console.log(data)
   return {
     chart: {
       type: "column",
@@ -7,7 +9,7 @@ export const chartConfig = (): Highcharts.Options => {
     title: {
       text: "Tổng lượng khoá học",
     },
-    colors: ["#24bb55", "#248bbb", "#bd393c"],
+    colors: ["#24bb55", "#248bbb", "#bd393c", "#4a8df7"],
     xAxis: {
       categories: ["Cơ bản", "Nâng cao", "Chuyên sâu"],
     },
@@ -24,17 +26,22 @@ export const chartConfig = (): Highcharts.Options => {
       {
         name: "Excel",
         type: "column",
-        data: [6, 10, 20],
+        data: [data.BASIC?.Excel, data.ADVANCED?.Excel, data.INTENSVIVE?.Excel],
       },
       {
         name: "Word",
         type: "column",
-        data: [2, 5, 6],
+        data: [data.BASIC?.Word, data.ADVANCED?.Word, data.INTENSVIVE?.Word],
       },
       {
         name: "Powerpoint",
         type: "column",
-        data: [1, 3, 4],
+        data: [data.BASIC?.PP, data.ADVANCED?.PP, data.INTENSVIVE?.PP],
+      },
+      {
+        name: "Window",
+        type: "column",
+        data: [data.BASIC?.Window, data.ADVANCED?.Window, data.INTENSVIVE?.Window],
       },
     ],
   };

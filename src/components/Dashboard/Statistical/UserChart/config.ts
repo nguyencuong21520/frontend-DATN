@@ -41,7 +41,7 @@ export const chartConfig = (data: Obj): Highcharts.Options => {
       type: "spline",
     },
     title: {
-      text: "Thống kê lượng Role hệ thống",
+      text: "Số lượng người dùng hệ thống",
     },
     colors: ["#24bb55", "#248bbb", "#bd393c"],
     yAxis: [
