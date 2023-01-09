@@ -19,7 +19,7 @@ class UserChart extends Component<Props> {
   private chartRef: React.RefObject<{ chart: Highcharts.Chart }>;
   constructor(props: Props) {
     super(props);
-    this.chartOpstion = chartConfig(getData(this.props.userDashboard).user || {});
+    this.chartOpstion = chartConfig(getData(this.props.userDashboard)?.user || {});
     if (!this.props.userDashboard) {
       this.queryData();
     }

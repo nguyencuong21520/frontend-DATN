@@ -60,8 +60,10 @@ export const Info = (props: Props) => {
     }
   }, [storeRqEnroll])
   useEffect(() => {
-    if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
-      setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
+    if (getUser) {
+      if (localStorage.getItem(`enrollRequest${getUser._id}`)) {
+        setStoreRqEnroll((JSON.parse(localStorage.getItem(`enrollRequest${getUser._id}`) as string)) as Array<string>)
+      }
     }
   }, [])
   useEffect(() => {
