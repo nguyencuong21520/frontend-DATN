@@ -156,7 +156,7 @@ export const AddLesson = (props: Props) => {
                 </Upload>
                 {values.type === 'VIDEO' && <Progress percent={Math.ceil(progess)} status={!errUpload ? 'normal' : 'exception'} />}
                 <p className="error">{sourceFile === '' ? 'Hiện chưa có file bài học' : ''}</p>
-                {spin ? <Spin /> : <Button htmlType='submit'>Hoàn tất</Button>}
+                {spin ? <Spin /> : <Button className="btn_done" htmlType='submit'>Hoàn tất</Button>}
             </form>
         </div>
     )

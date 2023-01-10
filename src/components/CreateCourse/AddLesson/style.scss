@@ -1,4 +1,5 @@
 .container-add-lesson {
+  margin-top: 25px;
   select {
     width: fit-content;
     outline: none;
@@ -7,5 +8,8 @@
   }
   .error {
     color: red;
+  }
+  .btn_done{
+    margin-top: 20px;
   }
 }

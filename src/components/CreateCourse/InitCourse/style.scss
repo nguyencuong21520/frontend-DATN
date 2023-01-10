@@ -1,4 +1,5 @@
 .container-init-course {
+  margin-top: 25px;
   div {
     .select {
       width: fit-content;
@@ -11,8 +12,12 @@
       width: 100%;
       height: fit-content;
     }
+    
   }
   .error {
     color: red;
+  }
+  .group_btn{
+    margin-top: 20px;
   }
 }

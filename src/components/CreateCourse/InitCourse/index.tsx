@@ -27,6 +27,10 @@ const optionsMajor = [
         label: 'Powerpoint',
         value: 'PP'
     },
+    {
+        label: 'Cơ bản',
+        value: 'Window'
+    },
 ]
 const optionsLevel = [
     {
@@ -172,7 +176,7 @@ export const InitCourse = (props: Props) => {
                         })}
                     </select>
                 </div>
-                <div>
+                <div className="group_btn">
                     <Button onClick={handleReset}>Đặt lại</Button>
                     {!spin ? <Button htmlType="submit">Tạo</Button> : (<Spin className="spin-add" />)}
                 </div>

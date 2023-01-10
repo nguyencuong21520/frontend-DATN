@@ -72,7 +72,7 @@ export const chartConfig = (data: Obj): Highcharts.Options => {
       },
     ],
     tooltip: {
-      xDateFormat: "%d/%m/%Y",
+      xDateFormat: "%d/%m",
     },
     xAxis: [
       {
@@ -82,7 +82,7 @@ export const chartConfig = (data: Obj): Highcharts.Options => {
           text: "Mốc thời gian",
         },
         labels: {
-          format: "{value:%d/%m/%Y}",
+          format: "{value:%d/%m}",
         },
       },
     ],
