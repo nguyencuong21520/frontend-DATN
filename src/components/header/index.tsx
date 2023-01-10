@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Dropdown, Menu, Space } from "antd";
+import { Avatar, Badge, Dropdown, Menu, Space } from "antd";
 import { Link } from "react-router-dom";
 import { DownOutlined } from "@ant-design/icons";
 import { useGetUser } from "../../utils/Hook";
@@ -41,7 +41,9 @@ export const Header = () => {
         </Badge>
         <div className="user-account">
           <div className="avatar">
-            <AvatarHard />
+            <Badge>
+              <Avatar shape="circle" size="large" src={currentUser.img as string} />
+            </Badge>
           </div>
           <div className="drop-down-account">
             <Dropdown overlay={menu} trigger={["click"]}>

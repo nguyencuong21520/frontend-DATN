@@ -13,6 +13,7 @@ import { Obj } from '../../../global/interface';
 interface Props {
     child?: React.ReactElement;
     setCrrStep(step: number): void;
+    idCourse?: string;
 }
 export const AddUnit = (props: Props) => {
     const [spin, setSpin] = useState<boolean>(false);
@@ -32,7 +33,7 @@ export const AddUnit = (props: Props) => {
                 type: CREATE_UNIT_COURSE_REQUEST,
                 payload: {
                     params: {
-                        _idCourse: ((idCourseCrr?.response as Obj)?.response as Obj)?.data.insertedId
+                        _idCourse: props.idCourse ? props.idCourse : ((idCourseCrr?.response as Obj)?.response as Obj)?.data.insertedId
                     },
                     body: {
                         ...values

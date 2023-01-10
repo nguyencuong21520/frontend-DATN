@@ -7,6 +7,7 @@ import { AddLesson } from './AddLesson';
 import { useSelector } from 'react-redux';
 import { State } from '../../redux-saga/reducer/reducer';
 import { getData } from '../../utils/Hook';
+import { useParams } from 'react-router-dom';
 
 const { Step } = Steps;
 interface Props {
@@ -14,7 +15,9 @@ interface Props {
 }
 
 export const CreateaCourse = (props: Props) => {
-    const [crrStep, setCrrStep] = useState<number>(0);
+    const { type, id } = useParams();
+    const getStep = type ? (type === 'unit' ? 1 : (type === 'lesson' ? 2 : 0)) : 0;
+    const [crrStep, setCrrStep] = useState<number>(getStep);
     const crrUser = useSelector((state: State) => state.User);
     const dataCrrUser = getData(crrUser);
     const user = {
@@ -35,7 +38,7 @@ export const CreateaCourse = (props: Props) => {
             </div>
             <div className="container-main">
                 {
-                    crrStep === 0 ? (<InitCourse setCrrStep={(step: number) => { setCrrStep(step) }} user={user} />) : (crrStep === 1 ? (<AddUnit setCrrStep={(step: number) => { setCrrStep(step) }} />) : (<AddLesson setCrrStep={(step: number) => { setCrrStep(step) }} />))
+                    crrStep === 0 ? (<InitCourse setCrrStep={(step: number) => { setCrrStep(step) }} user={user} />) : (crrStep === 1 ? (<AddUnit idCourse={id} setCrrStep={(step: number) => { setCrrStep(step) }} />) : (type === 'lesson' ? (<AddLesson idCourse={id} setCrrStep={(step: number) => { setCrrStep(step) }} />) : (<AddLesson setCrrStep={(step: number) => { setCrrStep(step) }} />)))
                 }
             </div>
         </div>

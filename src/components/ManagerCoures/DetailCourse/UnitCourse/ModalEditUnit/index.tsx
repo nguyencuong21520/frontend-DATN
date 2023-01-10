@@ -12,7 +12,6 @@ interface ModalEditUnitProps {
 }
 export const ModalEditUnit = (props: ModalEditUnitProps) => {
   const [visibleModalEdit, setVisibleModalEdit] = useState<boolean>(false);
-
   const [dataLesson, setDataLesson] = useState<Obj>({});
   return (
     <Modal
@@ -32,11 +31,11 @@ export const ModalEditUnit = (props: ModalEditUnitProps) => {
           </label>
           <Input
             placeholder="Tiêu đề học phần"
-            value={props.dataLesson.title}
+            value={props.dataLesson.unitName}
             id="title-unit"
           />
         </div>
-        {props.dataLesson.data?.map((item: Obj) => {
+        {props.dataLesson.lesson?.map((item: Obj) => {
           return (
             <div className="row-file">
               File:{" "}
@@ -46,7 +45,7 @@ export const ModalEditUnit = (props: ModalEditUnitProps) => {
                   setVisibleModalEdit(true);
                 }}
               >
-                {item.title}
+                {item.lessonName}
               </u>
             </div>
           );

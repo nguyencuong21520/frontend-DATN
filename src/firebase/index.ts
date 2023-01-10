@@ -88,6 +88,7 @@ const uploadFile = (typeFile: TYPE_FILE, file: any, progress: (number: number) =
                 // Upload completed successfully, now we can get the download URL
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     getUrl(downloadURL)
+                    console.log(downloadURL)
                 });
             }
         );

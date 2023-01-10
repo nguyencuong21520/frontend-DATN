@@ -47,6 +47,10 @@ export const COURSES_DASH_BOARD = "COURSES_DASH_BOARD";
 export const COURSES_DASH_BOARD_SUCCESS = "COURSES_DASH_BOARD_SUCCESS";
 export const COURSES_DASH_BOARD_FAILED = "COURSES_DASH_BOARD_FAILED";
 
+export const UPDATE_UNIT_COURSE = "UPDATE_UNIT_COURSE";
+export const UPDATE_UNIT_COURSE_SUCCESS = "UPDATE_UNIT_COURSE_SUCCESS";
+export const UPDATE_UNIT_COURSE_FAILED = "UPDATE_UNIT_COURSE_FAILED";
+export const UPDATE_UNIT_COURSE_CLEAR = "UPDATE_UNIT_COURSE_CLEAR";
 // example APIs Redux-Saga
 const CourcesReducer = createReducer(
   COURCES_REQUEST_GET_DATA,
@@ -107,6 +111,12 @@ const CoursesDashBoardReducer = createReducer(
   COURSES_DASH_BOARD_FAILED,
 );
 
+const UpdateUnitCourse = createReducer(
+  UPDATE_UNIT_COURSE,
+  UPDATE_UNIT_COURSE_SUCCESS,
+  UPDATE_UNIT_COURSE_FAILED,
+);
+
 export default CourcesReducer;
 export {
   OneCourceDetailReducer,
@@ -116,5 +126,6 @@ export {
   RemoveStudentEnrollReducer,
   CourseVLReducer,
   DropCourseReducer,
-  CoursesDashBoardReducer
+  CoursesDashBoardReducer,
+  UpdateUnitCourse
 };

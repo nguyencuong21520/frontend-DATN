@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 interface Props {
     child?: React.ReactElement;
     setCrrStep(step: number): void;
+    idCourse?: string;
 }
 
 export const AddLesson = (props: Props) => {
@@ -47,7 +48,7 @@ export const AddLesson = (props: Props) => {
             type: CREATE_LESSON_UNIT_REQUEST,
             payload: {
                 params: {
-                    _idUnit: ((createUnit?.response as Obj)?.response.data as Obj)?.insertedId
+                    _idUnit: props.idCourse ? props.idCourse : ((createUnit?.response as Obj)?.response.data as Obj)?.insertedId
                 },
                 body: bodyData
 

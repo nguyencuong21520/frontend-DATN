@@ -14,6 +14,8 @@ import { UserAction } from "../../redux-saga/user/action";
 import { USER_UPDATE_INFO_REQUEST } from "../../redux-saga/user/reducer";
 import { State } from "../../redux-saga/reducer/reducer";
 import "./style.scss";
+import { TYPE_FILE } from "../../global/enum";
+import { uploadFile } from "../../firebase";
 
 // eslint-disable-next-line no-useless-escape
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
@@ -24,18 +26,33 @@ export const Setting = () => {
   const updateInfoUser = useSelector((state: State) => state.UserUpdateInfoReducer);
   const query = useRef<boolean>(false);
   const [spin, setSpin] = useState<boolean>(false);
-  const [fileList, setFileList] = useState<UploadFile[]>([
+  const [fileList, setFileList] = useState<any[]>([
     {
       uid: "-1",
       name: "image.png",
       status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+      url: currentUser.img,
     },
   ]);
   const dispatch = useDispatch();
   const onChange: UploadProps["onChange"] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
+  const [errUpload, setErrUpload] = useState<string | null>(null);
+  const [progess, setProgress] = useState(0);
+  const setSourceFile = (url: string) => {
+    setFileList([{ ...fileList, url: url }])
+  }
+  console.log(fileList)
+  const propsFile: UploadProps = {
+    name: 'file',
+    headers: {
+      authorization: 'authorization-text',
+    },
+    customRequest(e) {
+      uploadFile(TYPE_FILE.IMG, e.file, setProgress, setSourceFile, setErrUpload);
+    },
+  }
   useEffect(() => {
     if (query.current) {
       if (updateInfoUser) {
@@ -99,7 +116,10 @@ export const Setting = () => {
       dispatch(UserAction({
         type: USER_UPDATE_INFO_REQUEST,
         payload: {
-          body: values,
+          body: {
+            ...values,
+            img: fileList[0].url
+          },
           params: {
             _id: values._id
           }
@@ -118,12 +138,12 @@ export const Setting = () => {
             <strong>Hình ảnh</strong>
             <ImgCrop rotate>
               <Upload
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 listType="picture-card"
-                fileList={fileList}
+                // fileList={fileList}
                 maxCount={1}
-                onChange={onChange}
-                onPreview={onPreview}
+                {...propsFile}
+              // onChange={onChange}
+              // onPreview={onPreview}
               >
                 {fileList.length < 5 && "+ Upload"}
               </Upload>
