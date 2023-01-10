@@ -28,7 +28,7 @@ const optionsMajor = [
         value: 'PP'
     },
     {
-        label: 'Cơ bản',
+        label: 'Window',
         value: 'Window'
     },
 ]
