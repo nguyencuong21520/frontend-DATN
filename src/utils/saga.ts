@@ -59,6 +59,23 @@ const putData = async (
     );
   return response;
 };
+const deleteData = async (
+  uri?: string,
+  data?: Obj,
+  passParameters?: Obj | string | undefined
+) => {
+  const response = await httpClient
+    .delete(uri as string)
+    .then(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        return error.response;
+      }
+    );
+  return response;
+};
 
 export function* watchRequest(
   uri?: string,
@@ -79,6 +96,9 @@ export function* watchRequest(
         break;
       case METHOD.PUT:
         response = yield call(putData, uri, bodyRequest, passParameters);
+        break;
+      case METHOD.DELETE:
+        response = yield call(deleteData, uri, bodyRequest, passParameters);
         break;
       default:
         response = yield call(getData, uri);

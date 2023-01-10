@@ -2,6 +2,7 @@ import { createReducer } from "../../utils/redux";
 export const COURCES_REQUEST_GET_DATA = "COURCES_REQUEST_GET_API";
 export const COURCES_GET_SUCCESS = "COURCES_GET_SUCCESS";
 export const COURCES_GET_FAILED = "COURCES_GET_FAILED";
+export const COURCES_GET_CLEAR = "COURCES_GET_CLEAR";
 
 export const GET_COURSE_VL = "GET_COURSE_VL";
 export const GET_COURSE_VL_SUCCESS = "GET_COURSE_VL_SUCCESS";
@@ -50,7 +51,8 @@ export const COURSES_DASH_BOARD_FAILED = "COURSES_DASH_BOARD_FAILED";
 const CourcesReducer = createReducer(
   COURCES_REQUEST_GET_DATA,
   COURCES_GET_SUCCESS,
-  COURCES_GET_FAILED
+  COURCES_GET_FAILED,
+  COURCES_GET_CLEAR
 );
 const OneCourceDetailReducer = createReducer(
   GET_ONE_DETAIL_ONE_COURSE,

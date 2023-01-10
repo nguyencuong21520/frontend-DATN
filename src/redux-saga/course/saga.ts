@@ -19,14 +19,11 @@ import {
   REMOVE_STUDENT_ENROLL_SUCCESS,
   REMOVE_STUDENT_ENROLL_FAILED,
   REMOVE_STUDENT_ENROLL_REQUEST,
-  GET_COURSE_VL_FAILED,
-  GET_COURSE_VL_SUCCESS,
   GET_COURSE_VL,
   GET_ONE_DETAIL_ONE_COURSE_VL,
   DROP_COUSE_SUCCESS,
   DROP_COUSE_FAILED,
   DROP_COUSE_REQUEST,
-  COURSES_DASH_BOARD,
   COURSES_DASH_BOARD_SUCCESS,
   COURSES_DASH_BOARD_FAILED,
 } from "./reducer";
@@ -112,7 +109,7 @@ function* getOneCourseDetailVL(payload: Obj) {
 function* dropCourseRequest(payload: Obj) {
   yield watchRequest(
     `/api/course/delete/${payload.payload.payload.params._idCourse}`,
-    METHOD.GET,
+    METHOD.DELETE,
     DROP_COUSE_SUCCESS,
     DROP_COUSE_FAILED
   );

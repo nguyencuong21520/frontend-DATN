@@ -9,7 +9,7 @@ import { State } from '../../../redux-saga/reducer/reducer';
 import { NoDataGrid } from '../../NoDataGrid';
 import { ReactComponent as Filters } from "../../../assets/svg/Filters.svg";
 import { CourcesAction } from '../../../redux-saga/course/action';
-import { COURCES_REQUEST_GET_DATA } from '../../../redux-saga/course/reducer';
+import { COURCES_GET_CLEAR, COURCES_REQUEST_GET_DATA } from '../../../redux-saga/course/reducer';
 import { getData } from '../../../utils/Hook';
 import './style.scss';
 import { Link } from 'react-router-dom';
@@ -29,6 +29,7 @@ interface CollectionCourseProps {
     CourcesAction(payload: Action): void;
     teacher?: boolean;
     crrUser?: null | Object;
+    deleteCourses: null | Obj;
 }
 interface CollectionCourseStates {
     fieldSearch?: string;
@@ -127,6 +128,13 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
         this.state = {
             sortBy: SORT_BY.LATEST
         }
+        if (this.props.deleteCourses) {
+            if (this.props.deleteCourses.response.success) {
+                this.props.CourcesAction({
+                    type: COURCES_GET_CLEAR
+                })
+            }
+        }
     }
     shouldComponentUpdate(nextProps: CollectionCourseProps, nextState: CollectionCourseStates): boolean {
         if (this.state.sortBy !== nextState.sortBy) {
@@ -139,6 +147,7 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
                 this.gridRef.current?.api.setRowData(this.rowData);
             }
         }
+
         return false;
     }
     onChangeSortBy = (e: RadioChangeEvent) => {
@@ -275,7 +284,8 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
 
 const mapStateToProps = (state: State) => ({
     courses: state.Cources,
-    crrUser: state.User
+    crrUser: state.User,
+    deleteCourses: state.DropCourseReducer
 })
 
 const mapDispatchToProps = {
