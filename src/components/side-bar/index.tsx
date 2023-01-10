@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { USER } from "../../global/enum";
 import { useGetUser } from "../../utils/Hook";
 import { ReactComponent as Ellipse1 } from "../../assets/svg/Ellipse1.svg";
@@ -17,7 +17,7 @@ import { ReactComponent as User } from "../../assets/svg/User.svg";
 import { ReactComponent as Leave } from "../../assets/svg/Leave.svg";
 import { Users } from "../../assets/img";
 import "./style.scss";
-import { CLEAR_ALL_REDUCERS } from "../../redux-saga/reducer/reducer";
+import { CLEAR_ALL_REDUCERS, State } from "../../redux-saga/reducer/reducer";
 
 interface NavigationBar {
   icon: React.ReactElement;
@@ -122,26 +122,28 @@ const navigationForAdmin: Array<NavigationBar> = [
   },
 ];
 
-const navBottom = [
-  {
-    icon: <User className="icon-cpn" />,
-    title: "Tài khoản",
-    key: Page.ACCOUNT,
-    route: "my-profile",
-  },
-  {
-    icon: <Leave className="icon-cpn" />,
-    title: "Đăng xuất",
-    key: Page.LOGOUT,
-    route: "/account/login",
-  },
-]
+
 export const SideBar = () => {
   const [currentPage, setCurrentPage] = useState<string>(Page.HOME_PAGE);
   const navigate = useNavigate();
+  const roleVL = useSelector((state: State) => state.RoleViewAppVLReducer);
   const currentRoute = useLocation();
   const dispatch = useDispatch();
   const currentUser = useGetUser();
+  const navBottom = [
+    {
+      icon: <User className="icon-cpn" />,
+      title: "Tài khoản",
+      key: Page.ACCOUNT,
+      route: "my-profile",
+    },
+    {
+      icon: <Leave className="icon-cpn" />,
+      title: !roleVL ? "Đăng xuất" : "Đăng nhập",
+      key: Page.LOGOUT,
+      route: "/account/login",
+    },
+  ]
   useEffect(() => {
     setCurrentPage(
       currentRoute.pathname.slice(1, currentRoute.pathname.length)
@@ -151,8 +153,10 @@ export const SideBar = () => {
     setCurrentPage(page);
   };
   const userLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem(`enrollRequest${currentUser._id}`);
+    if (!roleVL) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem(`enrollRequest${currentUser._id}`);
+    }
     dispatch({
       type: CLEAR_ALL_REDUCERS
     })

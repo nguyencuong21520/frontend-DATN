@@ -9,7 +9,7 @@ import { State } from '../../../redux-saga/reducer/reducer';
 import { NoDataGrid } from '../../NoDataGrid';
 import { ReactComponent as Filters } from "../../../assets/svg/Filters.svg";
 import { CourcesAction } from '../../../redux-saga/course/action';
-import { COURCES_GET_CLEAR, COURCES_REQUEST_GET_DATA } from '../../../redux-saga/course/reducer';
+import { COURCES_GET_CLEAR, COURCES_REQUEST_GET_DATA, DROP_COUSE_CLEAR } from '../../../redux-saga/course/reducer';
 import { getData } from '../../../utils/Hook';
 import './style.scss';
 import { Link } from 'react-router-dom';
@@ -132,6 +132,9 @@ class CollectionCourse extends Component<CollectionCourseProps, CollectionCourse
             if (this.props.deleteCourses.response.success) {
                 this.props.CourcesAction({
                     type: COURCES_GET_CLEAR
+                })
+                this.props.CourcesAction({
+                    type: DROP_COUSE_CLEAR
                 })
             }
         }

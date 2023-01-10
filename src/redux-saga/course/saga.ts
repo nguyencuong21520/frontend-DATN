@@ -41,7 +41,7 @@ function* courcesRequest() {
 
 function* getOneCourseDetail(payload: Obj) {
   yield watchRequest(
-    `/api/course/auth/${payload.payload.payload.body._idCourse}`,
+    `/api/course${payload.payload.payload.viewVL ? '' : '/auth'}/${payload.payload.payload.body._idCourse}`,
     METHOD.GET,
     GET_ONE_DETAIL_ONE_COURSE_SUCCESS,
     GET_ONE_DETAIL_ONE_COURSE_FAILED

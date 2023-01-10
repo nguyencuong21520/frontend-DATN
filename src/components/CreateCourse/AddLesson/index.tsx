@@ -15,6 +15,7 @@ import { State } from '../../../redux-saga/reducer/reducer';
 import { Toaster } from '../../../utils/ToastMess';
 import { uploadFile } from '../../../firebase';
 import { TYPE_FILE } from '../../../global/enum';
+import { useNavigate } from 'react-router-dom';
 interface Props {
     child?: React.ReactElement;
     setCrrStep(step: number): void;
@@ -58,6 +59,7 @@ export const AddLesson = (props: Props) => {
     const [errUpload, setErrUpload] = useState<string | null>(null);
     const [spin, setSpin] = useState<boolean>(false);
     const fileUpload = useRef();
+    const navigate = useNavigate();
     const uploadQuery = useRef(false);
     const [progess, setProgress] = useState(0);
     useEffect(() => {

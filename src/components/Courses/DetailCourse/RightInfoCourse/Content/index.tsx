@@ -17,6 +17,7 @@ interface ContentInfoSourceProps {
 export const ContentInfoSource = (props: ContentInfoSourceProps) => {
     const dispatch = useDispatch();
     const dataDetailCourse = useSelector((state: State) => state.OneCourceDetailReducer);
+    const roleVl = useSelector((state: State) => state.RoleViewAppVLReducer);
     const crrDetail = getData(dataDetailCourse);
     const [spin, setSpin] = useState<boolean>(true);
     const [crrMask, setCrrMask] = useState<Array<string>>([]);
@@ -43,7 +44,10 @@ export const ContentInfoSource = (props: ContentInfoSourceProps) => {
                 payload: {
                     body: {
                         _idCourse: props.crrCourse._id
-                    }
+                    },
+                    ...(roleVl && {
+                        viewVL: true
+                    })
                 }
             }))
         }

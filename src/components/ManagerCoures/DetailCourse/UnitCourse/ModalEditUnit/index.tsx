@@ -8,7 +8,7 @@ interface ModalEditUnitProps {
   children?: React.ReactElement;
   visibleModal?: boolean;
   setVisibleModal(visible: boolean): void;
-  dataUnit: Obj;
+  dataLesson: Obj;
 }
 export const ModalEditUnit = (props: ModalEditUnitProps) => {
   const [visibleModalEdit, setVisibleModalEdit] = useState<boolean>(false);
@@ -32,11 +32,11 @@ export const ModalEditUnit = (props: ModalEditUnitProps) => {
           </label>
           <Input
             placeholder="Tiêu đề học phần"
-            value={props.dataUnit.title}
+            value={props.dataLesson.title}
             id="title-unit"
           />
         </div>
-        {props.dataUnit.data?.map((item: Obj) => {
+        {props.dataLesson.data?.map((item: Obj) => {
           return (
             <div className="row-file">
               File:{" "}
