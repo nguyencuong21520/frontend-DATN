@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tooltip } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { Obj } from "../../../../global/interface";
-import { TYPE_FILE } from "../../../../global/enum";
+import { TYPE_FILE, USER } from "../../../../global/enum";
 import IconPlay from "../../../../assets/img/IconPlay.png";
 import { ModalEditUnit } from "./ModalEditUnit";
 import { useSelector } from "react-redux";
@@ -21,7 +21,7 @@ export const UnitCourse = () => {
   const detailCourse = useSelector((state: State) => state.OneCourceDetailReducer);
   const data = getData(detailCourse)[0];
   const nav = useNavigate();
-  console.log(data)
+  const crrRole = useSelector((state: State) => state.User);
   const handleViewUnit = (src: string, type: TYPE_FILE) => {
     setUnit({
       src: src,
@@ -32,10 +32,10 @@ export const UnitCourse = () => {
     setVisibleModal(visible);
   };
   const handleAddUnit = () => {
-    nav(`/create/course/${data._id}/unit`, { replace: true })
+    nav(`${getData(crrRole).role === USER.ADMIN ? '/admin' : ''}/create/course/${data._id}/unit`, { replace: true })
   }
   const handleAddLesson = (id: string) => {
-    nav(`/create/course/${id}/lesson`, { replace: true })
+    nav(`${getData(crrRole).role === USER.ADMIN ? '/admin' : ''}/create/course/${id}/lesson`, { replace: true })
   }
   useEffect(() => {
     console.log(unit)

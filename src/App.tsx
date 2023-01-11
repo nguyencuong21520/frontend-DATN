@@ -83,6 +83,7 @@ function App() {
                 </Route>
                 <Route path="create">
                   <Route path="course" element={<CreateaCourse />}></Route>
+                  <Route path="course/:id/:type" element={<CreateaCourse />}></Route>
                 </Route>
               </Route>
               <Route path="messenger">

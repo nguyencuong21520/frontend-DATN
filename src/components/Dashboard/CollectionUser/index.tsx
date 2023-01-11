@@ -193,7 +193,7 @@ export class CollectionUser extends Component<CollectionUserProps, CollectionUse
         (btnPagina[3] as HTMLElement).innerHTML = '';
         this.gridRef.current?.api.sizeColumnsToFit();
         this.gridRef.current?.api.showLoadingOverlay();
-        if (this.props.allUser) {
+        if (!this.props.allUser?.pending) {
             this.gridRef.current?.api.hideOverlay();
             this.rowData = getData(this.props.allUser).map((item: Obj, idx: number) => {
                 return {
@@ -260,7 +260,7 @@ export class CollectionUser extends Component<CollectionUserProps, CollectionUse
                     </div>
                 </div>
                 <div className="table">
-                    {this.filterData.length === 0 && <NoDataGrid />}
+                    {/* {this.filterData.length === 0 && <NoDataGrid />} */}
                     <AgGridReact
                         ref={this.gridRef}
                         onGridReady={this.onGridReady}
