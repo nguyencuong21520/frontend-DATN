@@ -42,7 +42,7 @@ export const Header = () => {
         <div className="user-account">
           <div className="avatar">
             <Badge>
-              <Avatar shape="circle" size="large" src={currentUser.img as string} />
+              <Avatar shape="circle" size="large" src={currentUser ? currentUser.img as string : ''} />
             </Badge>
           </div>
           <div className="drop-down-account">
